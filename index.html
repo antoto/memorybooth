@@ -176,17 +176,10 @@ body{
 .wc-card.teal{border-color:rgba(103,232,249,.3);background:rgba(103,232,249,.07)}
 /* bouton admin discret */
 .wc-admin{
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
-
-  background: none;
-  border: none;
-  color: rgba(255,255,255,.18);
-  font-size: .78em;
-  cursor: pointer;
-  padding: 10px 14px;
+  position:fixed;bottom:calc(env(safe-area-inset-bottom)+12px);right:calc(env(safe-area-inset-right)+16px);
+  background:none;border:none;
+  color:rgba(255,255,255,.18);font-size:.78em;cursor:pointer;padding:10px 14px;
+  -webkit-transition:color .2s;transition:color .2s;
 }
 .wc-admin:active{color:rgba(255,255,255,.5)}
 
@@ -338,34 +331,37 @@ body{
 }
 
 /* ═══════════════════════════════════════════════════════
-   PHOTO BOOTH
-   Notes Safari/iPad :
-   - video doit être autoplay + muted + playsinline pour démarrer
-   - object-fit:cover peut être ignoré sur très vieux Safari ;
-     on utilise width/height 100% en fallback
-   - on N'utilise PAS de ratio padding trick car il peut causer
-     des problèmes de positionnement sur vieux WebKit ;
-     on laisse la vidéo prendre la hauteur naturelle du conteneur
-   - on fixe explicitement width/height dans le JS pour forcer le rendu
+   PHOTO BOOTH — champ maximal, rien coupé
+   Principe :
+   • Pas de hauteur fixe imposée au conteneur :
+     la vidéo dicte sa propre hauteur via son ratio natif.
+   • width:100% + height:auto → le navigateur respecte
+     le ratio réel du capteur (4:3 ou 16:9).
+   • object-fit:contain (pas cover) : tout le flux est visible,
+     sans aucun recadrage ni zoom.
+   • Les coins déco sont en position absolute sur .cam-wrap
+     qui reste en position:relative.
+   • max-height:62vh empêche le débordement en paysage iPad.
 ═══════════════════════════════════════════════════════ */
 .cam-wrap{
   width:100%;
-  border-radius:20px;overflow:hidden;
-  background:#000;
+  border-radius:20px;
+  overflow:hidden;
+  background:#111;
   position:relative;
-  /* hauteur fixe confortable sur iPad paysage */
-  height:min(340px,45vw);
+  min-height:160px; /* évite un flash vide avant le stream */
 }
 #video-el{
-  /* pleine taille, sans ratio trick */
-  position:absolute;top:0;left:0;
-  width:100%;height:100%;
-  object-fit:cover;
   display:block;
-  background:#000;
+  width:100%;
+  height:auto;        /* hauteur calculée selon le ratio réel du capteur */
+  max-height:62vh;    /* ne déborde pas sur iPad paysage */
+  -o-object-fit:contain;
+  object-fit:contain; /* tout le flux visible, aucune zone coupée */
+  background:#111;
 }
-/* coins déco */
-.cam-corner{position:absolute;width:32px;height:32px;border-color:#f5c518;border-style:solid;z-index:2;pointer-events:none}
+/* coins déco — positionnés sur .cam-wrap (position:relative) */
+.cam-corner{position:absolute;width:28px;height:28px;border-color:#f5c518;border-style:solid;z-index:2;pointer-events:none}
 .cam-corner.tl{top:10px;left:10px;border-width:3px 0 0 3px;border-radius:5px 0 0 0}
 .cam-corner.tr{top:10px;right:10px;border-width:3px 3px 0 0;border-radius:0 5px 0 0}
 .cam-corner.bl{bottom:10px;left:10px;border-width:0 0 3px 3px;border-radius:0 0 0 5px}
@@ -641,7 +637,7 @@ body{
   </div>
 
   <div class="wc-right">
-    <div><span class="wc-badge">✨ Borne souvenir · 18 ans Antonin</span></div>
+    <div><span class="wc-badge">✨ Borne souvenir · 18 ans</span></div>
     <div class="wc-title">
       Joyeux<br>
       <span>Anniversaire !</span>
@@ -1236,13 +1232,15 @@ function renderAdminAudio() {
 
 /* ═══════════════════════════════════════════════
    PHOTO BOOTH
-   Safari/iPad : getUserMedia retourne une promesse.
-   La vidéo DOIT être muted + autoplay + playsinline.
-   Sur certains vieux iPad, la caméra frontale (user)
-   peut rester noire si le stream n'est pas réassigné
-   après un resize. On réassigne srcObject à chaque fois.
-   On utilise `environment` en premier (caméra arrière)
-   car elle est plus fiable sur vieux iPad.
+   Safari/iPad — règles importantes :
+   • On ne demande PAS de résolution (width/height ideal) :
+     certains drivers activent un crop numérique pour
+     atteindre la résolution demandée, ce qui zoome.
+   • On demande uniquement facingMode : le capteur livre
+     son flux natif, non recadré, au ratio réel.
+   • La vidéo est muted + autoplay + playsinline (requis iOS).
+   • On essaie la caméra arrière (environment) en premier,
+     puis frontale (user) en fallback.
 ═══════════════════════════════════════════════ */
 var camStream=null, camFacing='environment', camReady=false;
 
@@ -1251,42 +1249,54 @@ function initCamera() {
   if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
     showCamStatus(true); return;
   }
-  var constraints={video:{facingMode:camFacing},audio:false};
+  /* Pas de contrainte width/height : on laisse le capteur
+     délivrer son flux natif sans crop ni zoom numérique.
+     On passe uniquement facingMode. */
+  var constraints = {
+    video: { facingMode: { ideal: camFacing } },
+    audio: false
+  };
   navigator.mediaDevices.getUserMedia(constraints)
-    .then(function(stream){
-      camStream=stream; camReady=true;
-      var v=document.getElementById('video-el');
-      /* Safari : assigner srcObject puis play() explicitement */
-      v.srcObject=null; /* reset d'abord */
-      v.srcObject=stream;
-      /* mirror uniquement pour caméra frontale */
-      if(camFacing==='user'){
-        v.style.webkitTransform='scaleX(-1)'; v.style.transform='scaleX(-1)';
-      } else {
-        v.style.webkitTransform='none'; v.style.transform='none';
-      }
-      /* play() peut échouer silencieusement sur vieux Safari — on ignore */
-      try{ v.play().catch(function(){}); } catch(e){}
-      showCamStatus(false);
-    })
+    .then(function(stream){ attachStream(stream); })
     .catch(function(err){
-      console.log('cam error:',err);
-      /* Si caméra arrière échoue, essayer frontale */
+      console.log('cam error ('+camFacing+'):', err);
+      /* Fallback : essayer l'autre caméra */
       if(camFacing==='environment'){
         camFacing='user';
-        var c2={video:{facingMode:'user'},audio:false};
-        navigator.mediaDevices.getUserMedia(c2)
-          .then(function(s2){
-            camStream=s2; camReady=true;
-            var v=document.getElementById('video-el');
-            v.srcObject=null; v.srcObject=s2;
-            v.style.webkitTransform='scaleX(-1)'; v.style.transform='scaleX(-1)';
-            try{ v.play().catch(function(){}); }catch(e){}
-            showCamStatus(false);
-          })
+        navigator.mediaDevices.getUserMedia({video:{facingMode:{ideal:'user'}},audio:false})
+          .then(function(s2){ attachStream(s2); })
+          .catch(function(){
+            /* Dernier recours : contrainte minimale */
+            navigator.mediaDevices.getUserMedia({video:true,audio:false})
+              .then(function(s3){ attachStream(s3); })
+              .catch(function(){ showCamStatus(true); });
+          });
+      } else {
+        navigator.mediaDevices.getUserMedia({video:true,audio:false})
+          .then(function(s3){ attachStream(s3); })
           .catch(function(){ showCamStatus(true); });
-      } else { showCamStatus(true); }
+      }
     });
+}
+
+function attachStream(stream) {
+  camStream = stream; camReady = true;
+  var v = document.getElementById('video-el');
+  /* Reset complet avant réassignation (contourne bug vieux Safari) */
+  try{ v.pause(); }catch(e){}
+  v.srcObject = null;
+  v.srcObject = stream;
+  /* Mirror uniquement pour caméra frontale */
+  if(camFacing==='user'){
+    v.style.webkitTransform='scaleX(-1)';
+    v.style.transform='scaleX(-1)';
+  } else {
+    v.style.webkitTransform='none';
+    v.style.transform='none';
+  }
+  /* play() explicite requis sur Safari iOS */
+  try{ v.play().catch(function(){}); } catch(e){}
+  showCamStatus(false);
 }
 function showCamStatus(show) {
   var el=document.getElementById('cam-status');
@@ -1302,19 +1312,24 @@ function flipCamera() {
 function takePhoto() {
   var v=document.getElementById('video-el');
   var cv=document.getElementById('photo-canvas');
-  /* vérifier que la vidéo a des données */
   if(!camStream||!v.videoWidth||v.videoWidth<2){
     showToast('📷 Caméra pas encore prête — patiente 1 seconde'); return;
   }
   /* flash */
   var fl=document.getElementById('flash');
   fl.style.opacity='1'; setTimeout(function(){fl.style.opacity='0';},180);
-  cv.width=v.videoWidth; cv.height=v.videoHeight;
+  /* Capturer le flux dans ses dimensions NATIVES (aucun crop) */
+  cv.width  = v.videoWidth;
+  cv.height = v.videoHeight;
   var ctx=cv.getContext('2d');
-  /* miroir si caméra frontale */
-  if(camFacing==='user'){ctx.translate(cv.width,0);ctx.scale(-1,1);}
+  /* Miroir uniquement pour la caméra frontale */
+  if(camFacing==='user'){
+    ctx.translate(cv.width,0);
+    ctx.scale(-1,1);
+  }
   ctx.drawImage(v,0,0);
-  var url=cv.toDataURL('image/jpeg',0.78);
+  var url=cv.toDataURL('image/jpeg',0.82);
+
   if(data.photos.length>=MAX_PHOTOS){showToast('⚠️ Limite '+MAX_PHOTOS+' photos. Exportez d\'abord.');return;}
   data.photos.unshift({id:'photo_'+Date.now(),src:url,date:nowStr()});
   saveData(); doAutoSave();
