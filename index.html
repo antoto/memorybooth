@@ -2,1615 +2,1564 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Anniversaire 18">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-
-<title>🎉 Anniversaire 18 ans</title>
+<meta name="apple-mobile-web-app-title" content="Fête 18 ans">
+<title>🎉 18 ans</title>
 <style>
-/* =====================================================
-   RESET & BASE
-   ===================================================== */
-* { box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent; }
-html {
-  height:100%;
-  /* safe areas iOS */
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
+/* ═══════════════════════════════════════════════════════
+   FONDATIONS
+═══════════════════════════════════════════════════════ */
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{
+  width:100%;height:100%;overflow:hidden;
+  font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;
+  background:#09061a;color:#fff;
+  -webkit-text-size-adjust:100%;
 }
-body {
-  height:100%; overflow:hidden;
-  font-family:-apple-system,Arial,Helvetica,sans-serif;
-  background:#0f0720; color:#fff;
-}
-
-/* =====================================================
-   CONFETTIS CSS ONLY — légers (pas de JS)
-   ===================================================== */
-@-webkit-keyframes cf {
-  0%  { -webkit-transform:translateY(-30px) rotate(0deg);   opacity:1 }
-  100%{ -webkit-transform:translateY(110vh)  rotate(700deg); opacity:0 }
-}
-@keyframes cf {
-  0%  { transform:translateY(-30px) rotate(0deg);   opacity:1 }
-  100%{ transform:translateY(110vh)  rotate(700deg); opacity:0 }
-}
-@-webkit-keyframes cs { 0%,100%{ margin-left:0 } 50%{ margin-left:26px } }
-@keyframes cs         { 0%,100%{ margin-left:0 } 50%{ margin-left:26px } }
-.cc {
-  position:fixed; top:0; left:0; width:100%; height:100%;
-  pointer-events:none; z-index:0; overflow:hidden;
-}
-.c {
-  position:absolute; width:9px; height:13px; top:-20px; border-radius:2px;
-  -webkit-animation: cf linear infinite, cs ease-in-out infinite;
-          animation: cf linear infinite, cs ease-in-out infinite;
-}
-.c:nth-child(1) { left:4%;  background:#FF2D78; -webkit-animation-duration:4.3s,2.1s; animation-duration:4.3s,2.1s; -webkit-animation-delay:0s,0s;    animation-delay:0s,0s    }
-.c:nth-child(2) { left:9%;  background:#FFD700; -webkit-animation-duration:3.7s,1.9s; animation-duration:3.7s,1.9s; -webkit-animation-delay:.4s,.6s;   animation-delay:.4s,.6s  }
-.c:nth-child(3) { left:15%; background:#a78bfa; -webkit-animation-duration:4.6s,2.3s; animation-duration:4.6s,2.3s; -webkit-animation-delay:.7s,1s;    animation-delay:.7s,1s   }
-.c:nth-child(4) { left:21%; background:#FF2D78; -webkit-animation-duration:3.5s,1.8s; animation-duration:3.5s,1.8s; -webkit-animation-delay:1.1s,.3s;  animation-delay:1.1s,.3s }
-.c:nth-child(5) { left:27%; background:#FB923C; -webkit-animation-duration:4.9s,2.4s; animation-duration:4.9s,2.4s; -webkit-animation-delay:.2s,.8s;   animation-delay:.2s,.8s  }
-.c:nth-child(6) { left:33%; background:#FFD700; -webkit-animation-duration:4.0s,2.0s; animation-duration:4.0s,2.0s; -webkit-animation-delay:1.6s,1.3s; animation-delay:1.6s,1.3s}
-.c:nth-child(7) { left:39%; background:#818cf8; -webkit-animation-duration:3.9s,2.2s; animation-duration:3.9s,2.2s; -webkit-animation-delay:.9s,.4s;   animation-delay:.9s,.4s  }
-.c:nth-child(8) { left:45%; background:#FF2D78; -webkit-animation-duration:4.2s,2.1s; animation-duration:4.2s,2.1s; -webkit-animation-delay:1.3s,1s;   animation-delay:1.3s,1s  }
-.c:nth-child(9) { left:51%; background:#67e8f9; -webkit-animation-duration:3.8s,1.9s; animation-duration:3.8s,1.9s; -webkit-animation-delay:.5s,1.5s;  animation-delay:.5s,1.5s }
-.c:nth-child(10){ left:57%; background:#FFD700; -webkit-animation-duration:4.7s,2.3s; animation-duration:4.7s,2.3s; -webkit-animation-delay:1.9s,.7s;  animation-delay:1.9s,.7s }
-.c:nth-child(11){ left:63%; background:#FB923C; -webkit-animation-duration:4.1s,2.0s; animation-duration:4.1s,2.0s; -webkit-animation-delay:.1s,1.2s;  animation-delay:.1s,1.2s }
-.c:nth-child(12){ left:69%; background:#FF2D78; -webkit-animation-duration:3.6s,1.8s; animation-duration:3.6s,1.8s; -webkit-animation-delay:1s,.2s;    animation-delay:1s,.2s   }
-.c:nth-child(13){ left:75%; background:#818cf8; -webkit-animation-duration:4.8s,2.4s; animation-duration:4.8s,2.4s; -webkit-animation-delay:1.4s,.9s;  animation-delay:1.4s,.9s }
-.c:nth-child(14){ left:81%; background:#FFD700; -webkit-animation-duration:3.9s,2.0s; animation-duration:3.9s,2.0s; -webkit-animation-delay:.6s,1.6s;  animation-delay:.6s,1.6s }
-.c:nth-child(15){ left:87%; background:#67e8f9; -webkit-animation-duration:4.5s,2.2s; animation-duration:4.5s,2.2s; -webkit-animation-delay:1.7s,.1s;  animation-delay:1.7s,.1s }
-.c:nth-child(16){ left:93%; background:#FF2D78; -webkit-animation-duration:4.3s,2.1s; animation-duration:4.3s,2.1s; -webkit-animation-delay:.8s,1.4s;  animation-delay:.8s,1.4s }
-.c:nth-child(17){ left:98%; background:#FB923C; -webkit-animation-duration:3.7s,1.85s;animation-duration:3.7s,1.85s;-webkit-animation-delay:1.2s,.5s; animation-delay:1.2s,.5s}
-
-/* =====================================================
-   ÉCRANS SUPERPOSÉS
-   ===================================================== */
-.screen-layer {
-  position:fixed; top:0; left:0; right:0; bottom:0; z-index:100;
-  display:-webkit-flex; display:flex;
-  -webkit-flex-direction:column; flex-direction:column;
-  -webkit-align-items:center; align-items:center;
-  -webkit-justify-content:center; justify-content:center;
-  text-align:center;
-  /* padding safe area */
-  padding-top:calc(env(safe-area-inset-top) + 28px);
-  padding-bottom:calc(env(safe-area-inset-bottom) + 28px);
-  padding-left:calc(env(safe-area-inset-left) + 24px);
-  padding-right:calc(env(safe-area-inset-right) + 24px);
-  background:linear-gradient(160deg,#0f0720 0%,#1e0a4a 45%,#3b0764 100%);
-  overflow-y:auto; -webkit-overflow-scrolling:touch;
-}
-
-/* =====================================================
-   ÉCRAN ACCUEIL
-   ===================================================== */
-#welcome-screen { z-index:110; }
-
-/* ── PHOTO DE PROFIL ──────────────────────────────── */
-/* ============================================================
-   PERSONNALISATION PHOTO — modifiez simplement les 2 lignes
-   marquées "← CHANGEZ ICI" pour mettre votre propre photo
-   ============================================================ */
-.ws-photo-wrap {
-  width:150px; height:150px; border-radius:50%; overflow:hidden;
-  border:5px solid #FFD700;
-  box-shadow:0 0 0 5px rgba(255,45,120,.5), 0 12px 40px rgba(0,0,0,.6);
-  margin-bottom:16px; flex-shrink:0;
-  background:linear-gradient(135deg,#3b0764,#7c3aed);
-  display:-webkit-flex; display:flex;
-  -webkit-align-items:center; align-items:center;
-  -webkit-justify-content:center; justify-content:center;
-}
-.ws-photo-wrap img {
-  width:100%; height:100%; object-fit:cover; display:block;
-}
-/* Initiales affichées quand pas de photo */
-.ws-photo-initials {
-  font-size:3em; font-weight:900; color:#FFD700;
-  text-shadow:0 2px 8px rgba(0,0,0,.4);
-}
-/* ── FIN PHOTO ────────────────────────────────────── */
-
-.ws-name  { font-size:1.3em; font-weight:700; color:#c4b5fd; margin-bottom:2px; }
-.ws-age   {
-  font-size:6.5em; font-weight:900; line-height:1;
-  background:linear-gradient(135deg,#FFD700,#FF2D78);
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-  background-clip:text; margin-bottom:4px;
-  text-shadow:none; /* gradient clip ne supporte pas text-shadow */
-}
-.ws-title { font-size:1.9em; font-weight:800; color:#fff; line-height:1.15;
-            margin-bottom:4px; text-shadow:0 2px 12px rgba(255,45,120,.5); }
-.ws-sub   { font-size:.95em; color:#c4b5fd; margin-bottom:4px; }
-.ws-tag   { font-size:.85em; color:#7c6aaa; margin-bottom:28px; }
-.ws-enter {
-  background:linear-gradient(135deg,#FF2D78,#FF8C00);
-  color:#fff; border:none; border-radius:50px;
-  font-size:1.35em; font-weight:800; padding:22px 56px;
-  cursor:pointer; box-shadow:0 10px 36px rgba(255,45,120,.6);
-  -webkit-transition:-webkit-transform .15s; transition:transform .15s;
-  letter-spacing:.04em; margin-top:4px;
-}
-.ws-enter:active { -webkit-transform:scale(.96); transform:scale(.96) }
-.ws-admin-link {
-  position:fixed;
-  bottom:calc(env(safe-area-inset-bottom) + 14px);
-  right:calc(env(safe-area-inset-right) + 18px);
-  color:rgba(255,255,255,.18); font-size:.72em;
-  background:none; border:none; cursor:pointer; padding:10px 14px;
-  -webkit-transition:color .2s; transition:color .2s;
-}
-.ws-admin-link:active { color:rgba(255,255,255,.5) }
-
-/* =====================================================
-   ÉCRAN MERCI
-   ===================================================== */
-#thanks-screen { z-index:120; display:none; }
-.thanks-emoji  { font-size:4em; margin-bottom:12px; }
-.thanks-title  { font-size:1.9em; font-weight:800; color:#FFD700;
-                 margin-bottom:8px; text-shadow:0 0 20px rgba(255,215,0,.5); }
-.thanks-sub    { font-size:1.05em; color:#c4b5fd; margin-bottom:6px; white-space:pre-line; }
-.thanks-count  { font-size:.82em; color:#7c6aaa; margin-bottom:28px; }
-.thanks-back   {
-  background:rgba(255,255,255,.1); border:2px solid rgba(255,255,255,.25);
-  color:#fff; border-radius:40px; font-size:1em; font-weight:700;
-  padding:14px 36px; cursor:pointer;
-  -webkit-transition:background .2s; transition:background .2s;
-}
-.thanks-back:active { background:rgba(255,255,255,.2) }
-.thanks-auto { font-size:.78em; color:#5a5280; margin-top:14px; }
-
-/* =====================================================
-   MODAL MOT DE PASSE
-   ===================================================== */
-#pw-modal {
-  position:fixed; top:0; left:0; right:0; bottom:0; z-index:200;
-  background:rgba(0,0,0,.78);
-  display:none;
-  -webkit-align-items:center; align-items:center;
-  -webkit-justify-content:center; justify-content:center;
-  padding:24px;
-}
-.pw-box {
-  background:linear-gradient(160deg,#1e0a4a,#3b0764);
-  border:1px solid #6d28d9; border-radius:24px;
-  padding:28px 24px; width:100%; max-width:380px;
-  text-align:center; box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-.pw-title { font-size:1.35em; font-weight:800; color:#FFD700; margin-bottom:6px; }
-.pw-sub   { color:#c4b5fd; font-size:.88em; margin-bottom:18px; }
-.pw-input {
-  width:100%; background:rgba(255,255,255,.1);
-  border:2px solid #6d28d9; border-radius:14px;
-  color:#fff; font-size:1.2em; padding:14px 16px;
-  outline:none; text-align:center; letter-spacing:.2em;
-  -webkit-appearance:none; font-family:monospace; margin-bottom:16px;
-}
-.pw-input:focus { border-color:#FF2D78 }
-.pw-row { display:-webkit-flex; display:flex; gap:10px }
-.pw-btn {
-  -webkit-flex:1; flex:1; border:none; border-radius:14px;
-  font-size:1em; font-weight:700; padding:14px; cursor:pointer;
-  -webkit-transition:-webkit-transform .15s; transition:transform .15s;
-}
-.pw-btn:active { -webkit-transform:scale(.97); transform:scale(.97) }
-.pw-btn.ok     { background:linear-gradient(135deg,#FF2D78,#7c3aed); color:#fff }
-.pw-btn.cancel { background:rgba(255,255,255,.1); color:#c4b5fd; border:2px solid rgba(255,255,255,.15) }
-.pw-error { color:#FF2D78; font-size:.85em; margin-top:10px; display:none }
-
-/* =====================================================
-   APPLICATION PRINCIPALE
-   ===================================================== */
-#app {
-  position:fixed; top:0; left:0; right:0; bottom:0;
-  z-index:1;
-  display:-webkit-flex; display:flex;
-  -webkit-flex-direction:column; flex-direction:column;
-  /* safe areas */
+/* safe areas */
+body{
   padding-top:env(safe-area-inset-top);
   padding-bottom:env(safe-area-inset-bottom);
   padding-left:env(safe-area-inset-left);
   padding-right:env(safe-area-inset-right);
 }
 
-/* ── HEADER ─────────────────────────────────────── */
-#app-header {
-  background:linear-gradient(90deg,#1e0a4a,#4a1080,#3b0764);
-  padding:12px 16px 10px; text-align:center;
-  border-bottom:2px solid rgba(255,45,120,.6);
-  flex-shrink:0; position:relative;
-  box-shadow:0 4px 20px rgba(0,0,0,.4);
-}
-#app-header h2 { color:#FFD700; font-size:1.1em; font-weight:800; letter-spacing:.03em; text-shadow:0 0 12px rgba(255,215,0,.4); }
-#admin-badge {
-  position:absolute; right:12px; top:50%;
-  -webkit-transform:translateY(-50%); transform:translateY(-50%);
-  background:linear-gradient(135deg,#FF2D78,#7c3aed);
-  color:#fff; font-size:.68em; font-weight:700; padding:5px 11px;
-  border-radius:20px; border:none; cursor:pointer;
-}
-#admin-badge:active { opacity:.75 }
+/* ═══════════════════════════════════════════════════════
+   TOKENS DE COULEUR
+═══════════════════════════════════════════════════════ */
+/* Rose fuchsia  : #f0186a
+   Violet profond: #6d28d9
+   Or             : #f5c518
+   Fond           : #09061a
+   Fond card      : rgba(255,255,255,.06)
+   Bord card      : rgba(255,255,255,.12) */
 
-/* ── NAVIGATION ─────────────────────────────────── */
-#nav {
-  background:#0f0720; padding:10px 10px;
-  display:-webkit-flex; display:flex;
-  overflow-x:auto; -webkit-overflow-scrolling:touch;
-  gap:8px; flex-shrink:0;
-  border-bottom:2px solid rgba(109,40,217,.4);
-}
-#nav::-webkit-scrollbar { display:none }
-.nav-btn {
-  background:rgba(30,10,74,.8);
-  border:1.5px solid rgba(109,40,217,.5);
-  border-radius:16px; color:#a78bfa; font-size:.75em;
-  padding:10px 14px; cursor:pointer; white-space:nowrap;
-  display:-webkit-flex; display:flex;
-  -webkit-flex-direction:column; flex-direction:column;
-  -webkit-align-items:center; align-items:center;
-  gap:3px; min-width:64px;
-  -webkit-transition:all .15s; transition:all .15s; flex-shrink:0;
-}
-.nav-btn .ni { font-size:1.8em }
-.nav-btn.active {
-  background:linear-gradient(135deg,rgba(255,45,120,.9),rgba(124,58,237,.9));
-  border-color:#FF2D78; color:#fff;
-  box-shadow:0 2px 12px rgba(255,45,120,.4);
-}
-.nav-btn:active { -webkit-transform:scale(.92); transform:scale(.92) }
+/* ═══════════════════════════════════════════════════════
+   CONFETTIS (CSS only, légers)
+═══════════════════════════════════════════════════════ */
+@-webkit-keyframes fall{0%{-webkit-transform:translateY(-10px) rotate(0);opacity:1}100%{-webkit-transform:translateY(105vh) rotate(600deg);opacity:0}}
+@keyframes fall{0%{transform:translateY(-10px) rotate(0);opacity:1}100%{transform:translateY(105vh) rotate(600deg);opacity:0}}
+@-webkit-keyframes sway{0%,100%{margin-left:0}50%{margin-left:22px}}
+@keyframes sway{0%,100%{margin-left:0}50%{margin-left:22px}}
+.confetti-bg{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+.cf{position:absolute;top:-12px;width:8px;height:12px;border-radius:2px;opacity:0;
+  -webkit-animation:fall linear infinite,sway ease-in-out infinite;
+  animation:fall linear infinite,sway ease-in-out infinite}
+.cf:nth-child(1){left:5%;background:#f0186a;-webkit-animation-duration:4.1s,2s;animation-duration:4.1s,2s;-webkit-animation-delay:0s,.3s;animation-delay:0s,.3s}
+.cf:nth-child(2){left:12%;background:#f5c518;-webkit-animation-duration:3.6s,1.8s;animation-duration:3.6s,1.8s;-webkit-animation-delay:.5s,.8s;animation-delay:.5s,.8s}
+.cf:nth-child(3){left:20%;background:#a78bfa;-webkit-animation-duration:4.4s,2.2s;animation-duration:4.4s,2.2s;-webkit-animation-delay:.9s,0s;animation-delay:.9s,0s}
+.cf:nth-child(4){left:28%;background:#f0186a;-webkit-animation-duration:3.8s,1.9s;animation-duration:3.8s,1.9s;-webkit-animation-delay:1.3s,.6s;animation-delay:1.3s,.6s}
+.cf:nth-child(5){left:36%;background:#fb923c;-webkit-animation-duration:4.6s,2.3s;animation-duration:4.6s,2.3s;-webkit-animation-delay:.2s,1.1s;animation-delay:.2s,1.1s}
+.cf:nth-child(6){left:44%;background:#f5c518;-webkit-animation-duration:3.9s,2s;animation-duration:3.9s,2s;-webkit-animation-delay:1.7s,.4s;animation-delay:1.7s,.4s}
+.cf:nth-child(7){left:52%;background:#6d28d9;-webkit-animation-duration:4.2s,2.1s;animation-duration:4.2s,2.1s;-webkit-animation-delay:.6s,1.5s;animation-delay:.6s,1.5s}
+.cf:nth-child(8){left:60%;background:#f0186a;-webkit-animation-duration:3.7s,1.85s;animation-duration:3.7s,1.85s;-webkit-animation-delay:1.1s,.2s;animation-delay:1.1s,.2s}
+.cf:nth-child(9){left:68%;background:#67e8f9;-webkit-animation-duration:4.5s,2.25s;animation-duration:4.5s,2.25s;-webkit-animation-delay:.4s,.9s;animation-delay:.4s,.9s}
+.cf:nth-child(10){left:76%;background:#f5c518;-webkit-animation-duration:4s,2s;animation-duration:4s,2s;-webkit-animation-delay:1.5s,1.3s;animation-delay:1.5s,1.3s}
+.cf:nth-child(11){left:84%;background:#fb923c;-webkit-animation-duration:3.5s,1.75s;animation-duration:3.5s,1.75s;-webkit-animation-delay:.8s,.1s;animation-delay:.8s,.1s}
+.cf:nth-child(12){left:92%;background:#f0186a;-webkit-animation-duration:4.3s,2.15s;animation-duration:4.3s,2.15s;-webkit-animation-delay:.1s,1.6s;animation-delay:.1s,1.6s}
 
-/* ── CONTENU ─────────────────────────────────────── */
-#content { -webkit-flex:1; flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; position:relative }
-.section { display:none; padding:20px 18px; min-height:100% }
-.section.active { display:block }
+/* ═══════════════════════════════════════════════════════
+   ÉCRANS PLEIN PAGE (couches)
+═══════════════════════════════════════════════════════ */
+.page{
+  position:fixed;inset:0;
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  -webkit-flex-direction:column;flex-direction:column;
+  overflow:hidden;
+  -webkit-transition:opacity .35s ease,-webkit-transform .35s ease;
+  transition:opacity .35s ease,transform .35s ease;
+}
+.page.hidden{opacity:0;pointer-events:none;-webkit-transform:scale(.97);transform:scale(.97)}
+.page.visible{opacity:1;pointer-events:auto;-webkit-transform:scale(1);transform:scale(1)}
 
-/* ── COMPOSANTS ─────────────────────────────────── */
-.card {
-  background:rgba(30,10,74,.75);
-  border:1px solid rgba(109,40,217,.45);
-  border-radius:22px; padding:22px 20px; margin-bottom:16px;
-  box-shadow:0 6px 28px rgba(0,0,0,.35);
+/* ═══════════════════════════════════════════════════════
+   PAGE ACCUEIL
+═══════════════════════════════════════════════════════ */
+#page-welcome{
+  background:radial-gradient(ellipse 120% 100% at 50% 110%, #2d0a6b 0%, #09061a 60%);
+  z-index:10;
+  padding:0 5vw;
+  -webkit-flex-direction:row;flex-direction:row;
+  gap:5vw;
+  text-align:left;
 }
-.section-title {
-  color:#FFD700; font-size:1.5em; font-weight:800;
-  margin-bottom:18px; text-align:center; letter-spacing:.02em;
-  text-shadow:0 0 16px rgba(255,215,0,.3);
+/* Colonne gauche : photo + nom */
+.wc-left{
+  -webkit-flex:0 0 auto;flex:0 0 auto;
+  display:-webkit-flex;display:flex;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-align-items:center;align-items:center;
+  gap:18px;
 }
-.section-desc {
-  color:#a78bfa; font-size:.86em; text-align:center;
-  margin-bottom:14px; line-height:1.5;
-  background:rgba(255,215,0,.07); border-radius:12px; padding:10px 14px;
-  border:1px solid rgba(255,215,0,.15);
+/* ── PHOTO ── */
+/* === PERSONNALISATION PHOTO ===
+   Remplacez src="" par src="votre_photo.jpg" (même dossier)
+   ou laissez vide pour afficher l'emoji 🎂
+================================= */
+.photo-frame{
+  width:min(220px,28vw);height:min(220px,28vw);
+  border-radius:50%;overflow:hidden;
+  border:5px solid #f5c518;
+  box-shadow:0 0 0 6px rgba(240,24,106,.35),0 16px 60px rgba(0,0,0,.6);
+  background:linear-gradient(135deg,#2d0a6b,#6d28d9);
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  position:relative;flex-shrink:0;
 }
-.big-btn {
-  display:block; width:100%;
-  background:linear-gradient(135deg,#FF2D78,#7c3aed);
-  color:#fff; border:none; border-radius:18px;
-  font-size:1.1em; font-weight:700; padding:20px 24px;
-  cursor:pointer; margin-bottom:12px;
-  box-shadow:0 4px 22px rgba(255,45,120,.38);
-  -webkit-transition:-webkit-transform .15s; transition:transform .15s;
-  letter-spacing:.01em; min-height:58px;
+.photo-frame img{width:100%;height:100%;object-fit:cover;display:block}
+.photo-frame .photo-emoji{font-size:min(5em,10vw);line-height:1}
+.wc-name{
+  font-size:min(1.6em,3.2vw);font-weight:700;
+  color:#f5c518;letter-spacing:.04em;text-align:center;
+  text-shadow:0 0 20px rgba(245,197,24,.4);
 }
-.big-btn:active { -webkit-transform:scale(.97); transform:scale(.97) }
-.big-btn.secondary {
-  background:rgba(30,10,74,.9);
-  border:2px solid rgba(124,58,237,.6);
-  box-shadow:none; color:#c4b5fd;
+/* Colonne droite : titre + boutons */
+.wc-right{
+  -webkit-flex:1;flex:1;
+  display:-webkit-flex;display:flex;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-justify-content:center;justify-content:center;
+  gap:20px;
+  max-width:500px;
 }
-.big-btn.danger { background:linear-gradient(135deg,#7f1d1d,#dc2626) }
-.big-btn.green  { background:linear-gradient(135deg,#14532d,#16a34a) }
-.row { display:-webkit-flex; display:flex; gap:8px }
-.row .big-btn { margin-bottom:0 }
-.fl { color:#c4b5fd; font-size:.86em; display:block; margin-bottom:6px; font-weight:600 }
-.input-field {
-  width:100%; background:rgba(255,255,255,.08);
-  border:2px solid rgba(124,58,237,.6); border-radius:16px;
-  color:#fff; font-size:1.05em; padding:15px 18px;
-  outline:none; resize:none; -webkit-appearance:none;
-  font-family:-apple-system,Arial,Helvetica,sans-serif;
-  -webkit-transition:border-color .2s; transition:border-color .2s;
+.wc-badge{
+  display:inline-block;
+  background:linear-gradient(135deg,#f0186a,#fb923c);
+  color:#fff;font-size:min(.9em,2vw);font-weight:800;
+  letter-spacing:.08em;text-transform:uppercase;
+  padding:6px 18px;border-radius:20px;
+  width:-webkit-fit-content;width:fit-content;
 }
-.input-field:focus { border-color:#FF2D78; background:rgba(255,255,255,.12) }
-.input-field::-webkit-input-placeholder { color:rgba(167,139,250,.5) }
-.spacer { height:12px }
+.wc-title{
+  font-size:min(3.2em,6.5vw);font-weight:900;line-height:1.05;
+  color:#fff;text-shadow:0 4px 24px rgba(240,24,106,.4);
+}
+.wc-title span{
+  display:block;
+  background:linear-gradient(90deg,#f5c518,#f0186a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.wc-sub{font-size:min(1.1em,2.2vw);color:rgba(255,255,255,.55);line-height:1.5}
+/* Grille des boutons d'entrée (4 cartes) */
+.wc-grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+.wc-card{
+  background:rgba(255,255,255,.07);
+  border:1.5px solid rgba(255,255,255,.13);
+  border-radius:20px;
+  padding:18px 16px;
+  cursor:pointer;
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  gap:14px;
+  -webkit-transition:-webkit-transform .15s,background .15s,border-color .15s;
+  transition:transform .15s,background .15s,border-color .15s;
+  min-height:76px;
+}
+.wc-card:active{-webkit-transform:scale(.96);transform:scale(.96);background:rgba(255,255,255,.12)}
+.wc-card-icon{font-size:min(2em,4vw);flex-shrink:0;line-height:1}
+.wc-card-text{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:2px}
+.wc-card-title{font-size:min(1em,2vw);font-weight:700;color:#fff}
+.wc-card-desc{font-size:min(.75em,1.5vw);color:rgba(255,255,255,.45);line-height:1.3}
+.wc-card.pink{border-color:rgba(240,24,106,.4);background:rgba(240,24,106,.1)}
+.wc-card.gold{border-color:rgba(245,197,24,.4);background:rgba(245,197,24,.08)}
+.wc-card.purple{border-color:rgba(109,40,217,.5);background:rgba(109,40,217,.15)}
+.wc-card.teal{border-color:rgba(103,232,249,.3);background:rgba(103,232,249,.07)}
+/* bouton admin discret */
+.wc-admin{
+  position:fixed;bottom:calc(env(safe-area-inset-bottom)+12px);right:calc(env(safe-area-inset-right)+16px);
+  background:none;border:none;
+  color:rgba(255,255,255,.18);font-size:.78em;cursor:pointer;padding:10px 14px;
+  -webkit-transition:color .2s;transition:color .2s;
+}
+.wc-admin:active{color:rgba(255,255,255,.5)}
 
-/* ── TOAST ───────────────────────────────────────── */
-#toast {
-  position:fixed;
-  bottom:calc(env(safe-area-inset-bottom) + 70px);
-  left:50%; -webkit-transform:translateX(-50%); transform:translateX(-50%);
-  background:linear-gradient(135deg,#1e0a4a,#3b0764);
-  border:1px solid rgba(255,45,120,.5);
-  color:#fff; border-radius:30px; padding:12px 24px;
-  font-size:.9em; font-weight:700; z-index:9999;
-  box-shadow:0 6px 24px rgba(0,0,0,.5);
-  pointer-events:none; opacity:0;
-  -webkit-transition:opacity .3s; transition:opacity .3s;
+/* ═══════════════════════════════════════════════════════
+   PAGE ACTIVITÉ (layout paysage : gauche / droite)
+═══════════════════════════════════════════════════════ */
+#page-activity{
+  background:#09061a;
+  z-index:9;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-align-items:stretch;align-items:stretch;
+  -webkit-justify-content:flex-start;justify-content:flex-start;
+}
+/* barre du haut */
+.act-header{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  padding:0 20px;
+  height:56px;flex-shrink:0;
+  background:rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  gap:16px;
+}
+.act-back{
+  background:none;border:none;color:rgba(255,255,255,.6);
+  font-size:1.35em;cursor:pointer;padding:8px 10px;
+  line-height:1;border-radius:10px;
+  -webkit-transition:background .15s,color .15s;transition:background .15s,color .15s;
+  flex-shrink:0;
+}
+.act-back:active{background:rgba(255,255,255,.12);color:#fff}
+.act-title-bar{font-size:1.05em;font-weight:700;color:#f5c518;-webkit-flex:1;flex:1}
+.act-body{
+  -webkit-flex:1;flex:1;
+  display:-webkit-flex;display:flex;
+  overflow:hidden;
+}
+/* panneau de saisie (gauche en paysage) */
+.act-panel{
+  -webkit-flex:1;flex:1;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding:28px 28px 20px;
+  display:-webkit-flex;display:flex;
+  -webkit-flex-direction:column;flex-direction:column;
+  gap:18px;
+}
+/* panneau illustration (droite, visible en paysage) */
+.act-side{
+  width:38%;flex-shrink:0;
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  padding:20px;
+  border-left:1px solid rgba(255,255,255,.07);
+}
+/* sur petits écrans portrait, cacher le panneau droit */
+@media(max-width:600px),(max-height:500px) and (orientation:portrait){
+  .act-side{display:none}
+}
+
+/* ═══════════════════════════════════════════════════════
+   COMPOSANTS RÉUTILISABLES
+═══════════════════════════════════════════════════════ */
+.lbl{font-size:.88em;font-weight:600;color:rgba(255,255,255,.55);margin-bottom:7px;display:block;letter-spacing:.02em}
+.inp{
+  width:100%;background:rgba(255,255,255,.07);
+  border:2px solid rgba(255,255,255,.14);border-radius:16px;
+  color:#fff;font-size:1.05em;padding:16px 18px;
+  outline:none;resize:none;-webkit-appearance:none;
+  font-family:-apple-system,"Helvetica Neue",Arial,sans-serif;
+  -webkit-transition:border-color .2s,background .2s;transition:border-color .2s,background .2s;
+}
+.inp:focus{border-color:#f0186a;background:rgba(255,255,255,.11)}
+.inp::-webkit-input-placeholder{color:rgba(255,255,255,.25)}
+.btn{
+  display:block;width:100%;
+  border:none;border-radius:18px;
+  font-size:1.1em;font-weight:700;
+  padding:20px 24px;cursor:pointer;
+  letter-spacing:.01em;
+  -webkit-transition:-webkit-transform .13s,opacity .13s;transition:transform .13s,opacity .13s;
+  min-height:64px;
+}
+.btn:active{-webkit-transform:scale(.97);transform:scale(.97);opacity:.88}
+.btn-primary{background:linear-gradient(135deg,#f0186a,#6d28d9);color:#fff;box-shadow:0 6px 24px rgba(240,24,106,.4)}
+.btn-secondary{background:rgba(255,255,255,.08);border:2px solid rgba(255,255,255,.18);color:rgba(255,255,255,.8)}
+.btn-danger{background:linear-gradient(135deg,#7f1d1d,#dc2626);color:#fff}
+.btn-gold{background:linear-gradient(135deg,#92400e,#f5c518);color:#1a1000;font-weight:800}
+/* big illustrated button */
+.illus-btn{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  gap:22px;
+  padding:24px 26px;border-radius:24px;
+  border:2px solid rgba(255,255,255,.13);
+  background:rgba(255,255,255,.06);
+  cursor:pointer;width:100%;
+  -webkit-transition:-webkit-transform .13s,background .15s;transition:transform .13s,background .15s;
+  min-height:88px;
+}
+.illus-btn:active{-webkit-transform:scale(.97);transform:scale(.97);background:rgba(255,255,255,.11)}
+.illus-icon{font-size:2.4em;flex-shrink:0;line-height:1}
+.illus-text{display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:3px;text-align:left}
+.illus-title{font-size:1.1em;font-weight:700;color:#fff}
+.illus-desc{font-size:.82em;color:rgba(255,255,255,.45);line-height:1.4}
+/* spacer */
+.sp{height:12px;flex-shrink:0}
+/* section hint */
+.hint{
+  background:rgba(245,197,24,.07);border:1px solid rgba(245,197,24,.2);
+  border-radius:14px;padding:13px 16px;
+  font-size:.85em;color:rgba(255,255,255,.5);line-height:1.55;
+}
+.hint strong{color:#f5c518}
+
+/* ═══════════════════════════════════════════════════════
+   AUDIO — indicateur
+═══════════════════════════════════════════════════════ */
+#rec-indicator{
+  display:none;-webkit-align-items:center;align-items:center;
+  gap:10px;color:#f0186a;font-weight:700;
+  -webkit-justify-content:center;justify-content:center;
+  padding:12px 0;font-size:1.05em;
+}
+#rec-dot{width:14px;height:14px;background:#f0186a;border-radius:50%;
+  -webkit-animation:pulse 1s infinite;animation:pulse 1s infinite}
+@-webkit-keyframes pulse{0%,100%{opacity:1}50%{opacity:.1}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.1}}
+#rec-timer{font-family:monospace;font-size:1.15em}
+/* illustration audio */
+.audio-wave{
+  width:min(280px,40vw);
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:flex-end;align-items:flex-end;
+  -webkit-justify-content:center;justify-content:center;
+  gap:6px;height:100px;
+}
+.wave-bar{width:10px;border-radius:5px;background:linear-gradient(180deg,#f0186a,#6d28d9);opacity:.35}
+.wave-bar:nth-child(odd){height:40%}
+.wave-bar:nth-child(3n){height:70%}
+.wave-bar:nth-child(4n){height:55%}
+@-webkit-keyframes wavePulse{0%,100%{-webkit-transform:scaleY(1);transform:scaleY(1)}50%{-webkit-transform:scaleY(1.8);transform:scaleY(1.8)}}
+@keyframes wavePulse{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.8)}}
+#rec-indicator.recording ~ .audio-wave .wave-bar,
+.wave-bar.active{
+  -webkit-animation:wavePulse .6s ease-in-out infinite alternate;
+  animation:wavePulse .6s ease-in-out infinite alternate;
+  opacity:.9;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PHOTO BOOTH
+   Notes Safari/iPad :
+   - video doit être autoplay + muted + playsinline pour démarrer
+   - object-fit:cover peut être ignoré sur très vieux Safari ;
+     on utilise width/height 100% en fallback
+   - on N'utilise PAS de ratio padding trick car il peut causer
+     des problèmes de positionnement sur vieux WebKit ;
+     on laisse la vidéo prendre la hauteur naturelle du conteneur
+   - on fixe explicitement width/height dans le JS pour forcer le rendu
+═══════════════════════════════════════════════════════ */
+.cam-wrap{
+  width:100%;
+  border-radius:20px;overflow:hidden;
+  background:#000;
+  position:relative;
+  /* hauteur fixe confortable sur iPad paysage */
+  height:min(340px,45vw);
+}
+#video-el{
+  /* pleine taille, sans ratio trick */
+  position:absolute;top:0;left:0;
+  width:100%;height:100%;
+  object-fit:cover;
+  display:block;
+  background:#000;
+}
+/* coins déco */
+.cam-corner{position:absolute;width:32px;height:32px;border-color:#f5c518;border-style:solid;z-index:2;pointer-events:none}
+.cam-corner.tl{top:10px;left:10px;border-width:3px 0 0 3px;border-radius:5px 0 0 0}
+.cam-corner.tr{top:10px;right:10px;border-width:3px 3px 0 0;border-radius:0 5px 0 0}
+.cam-corner.bl{bottom:10px;left:10px;border-width:0 0 3px 3px;border-radius:0 0 0 5px}
+.cam-corner.br{bottom:10px;right:10px;border-width:0 3px 3px 0;border-radius:0 0 5px 0}
+#cam-status{
+  display:none;
+  position:absolute;inset:0;
+  -webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;
+  background:rgba(0,0,0,.75);
+  color:rgba(255,255,255,.7);font-size:.88em;text-align:center;padding:20px;line-height:1.6;
+  border-radius:20px;z-index:5;
+}
+#cam-status.visible{display:-webkit-flex;display:flex}
+/* shutter */
+.cam-row{display:-webkit-flex;display:flex;gap:12px;margin-top:14px;-webkit-align-items:center;align-items:center}
+.shutter{
+  width:72px;height:72px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,#f0186a,#fb923c);
+  border:4px solid rgba(255,255,255,.3);
+  box-shadow:0 6px 26px rgba(240,24,106,.5),inset 0 2px 6px rgba(255,255,255,.2);
+  cursor:pointer;font-size:1.8em;
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;-webkit-justify-content:center;justify-content:center;
+  -webkit-transition:-webkit-transform .12s;transition:transform .12s;
+}
+.shutter:active{-webkit-transform:scale(.88);transform:scale(.88)}
+.cam-actions{-webkit-flex:1;flex:1;display:-webkit-flex;display:flex;-webkit-flex-direction:column;flex-direction:column;gap:10px}
+#photo-canvas{display:none}
+
+/* ═══════════════════════════════════════════════════════
+   DESSIN
+═══════════════════════════════════════════════════════ */
+/* la section dessin prend tout act-body */
+#section-draw .act-body{overflow:hidden}
+#draw-toolbar{
+  display:-webkit-flex;display:flex;
+  -webkit-align-items:center;align-items:center;
+  gap:8px;padding:8px 16px;flex-shrink:0;
+  background:rgba(255,255,255,.04);
+  border-bottom:1px solid rgba(255,255,255,.08);
+  -webkit-flex-wrap:wrap;flex-wrap:wrap;
+}
+.clr{width:34px;height:34px;border-radius:50%;border:3px solid transparent;cursor:pointer;flex-shrink:0;
+  -webkit-transition:-webkit-transform .1s;transition:transform .1s}
+.clr.on{border-color:#f5c518;-webkit-transform:scale(1.3);transform:scale(1.3)}
+#eraser-btn{
+  background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.2);
+  border-radius:10px;color:rgba(255,255,255,.7);padding:6px 12px;cursor:pointer;font-size:.82em;font-weight:600;
   white-space:nowrap;
 }
+#eraser-btn.on{background:#6d28d9;color:#fff;border-color:#6d28d9}
+#size-slider{-webkit-flex:1;flex:1;min-width:60px;max-width:100px}
+.draw-btn{
+  border:none;border-radius:10px;color:#fff;padding:7px 14px;
+  cursor:pointer;font-size:.8em;font-weight:700;white-space:nowrap;
+}
+.draw-btn.save{background:linear-gradient(135deg,#f0186a,#6d28d9)}
+.draw-btn.clear{background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.15);color:rgba(255,255,255,.7)}
+#main-canvas{display:block;width:100%;background:#fff;touch-action:none;cursor:crosshair;-webkit-flex:1;flex:1}
 
-/* ── FLASH PHOTO ─────────────────────────────────── */
-#flash-overlay {
-  position:fixed; top:0; left:0; right:0; bottom:0; z-index:998;
-  background:#fff; opacity:0; pointer-events:none;
-  -webkit-transition:opacity .08s; transition:opacity .08s;
+/* ═══════════════════════════════════════════════════════
+   CAPSULE — sélecteur drums
+═══════════════════════════════════════════════════════ */
+.date-display{
+  background:rgba(109,40,217,.2);border:2px solid rgba(109,40,217,.5);
+  border-radius:16px;padding:14px 18px;text-align:center;
+  color:#f5c518;font-size:1.25em;font-weight:800;margin-bottom:16px;line-height:1.3;
+  min-height:54px;
 }
+.drum-row{display:-webkit-flex;display:flex;gap:10px}
+.drum-col{-webkit-flex:1;flex:1;text-align:center}
+.drum-col-lbl{color:rgba(255,255,255,.45);font-size:.72em;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;display:block}
+.drum-btn{
+  display:block;width:100%;
+  background:rgba(109,40,217,.25);border:2px solid rgba(109,40,217,.45);
+  border-radius:14px;color:#fff;font-size:1.6em;font-weight:700;
+  padding:14px 0;cursor:pointer;line-height:1;
+  -webkit-transition:-webkit-transform .1s,background .1s;transition:transform .1s,background .1s;
+}
+.drum-btn:active{-webkit-transform:scale(.93);transform:scale(.93);background:rgba(109,40,217,.55)}
+.drum-val{display:block;font-size:1.7em;font-weight:900;color:#f5c518;padding:11px 0;line-height:1}
 
-/* ── AUDIO ───────────────────────────────────────── */
-#rec-indicator {
-  display:none; -webkit-align-items:center; align-items:center;
-  gap:8px; color:#FF2D78; font-weight:700;
-  -webkit-justify-content:center; justify-content:center;
-  padding:10px 0; font-size:1em;
+/* ═══════════════════════════════════════════════════════
+   PAGE MERCI
+═══════════════════════════════════════════════════════ */
+#page-thanks{
+  background:radial-gradient(ellipse 140% 100% at 50% 120%,#2d0a6b 0%,#09061a 60%);
+  z-index:30;text-align:center;padding:40px 30px;
+  -webkit-flex-direction:column;flex-direction:column;gap:16px;
 }
-#rec-dot {
-  width:13px; height:13px; background:#FF2D78; border-radius:50%;
-  -webkit-animation:pulse 1s infinite; animation:pulse 1s infinite;
+.ty-emoji{font-size:min(5em,12vw)}
+.ty-title{font-size:min(2.4em,5.5vw);font-weight:900;color:#f5c518;text-shadow:0 0 30px rgba(245,197,24,.45)}
+.ty-sub{font-size:min(1.1em,2.5vw);color:rgba(255,255,255,.65);white-space:pre-line;line-height:1.6;max-width:460px}
+.ty-count{font-size:min(.9em,2vw);color:rgba(255,255,255,.35)}
+.ty-back{
+  background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.22);
+  color:#fff;border-radius:40px;font-size:min(1em,2.2vw);font-weight:700;
+  padding:16px 40px;cursor:pointer;min-height:58px;
+  -webkit-transition:background .2s;transition:background .2s;
 }
-@-webkit-keyframes pulse { 0%,100%{ opacity:1 } 50%{ opacity:.15 } }
-@keyframes pulse         { 0%,100%{ opacity:1 } 50%{ opacity:.15 } }
-#rec-timer { font-size:1.1em; font-family:monospace }
+.ty-back:active{background:rgba(255,255,255,.2)}
+.ty-auto{font-size:min(.78em,1.8vw);color:rgba(255,255,255,.25);margin-top:6px}
 
-/* ── PHOTO BOOTH ─────────────────────────────────── */
-/* Viewfinder grande taille, ratio 4:3 adapté iPad */
-#cam-viewfinder {
-  position:relative; width:100%; border-radius:20px; overflow:hidden;
-  background:#000;
-  /* ratio 4:3 = 75% padding trick */
-  padding-top:75%;
+/* ═══════════════════════════════════════════════════════
+   MODAL MOT DE PASSE
+═══════════════════════════════════════════════════════ */
+#pw-modal{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.8);
+  display:none;-webkit-align-items:center;align-items:center;
+  -webkit-justify-content:center;justify-content:center;padding:24px;
 }
-#video-preview {
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  object-fit:cover; display:block;
-  border-radius:20px;
+.pw-box{
+  background:linear-gradient(160deg,#120730,#2a0e5f);
+  border:1px solid rgba(109,40,217,.6);border-radius:26px;
+  padding:32px 28px;width:100%;max-width:380px;text-align:center;
+  box-shadow:0 24px 80px rgba(0,0,0,.7);
 }
-/* Cadre décoratif coins photobooth */
-#cam-viewfinder::before,
-#cam-viewfinder::after {
-  content:'';
-  position:absolute; width:36px; height:36px; z-index:2;
-  border-color:#FFD700; border-style:solid;
+.pw-title{font-size:1.4em;font-weight:800;color:#f5c518;margin-bottom:6px}
+.pw-sub{color:rgba(255,255,255,.45);font-size:.88em;margin-bottom:20px}
+.pw-inp{
+  width:100%;background:rgba(255,255,255,.1);border:2px solid rgba(109,40,217,.6);
+  border-radius:14px;color:#fff;font-size:1.25em;padding:14px 16px;
+  outline:none;text-align:center;letter-spacing:.2em;-webkit-appearance:none;
+  font-family:monospace;margin-bottom:16px;
 }
-#cam-viewfinder::before { top:12px; left:12px; border-width:4px 0 0 4px; border-radius:6px 0 0 0; }
-#cam-viewfinder::after  { top:12px; right:12px; border-width:4px 4px 0 0; border-radius:0 6px 0 0; }
-.vf-corner-bl, .vf-corner-br {
-  position:absolute; width:36px; height:36px; z-index:2;
-  border-color:#FFD700; border-style:solid;
-}
-.vf-corner-bl { bottom:12px; left:12px;  border-width:0 0 4px 4px; border-radius:0 0 0 6px; }
-.vf-corner-br { bottom:12px; right:12px; border-width:0 4px 4px 0; border-radius:0 0 6px 0; }
-/* Bouton photo central, gros */
-#shutter-btn {
-  display:block; margin:18px auto 0;
-  width:80px; height:80px; border-radius:50%;
-  background:linear-gradient(135deg,#FF2D78,#FF8C00);
-  border:5px solid rgba(255,255,255,.35);
-  box-shadow:0 6px 28px rgba(255,45,120,.55), inset 0 2px 8px rgba(255,255,255,.2);
-  cursor:pointer; font-size:2em;
-  -webkit-transition:-webkit-transform .12s; transition:transform .12s;
-}
-#shutter-btn:active { -webkit-transform:scale(.9); transform:scale(.9) }
-/* Contrôles secondaires sous le viewfinder */
-.cam-secondary {
-  display:-webkit-flex; display:flex; gap:10px; margin-top:14px;
-}
-.cam-secondary .big-btn { margin-bottom:0; font-size:.95em; -webkit-flex:1; flex:1; }
-#photo-canvas { display:none }
-#cam-error-msg { display:none; color:#FB923C; text-align:center; padding:14px; font-size:.9em; }
+.pw-inp:focus{border-color:#f0186a}
+.pw-row{display:-webkit-flex;display:flex;gap:10px}
+.pw-btn{-webkit-flex:1;flex:1;border:none;border-radius:14px;font-size:1em;font-weight:700;padding:14px;cursor:pointer}
+.pw-btn:active{opacity:.8}
+.pw-ok{background:linear-gradient(135deg,#f0186a,#6d28d9);color:#fff}
+.pw-cancel{background:rgba(255,255,255,.1);color:rgba(255,255,255,.7);border:2px solid rgba(255,255,255,.14)}
+.pw-err{color:#f0186a;font-size:.85em;margin-top:10px;display:none}
 
-/* ── DESSIN ──────────────────────────────────────── */
-#section-draw {
-  padding:0; display:none;
-  -webkit-flex-direction:column; flex-direction:column; height:100%;
+/* ═══════════════════════════════════════════════════════
+   PANNEAU ADMIN
+═══════════════════════════════════════════════════════ */
+#page-admin{
+  background:#09061a;z-index:20;
+  -webkit-flex-direction:column;flex-direction:column;
+  -webkit-align-items:stretch;align-items:stretch;
+  -webkit-justify-content:flex-start;justify-content:flex-start;
 }
-#section-draw.active { display:-webkit-flex; display:flex }
-#draw-toolbar {
-  background:#0f0720; padding:9px 10px;
-  display:-webkit-flex; display:flex;
-  -webkit-align-items:center; align-items:center;
-  gap:7px; flex-shrink:0;
-  border-bottom:1px solid rgba(109,40,217,.4);
-  -webkit-flex-wrap:wrap; flex-wrap:wrap;
+.adm-header{
+  display:-webkit-flex;display:flex;-webkit-align-items:center;align-items:center;
+  padding:0 20px;height:56px;flex-shrink:0;
+  background:rgba(245,197,24,.06);border-bottom:1px solid rgba(245,197,24,.18);gap:12px;
 }
-.color-btn {
-  width:32px; height:32px; border-radius:50%;
-  border:3px solid transparent; cursor:pointer;
-  -webkit-transition:-webkit-transform .1s; transition:transform .1s;
+.adm-header-title{color:#f5c518;font-weight:800;font-size:1em;-webkit-flex:1;flex:1}
+.adm-nav{
+  display:-webkit-flex;display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;
+  gap:6px;padding:10px 16px;flex-shrink:0;
+  background:rgba(255,255,255,.02);border-bottom:1px solid rgba(255,255,255,.06);
 }
-.color-btn.selected { border-color:#FFD700; -webkit-transform:scale(1.28); transform:scale(1.28) }
-#eraser-btn {
-  background:rgba(255,255,255,.12); border:2px solid rgba(124,58,237,.6);
-  border-radius:10px; color:#c4b5fd; padding:5px 10px;
-  cursor:pointer; font-size:.82em; font-weight:600;
+.adm-nav::-webkit-scrollbar{display:none}
+.adm-tab{
+  background:rgba(245,197,24,.08);border:1.5px solid rgba(245,197,24,.2);
+  border-radius:12px;color:#f5c518;font-size:.75em;
+  padding:9px 14px;cursor:pointer;white-space:nowrap;flex-shrink:0;font-weight:600;
 }
-#eraser-btn.selected { background:#7c3aed; color:#fff; border-color:#7c3aed }
-.draw-act-btn {
-  background:linear-gradient(135deg,#FF2D78,#7c3aed);
-  border:none; border-radius:10px; color:#fff;
-  padding:6px 12px; cursor:pointer; font-size:.78em; font-weight:700;
+.adm-tab.on{background:rgba(245,197,24,.22);border-color:#f5c518}
+.adm-tab:active{opacity:.7}
+.adm-body{-webkit-flex:1;flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:20px}
+.adm-sec{display:none}.adm-sec.on{display:block}
+.adm-sec-title{color:#f5c518;font-size:1.15em;font-weight:800;margin-bottom:16px;text-align:center}
+/* cards admin */
+.adm-card{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:16px;padding:16px;margin-bottom:12px}
+.adm-author{color:#f5c518;font-weight:700;font-size:.88em;margin-bottom:4px}
+.adm-text{color:rgba(255,255,255,.8);line-height:1.55;font-size:.92em}
+.adm-date{color:rgba(255,255,255,.28);font-size:.75em;margin-top:6px}
+.adm-photo-grid{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:10px}
+.adm-photo-item{width:calc(33.33% - 7px);border-radius:12px;overflow:hidden;border:1.5px solid rgba(255,255,255,.12)}
+.adm-photo-item img{width:100%;display:block}
+.adm-draw-grid{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:10px}
+.adm-draw-item{width:calc(50% - 5px);border-radius:12px;overflow:hidden;border:1.5px solid rgba(255,255,255,.12)}
+.adm-draw-item img{width:100%;display:block}
+.adm-meta{color:rgba(255,255,255,.3);font-size:.72em;padding:4px 8px;background:rgba(0,0,0,.4)}
+.adm-dl{
+  display:block;width:100%;background:rgba(103,232,249,.12);
+  border:1px solid rgba(103,232,249,.3);border-radius:8px;
+  color:#67e8f9;font-size:.78em;font-weight:700;
+  padding:7px 0;cursor:pointer;margin-top:5px;text-align:center;
 }
-.draw-act-btn.sec {
-  background:rgba(30,10,74,.9); border:2px solid rgba(124,58,237,.6); color:#c4b5fd;
+.adm-dl:active{background:rgba(103,232,249,.25)}
+.stat-grid{display:-webkit-flex;display:flex;-webkit-flex-wrap:wrap;flex-wrap:wrap;gap:10px;margin-bottom:16px}
+.stat-card{
+  background:rgba(109,40,217,.18);border:1px solid rgba(109,40,217,.35);
+  border-radius:16px;padding:14px 10px;
+  -webkit-flex:1;flex:1;min-width:calc(50% - 5px);text-align:center;
 }
-#size-slider { -webkit-flex:1; flex:1; min-width:50px; max-width:90px }
-#main-canvas { -webkit-flex:1; flex:1; display:block; width:100%; background:#fff; touch-action:none; cursor:crosshair }
-
-/* ── CAPSULE ─────────────────────────────────────── */
-.cap-locked {
-  background:rgba(124,58,237,.15); border:2px dashed rgba(124,58,237,.5);
-  border-radius:16px; padding:16px; margin-bottom:10px;
-  color:#a78bfa; text-align:center;
+.stat-n{font-size:2.2em;font-weight:900;color:#f5c518;line-height:1}
+.stat-l{color:rgba(255,255,255,.45);font-size:.76em;margin-top:3px}
+.autosave-box{
+  background:rgba(103,232,249,.07);border:1px solid rgba(103,232,249,.25);
+  border-radius:14px;padding:14px 16px;margin-bottom:16px;font-size:.83em;line-height:1.6;
 }
-.cap-unlocked {
-  background:rgba(103,232,249,.08); border:2px solid rgba(103,232,249,.5);
-  border-radius:16px; padding:16px; margin-bottom:10px;
-}
-.cap-date { font-size:.78em; color:#6d6a8a; margin-top:5px }
-
-/* ── SÉLECTEUR DE DATE TACTILE CAPSULE ───────────── */
-.date-picker-wrap { margin-top:6px; }
-.date-picker-label {
-  color:#c4b5fd; font-size:.88em; font-weight:600;
-  display:block; margin-bottom:10px;
-}
-.date-display {
-  background:rgba(124,58,237,.25); border:2px solid rgba(124,58,237,.7);
-  border-radius:16px; padding:14px 18px; text-align:center;
-  color:#FFD700; font-size:1.2em; font-weight:800; margin-bottom:14px;
-  min-height:52px; line-height:1.3;
-}
-/* Rangée de 3 drums (jour / mois / année) */
-.drum-row {
-  display:-webkit-flex; display:flex; gap:8px; margin-bottom:14px;
-}
-.drum-col {
-  -webkit-flex:1; flex:1; text-align:center;
-}
-.drum-col-label {
-  color:#a78bfa; font-size:.72em; font-weight:600;
-  text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px;
-  display:block;
-}
-/* boutons + / - */
-.drum-btn {
-  display:block; width:100%;
-  background:rgba(124,58,237,.3); border:2px solid rgba(124,58,237,.6);
-  border-radius:12px; color:#fff; font-size:1.5em; font-weight:700;
-  padding:12px 0; cursor:pointer; line-height:1;
-  -webkit-transition:-webkit-transform .1s; transition:transform .1s;
-}
-.drum-btn:active { -webkit-transform:scale(.93); transform:scale(.93); background:rgba(124,58,237,.6); }
-.drum-val {
-  display:block; font-size:1.6em; font-weight:900;
-  color:#FFD700; padding:10px 0; line-height:1;
-  text-shadow:0 0 12px rgba(255,215,0,.4);
+.autosave-box strong{color:#67e8f9}
+.cap-locked{background:rgba(109,40,217,.14);border:2px dashed rgba(109,40,217,.4);border-radius:14px;padding:14px;margin-bottom:10px;color:rgba(255,255,255,.55);text-align:center}
+.cap-open{background:rgba(103,232,249,.08);border:2px solid rgba(103,232,249,.4);border-radius:14px;padding:14px;margin-bottom:10px}
+.adm-logout{
+  background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.15);
+  color:rgba(255,255,255,.6);border-radius:14px;font-size:.9em;font-weight:700;
+  padding:13px 20px;cursor:pointer;width:100%;margin-top:8px;
 }
 
-/* ── ADMIN ───────────────────────────────────────── */
-#admin-panel {
-  display:none; -webkit-flex-direction:column; flex-direction:column;
-  -webkit-flex:1; flex:1; overflow:hidden;
+/* ═══════════════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════════════ */
+#toast{
+  position:fixed;
+  bottom:calc(env(safe-area-inset-bottom) + 24px);
+  left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);
+  background:linear-gradient(135deg,#120730,#2a0e5f);
+  border:1px solid rgba(240,24,106,.45);
+  color:#fff;border-radius:30px;padding:13px 26px;
+  font-size:.9em;font-weight:700;z-index:9999;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  pointer-events:none;opacity:0;
+  -webkit-transition:opacity .3s;transition:opacity .3s;white-space:nowrap;
 }
-#admin-nav {
-  background:#0f0720; padding:7px 8px;
-  display:-webkit-flex; display:flex;
-  overflow-x:auto; -webkit-overflow-scrolling:touch;
-  gap:6px; flex-shrink:0; border-bottom:1px solid rgba(255,215,0,.3);
-}
-#admin-nav::-webkit-scrollbar { display:none }
-.adm-btn {
-  background:rgba(255,215,0,.1); border:1.5px solid rgba(255,215,0,.3);
-  border-radius:12px; color:#FFD700; font-size:.68em;
-  padding:8px 12px; cursor:pointer; white-space:nowrap; flex-shrink:0; font-weight:600;
-}
-.adm-btn.active { background:rgba(255,215,0,.25); border-color:#FFD700 }
-.adm-btn:active { -webkit-transform:scale(.93); transform:scale(.93) }
-#admin-content { -webkit-flex:1; flex:1; overflow-y:auto; -webkit-overflow-scrolling:touch; padding:16px }
-.adm-section { display:none }
-.adm-section.active { display:block }
-.adm-title { color:#FFD700; font-size:1.15em; font-weight:800; margin-bottom:14px; text-align:center }
-.adm-msg-item {
-  background:rgba(255,255,255,.05); border-left:3px solid #FF2D78;
-  border-radius:0 14px 14px 0; padding:12px; margin-bottom:10px;
-}
-.adm-msg-author { color:#FFD700; font-weight:700; font-size:.88em }
-.adm-msg-text   { color:#e9d5ff; margin-top:4px; line-height:1.5; font-size:.92em }
-.adm-msg-date   { color:#6d6a8a; font-size:.75em; margin-top:4px }
-.adm-audio-item { background:rgba(255,255,255,.05); border-radius:14px; padding:12px; margin-bottom:10px }
-.adm-photo-grid { display:-webkit-flex; display:flex; -webkit-flex-wrap:wrap; flex-wrap:wrap; gap:8px }
-.adm-photo-item { width:calc(33.33% - 6px); border-radius:12px; overflow:hidden; border:2px solid rgba(109,40,217,.5) }
-.adm-photo-item img { width:100%; display:block }
-.adm-media-meta { color:#6d6a8a; font-size:.7em; padding:4px 6px; background:rgba(0,0,0,.4) }
-.adm-dl-btn {
-  display:block; width:100%; background:rgba(103,232,249,.15);
-  border:1px solid rgba(103,232,249,.4); border-radius:8px;
-  color:#67e8f9; font-size:.75em; font-weight:700;
-  padding:6px 0; cursor:pointer; margin-top:4px; text-align:center;
-}
-.adm-dl-btn:active { background:rgba(103,232,249,.3) }
-.adm-drawing-grid { display:-webkit-flex; display:flex; -webkit-flex-wrap:wrap; flex-wrap:wrap; gap:8px }
-.adm-drawing-item { width:calc(50% - 4px); border-radius:12px; overflow:hidden; border:2px solid rgba(109,40,217,.5) }
-.adm-drawing-item img { width:100%; display:block }
-.stat-grid {
-  display:-webkit-flex; display:flex; -webkit-flex-wrap:wrap; flex-wrap:wrap;
-  gap:10px; margin-bottom:14px;
-}
-.stat-card {
-  background:rgba(124,58,237,.2); border:1px solid rgba(124,58,237,.4);
-  border-radius:16px; padding:14px 12px;
-  -webkit-flex:1; flex:1; min-width:calc(50% - 5px); text-align:center;
-}
-.stat-num   { font-size:2em; font-weight:900; color:#FFD700; line-height:1 }
-.stat-label { color:#a78bfa; font-size:.75em; margin-top:3px }
-.stat-size  { font-size:1em; font-weight:700; color:#67e8f9 }
-.autosave-info {
-  background:rgba(103,232,249,.08); border:1px solid rgba(103,232,249,.3);
-  border-radius:14px; padding:14px; margin-bottom:14px; font-size:.83em;
-}
-.autosave-label { color:#67e8f9; font-weight:700; margin-bottom:4px }
-.autosave-val   { color:#a78bfa }
-.adm-logout {
-  background:rgba(255,255,255,.1); border:2px solid rgba(255,255,255,.2);
-  color:#c4b5fd; border-radius:14px; font-size:.88em; font-weight:700;
-  padding:12px 20px; cursor:pointer; width:100%; margin-top:8px;
-}
+/* flash photo */
+#flash{position:fixed;inset:0;z-index:997;background:#fff;opacity:0;pointer-events:none;-webkit-transition:opacity .07s;transition:opacity .07s}
 </style>
 </head>
 <body>
 
-<!-- CONFETTIS -->
-<div class="cc" aria-hidden="true">
-  <div class="c"></div><div class="c"></div><div class="c"></div>
-  <div class="c"></div><div class="c"></div><div class="c"></div>
-  <div class="c"></div><div class="c"></div><div class="c"></div>
-  <div class="c"></div><div class="c"></div><div class="c"></div>
-  <div class="c"></div><div class="c"></div><div class="c"></div>
-  <div class="c"></div><div class="c"></div>
+<div class="confetti-bg" aria-hidden="true">
+  <div class="cf"></div><div class="cf"></div><div class="cf"></div>
+  <div class="cf"></div><div class="cf"></div><div class="cf"></div>
+  <div class="cf"></div><div class="cf"></div><div class="cf"></div>
+  <div class="cf"></div><div class="cf"></div><div class="cf"></div>
 </div>
-
 <div id="toast"></div>
-<div id="flash-overlay"></div>
+<div id="flash"></div>
 
-<!-- ===== MODAL MOT DE PASSE ===== -->
+<!-- ═══════════ MODAL MOT DE PASSE ═══════════ -->
 <div id="pw-modal">
   <div class="pw-box">
     <div class="pw-title">🔐 Espace Admin</div>
     <div class="pw-sub">Mot de passe administrateur</div>
-    <input type="password" id="pw-input" class="pw-input" placeholder="••••••" maxlength="20"
-      onkeydown="if(event.keyCode===13)checkPassword()">
+    <input type="password" id="pw-input" class="pw-inp" placeholder="••••••" maxlength="20"
+      onkeydown="if(event.keyCode===13)checkPw()">
     <div class="pw-row">
-      <button class="pw-btn cancel" onclick="closePwModal()">Annuler</button>
-      <button class="pw-btn ok"     onclick="checkPassword()">Entrer</button>
+      <button class="pw-btn pw-cancel" onclick="closePw()">Annuler</button>
+      <button class="pw-btn pw-ok"     onclick="checkPw()">Entrer</button>
     </div>
-    <div id="pw-error" class="pw-error">❌ Mot de passe incorrect</div>
+    <div id="pw-err" class="pw-err">❌ Mot de passe incorrect</div>
   </div>
 </div>
 
-<!-- ===== ÉCRAN ACCUEIL ===== -->
-<div id="welcome-screen" class="screen-layer">
+<!-- ═══════════ PAGE ACCUEIL ═══════════ -->
+<div id="page-welcome" class="page visible">
 
   <!--
-  ════════════════════════════════════════════════════
-    PERSONNALISATION DE LA PHOTO
-    Option A — photo externe : remplacez le src="" ci-dessous
-               par le chemin de votre photo
-               (ex: src="maphoto.jpg" si dans le même dossier)
-    Option B — sans photo : laissez src="" vide,
-               les initiales "A" s'afficheront à la place
-    Option C — changer le prénom : modifiez le texte dans
-               .ws-name ci-dessous et dans .ws-photo-initials
-  ════════════════════════════════════════════════════
+  ══════════════════════════════════════════
+  PERSONNALISATION — modifiez ici
+  Photo : remplacez src="" par src="votre_photo.jpg"
+          (fichier dans le même dossier que ce HTML)
+          Laissez src="" vide pour afficher 🎂
+  Prénom : modifiez le texte dans .wc-name
+  ══════════════════════════════════════════
   -->
-  <div class="ws-photo-wrap">
-    <img id="ws-photo-img" src="" alt="Photo"
-         onerror="this.style.display='none';document.getElementById('ws-initials').style.display='block'">
-    <span id="ws-initials" class="ws-photo-initials">🎂</span>
+  <div class="wc-left">
+    <div class="photo-frame">
+      <img id="welcome-photo" src="" alt="Photo"
+           onload="this.style.display='block';document.getElementById('welcome-emoji').style.display='none'"
+           onerror="this.style.display='none';document.getElementById('welcome-emoji').style.display='block'"
+           style="display:none">
+      <span id="welcome-emoji" class="photo-emoji">🎂</span>
+    </div>
+    <!-- ← Changez le prénom ici -->
+    <div class="wc-name">Bienvenue !</div>
   </div>
 
-  <!-- ← CHANGEZ "Prénom" par votre prénom -->
-  <div class="ws-name">Bienvenue à la fête !</div>
+  <div class="wc-right">
+    <div><span class="wc-badge">✨ Borne souvenir · 18 ans</span></div>
+    <div class="wc-title">
+      Joyeux<br>
+      <span>Anniversaire !</span>
+    </div>
+    <div class="wc-sub">Laisse un souvenir — il sera découvert<br>après la fête 🎉</div>
+    <div class="wc-grid">
+      <button class="wc-card pink" onclick="goTo('guestbook')">
+        <span class="wc-card-icon">📖</span>
+        <div class="wc-card-text">
+          <span class="wc-card-title">Livre d'or</span>
+          <span class="wc-card-desc">Laisse un message</span>
+        </div>
+      </button>
+      <button class="wc-card gold" onclick="goTo('audio')">
+        <span class="wc-card-icon">🎤</span>
+        <div class="wc-card-text">
+          <span class="wc-card-title">Message vocal</span>
+          <span class="wc-card-desc">Enregistre ta voix</span>
+        </div>
+      </button>
+      <button class="wc-card purple" onclick="goTo('photo')">
+        <span class="wc-card-icon">📸</span>
+        <div class="wc-card-text">
+          <span class="wc-card-title">Photo Booth</span>
+          <span class="wc-card-desc">Prends une photo</span>
+        </div>
+      </button>
+      <button class="wc-card teal" onclick="goTo('draw')">
+        <span class="wc-card-icon">🎨</span>
+        <div class="wc-card-text">
+          <span class="wc-card-title">Dessin</span>
+          <span class="wc-card-desc">Laisse un dessin</span>
+        </div>
+      </button>
+      <button class="wc-card pink" onclick="goTo('capsule')" style="grid-column:span 2">
+        <span class="wc-card-icon">⏳</span>
+        <div class="wc-card-text">
+          <span class="wc-card-title">Capsule temporelle</span>
+          <span class="wc-card-desc">Un message à débloquer dans le futur</span>
+        </div>
+      </button>
+    </div>
+  </div>
 
-  <div class="ws-age">18</div>
-  <h1 class="ws-title">Joyeux<br>Anniversaire !</h1>
-  <p class="ws-sub">🎊 La borne de tous tes souvenirs 🎊</p>
-  <p class="ws-tag">Laisse un message, un dessin, une photo…</p>
-  <button class="ws-enter" onclick="enterApp()">✨ Commencer ✨</button>
-  <button class="ws-admin-link" onclick="openPwModal('welcome')">⚙</button>
+  <button class="wc-admin" onclick="openPw()">⚙</button>
 </div>
 
-<!-- ===== ÉCRAN MERCI ===== -->
-<div id="thanks-screen" class="screen-layer">
-  <div class="thanks-emoji" id="thanks-emoji">🎉</div>
-  <div class="thanks-title">Merci !</div>
-  <div class="thanks-sub"  id="thanks-sub">Ton message a bien été enregistré.</div>
-  <div class="thanks-count" id="thanks-count"></div>
-  <button class="thanks-back" onclick="returnToWelcome()">↩ Retour à l'accueil</button>
-  <div class="thanks-auto">Retour automatique dans <span id="thanks-countdown">6</span>s…</div>
+<!-- ═══════════ PAGE MERCI ═══════════ -->
+<div id="page-thanks" class="page hidden">
+  <div class="ty-emoji" id="ty-emoji">🎉</div>
+  <div class="ty-title">Merci !</div>
+  <div class="ty-sub"  id="ty-sub">Ton message a été enregistré.</div>
+  <div class="ty-count" id="ty-count"></div>
+  <button class="ty-back" onclick="returnHome()">↩ Retour à l'accueil</button>
+  <div class="ty-auto">Retour automatique dans <span id="ty-cd">6</span>s…</div>
 </div>
 
-<!-- ===== APPLICATION ===== -->
-<div id="app" style="display:none">
-
-  <div id="app-header">
-    <h2>🎉 Borne Anniversaire · 18 ans 🎉</h2>
-    <button id="admin-badge" onclick="openPwModal('app')">Admin</button>
+<!-- ═══════════ PAGE ACTIVITÉ ═══════════ -->
+<div id="page-activity" class="page hidden">
+  <div class="act-header">
+    <button class="act-back" onclick="returnHome()">←</button>
+    <div class="act-title-bar" id="act-title">Activité</div>
   </div>
 
-  <!-- NAV INVITÉS -->
-  <div id="nav">
-    <button class="nav-btn active" onclick="showSection('guestbook')" id="nav-guestbook"><span class="ni">📖</span>Livre d'or</button>
-    <button class="nav-btn"        onclick="showSection('audio')"     id="nav-audio"    ><span class="ni">🎤</span>Vocal</button>
-    <button class="nav-btn"        onclick="showSection('photo')"     id="nav-photo"    ><span class="ni">📸</span>Photo</button>
-    <button class="nav-btn"        onclick="showSection('draw')"      id="nav-draw"     ><span class="ni">🎨</span>Dessin</button>
-    <button class="nav-btn"        onclick="showSection('capsule')"   id="nav-capsule"  ><span class="ni">⏳</span>Capsule</button>
-  </div>
-
-  <!-- CONTENU INVITÉS -->
-  <div id="content">
-
-    <!-- LIVRE D'OR -->
-    <div id="section-guestbook" class="section active">
-      <div class="section-title">📖 Livre d'or</div>
-      <div class="section-desc">🤫 Confidentiel — seul l'organisateur découvrira les messages après la fête !</div>
-      <div class="card">
-        <label class="fl">Ton prénom (laisse vide pour rester anonyme)</label>
-        <input type="text" id="gb-name" class="input-field" placeholder="Ton prénom…" maxlength="40">
-        <div class="spacer"></div>
-        <label class="fl">Ton message ✨</label>
-        <textarea id="gb-text" class="input-field" rows="5"
-          placeholder="Écris ton message… ce sera une belle surprise !" maxlength="600"></textarea>
-        <div class="spacer"></div>
-        <button class="big-btn" onclick="addGuestbookMessage()">📨 Envoyer mon message</button>
+  <!-- ─── LIVRE D'OR ─── -->
+  <div id="section-guestbook" class="act-body" style="display:none">
+    <div class="act-panel">
+      <div class="hint"><strong>🤫 Confidentiel</strong> — seul l'organisateur lira les messages après la fête.</div>
+      <div>
+        <span class="lbl">Ton prénom (laisse vide pour rester anonyme)</span>
+        <input type="text" id="gb-name" class="inp" placeholder="Ton prénom…" maxlength="40">
+      </div>
+      <div>
+        <span class="lbl">Ton message ✨</span>
+        <textarea id="gb-text" class="inp" rows="6" placeholder="Écris ton message… une belle surprise à découvrir !" maxlength="600"></textarea>
+      </div>
+      <button class="btn btn-primary" onclick="addGuestbookMessage()">📨 Envoyer mon message</button>
+    </div>
+    <div class="act-side">
+      <div style="text-align:center;opacity:.35">
+        <div style="font-size:min(6em,10vw)">📖</div>
+        <div style="font-size:min(1em,2vw);color:rgba(255,255,255,.6);margin-top:12px;line-height:1.6">Ton message<br>restera secret<br>jusqu'après la fête</div>
       </div>
     </div>
+  </div>
 
-    <!-- MESSAGES VOCAUX -->
-    <div id="section-audio" class="section">
-      <div class="section-title">🎤 Message vocal</div>
-      <div class="section-desc">🎙 Ton message vocal sera découvert après la fête — enregistre-toi !</div>
-      <div id="audio-unavailable" class="card" style="display:none">
-        <p style="color:#FB923C;text-align:center;font-size:1em">⚠️ L'enregistrement vocal n'est pas disponible sur cet appareil.</p>
-        <p style="color:#a78bfa;text-align:center;margin-top:8px;font-size:.85em">L'API MediaRecorder n'est pas supportée par ce navigateur.</p>
+  <!-- ─── AUDIO ─── -->
+  <div id="section-audio" class="act-body" style="display:none">
+    <div class="act-panel">
+      <div class="hint"><strong>🎙 Message secret</strong> — ton enregistrement sera découvert après la fête.</div>
+      <div id="audio-unavailable" style="display:none;background:rgba(251,146,60,.1);border:1px solid rgba(251,146,60,.3);border-radius:14px;padding:16px;color:rgba(255,255,255,.6);font-size:.9em;line-height:1.6">
+        ⚠️ L'enregistrement vocal n'est pas disponible sur cet appareil (API MediaRecorder non supportée).
       </div>
       <div id="audio-available">
-        <div class="card">
-          <div id="rec-indicator">
-            <div id="rec-dot"></div>
-            <span>Enregistrement…</span>
-            <span id="rec-timer">0:00</span>
-          </div>
-          <div class="row">
-            <button class="big-btn" id="btn-rec-start" onclick="startRecording()">🔴 Démarrer</button>
-            <button class="big-btn danger" id="btn-rec-stop" onclick="stopRecording()" style="display:none">⏹ Terminer</button>
-          </div>
-          <p style="color:#6d6a8a;font-size:.78em;text-align:center;margin-top:8px">Durée max : 2 minutes</p>
+        <div id="rec-indicator">
+          <div id="rec-dot"></div>
+          <span>Enregistrement en cours…</span>&nbsp;
+          <span id="rec-timer">0:00</span>
+        </div>
+        <div class="sp"></div>
+        <button class="btn btn-primary" id="btn-rec-start" onclick="startRecording()" style="font-size:1.2em">🔴 Démarrer l'enregistrement</button>
+        <button class="btn btn-danger"  id="btn-rec-stop"  onclick="stopRecording()"  style="display:none;font-size:1.2em">⏹ Terminer et sauvegarder</button>
+        <div style="text-align:center;color:rgba(255,255,255,.25);font-size:.8em;margin-top:8px">Durée max : 2 minutes</div>
+      </div>
+    </div>
+    <div class="act-side">
+      <div style="text-align:center">
+        <div class="audio-wave" id="audio-wave">
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
+          <div class="wave-bar"></div><div class="wave-bar"></div>
+        </div>
+        <div style="font-size:min(4em,8vw);margin-top:20px;opacity:.35">🎤</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── PHOTO BOOTH ─── -->
+  <div id="section-photo" class="act-body" style="display:none">
+    <div class="act-panel">
+      <div class="hint"><strong>📷 Photo secrète</strong> — elle sera découverte après la fête.</div>
+      <div class="cam-wrap" id="cam-wrap">
+        <video id="video-el" autoplay muted playsinline webkit-playsinline
+               style="-webkit-transform:scaleX(-1);transform:scaleX(-1)"></video>
+        <div class="cam-corner tl"></div>
+        <div class="cam-corner tr"></div>
+        <div class="cam-corner bl"></div>
+        <div class="cam-corner br"></div>
+        <div id="cam-status">
+          📷 Caméra non disponible.<br>
+          Autorisez l'accès dans<br>
+          Réglages → Safari → Caméra
+        </div>
+      </div>
+      <canvas id="photo-canvas"></canvas>
+      <div class="cam-row">
+        <button class="shutter" onclick="takePhoto()" title="Photo">📸</button>
+        <div class="cam-actions">
+          <button class="btn btn-secondary" onclick="flipCamera()" style="font-size:.95em;padding:14px">🔄 Retourner la caméra</button>
+          <input type="file" id="photo-import" accept="image/*" onchange="importPhoto(this)" style="display:none">
+          <button class="btn btn-secondary" onclick="document.getElementById('photo-import').click()" style="font-size:.95em;padding:14px">🖼 Importer depuis la galerie</button>
         </div>
       </div>
     </div>
+    <div class="act-side" style="display:none"></div>
+  </div>
 
-    <!-- PHOTO BOOTH -->
-    <div id="section-photo" class="section">
-      <div class="section-title">📸 Photo Booth</div>
-      <div class="section-desc">📷 Photos secrètes — elles seront découvertes après la fête !</div>
-      <div class="card" style="padding:14px">
-        <!-- Viewfinder 4:3 pleine largeur -->
-        <div id="cam-viewfinder">
-          <video id="video-preview" autoplay playsinline muted webkit-playsinline></video>
-          <div class="vf-corner-bl"></div>
-          <div class="vf-corner-br"></div>
-        </div>
-        <canvas id="photo-canvas"></canvas>
-        <div id="cam-error-msg">📷 Caméra non disponible. Vérifiez les autorisations dans Réglages → Safari.</div>
-        <!-- Gros bouton déclencheur central -->
-        <button id="shutter-btn" onclick="takePhoto()" title="Prendre une photo">📸</button>
-        <!-- Contrôles secondaires -->
-        <div class="cam-secondary">
-          <button class="big-btn secondary" onclick="switchCamera()" style="font-size:1.1em">🔄 Retourner</button>
-          <button class="big-btn secondary" onclick="toggleCamera()" id="btn-cam-toggle">⏸ Pause</button>
-        </div>
-      </div>
-      <div class="card">
-        <p class="fl" style="font-size:1em;margin-bottom:6px">📁 Importer depuis la photothèque</p>
-        <p style="color:#6d6a8a;font-size:.82em;margin-bottom:14px;line-height:1.5">Idéal pour les photos reçues par AirDrop depuis ton téléphone !</p>
-        <input type="file" id="photo-import-input" accept="image/*" onchange="importPhoto(this)" style="display:none">
-        <button class="big-btn secondary" onclick="document.getElementById('photo-import-input').click()" style="font-size:1.05em;padding:22px">🖼️ Choisir dans la photothèque</button>
-      </div>
+  <!-- ─── DESSIN ─── -->
+  <div id="section-draw" class="act-body" style="display:none;-webkit-flex-direction:column;flex-direction:column">
+    <div id="draw-toolbar">
+      <button class="clr on" style="background:#111" onclick="setClr('#111111',this)"></button>
+      <button class="clr" style="background:#dc2626" onclick="setClr('#dc2626',this)"></button>
+      <button class="clr" style="background:#2563eb" onclick="setClr('#2563eb',this)"></button>
+      <button class="clr" style="background:#f0186a" onclick="setClr('#f0186a',this)"></button>
+      <button class="clr" style="background:#f5c518" onclick="setClr('#f5c518',this)"></button>
+      <button class="clr" style="background:#16a34a" onclick="setClr('#16a34a',this)"></button>
+      <button class="clr" style="background:#a78bfa" onclick="setClr('#a78bfa',this)"></button>
+      <button id="eraser-btn" onclick="toggleEraser()">⬜ Gomme</button>
+      <input type="range" id="size-slider" min="2" max="44" value="7" oninput="setBrush(this.value)">
+      <button class="draw-btn clear" onclick="clearCanvas()">🗑 Effacer</button>
+      <button class="draw-btn save"  onclick="saveDrawing()">💾 Sauvegarder</button>
     </div>
+    <canvas id="main-canvas"></canvas>
+  </div>
 
-    <!-- DESSIN -->
-    <div id="section-draw" class="section">
-      <div id="draw-toolbar">
-        <button class="color-btn selected" style="background:#1a1a1a" onclick="setColor('#1a1a1a',this)"></button>
-        <button class="color-btn" style="background:#dc2626" onclick="setColor('#dc2626',this)"></button>
-        <button class="color-btn" style="background:#2563eb" onclick="setColor('#2563eb',this)"></button>
-        <button class="color-btn" style="background:#FF2D78" onclick="setColor('#FF2D78',this)"></button>
-        <button class="color-btn" style="background:#FFD700" onclick="setColor('#FFD700',this)"></button>
-        <button class="color-btn" style="background:#16a34a" onclick="setColor('#16a34a',this)"></button>
-        <button class="color-btn" style="background:#a78bfa" onclick="setColor('#a78bfa',this)"></button>
-        <button id="eraser-btn" onclick="toggleEraser()">⬜ Gomme</button>
-        <input type="range" id="size-slider" min="2" max="42" value="6" oninput="setBrushSize(this.value)">
-        <button class="draw-act-btn sec" onclick="clearCanvas()">🗑</button>
-        <button class="draw-act-btn"     onclick="saveDrawing()">💾 Sauver</button>
+  <!-- ─── CAPSULE TEMPORELLE ─── -->
+  <div id="section-capsule" class="act-body" style="display:none">
+    <div class="act-panel">
+      <div class="hint"><strong>🔒 Message scellé</strong> — personne ne pourra le lire avant la date choisie.</div>
+      <div>
+        <span class="lbl">Ton prénom</span>
+        <input type="text" id="cap-name" class="inp" placeholder="Ton prénom…" maxlength="40">
       </div>
-      <canvas id="main-canvas"></canvas>
-    </div>
-
-    <!-- CAPSULE TEMPORELLE -->
-    <div id="section-capsule" class="section">
-      <div class="section-title">⏳ Capsule temporelle</div>
-      <div class="section-desc">🔒 Ton message sera scellé et révélé seulement à la date choisie !</div>
-      <div class="card">
-        <label class="fl">Ton prénom</label>
-        <input type="text" id="cap-name" class="input-field" placeholder="Ton prénom…" maxlength="40">
-        <div class="spacer"></div>
-        <label class="fl">Ton message secret ✉️</label>
-        <textarea id="cap-text" class="input-field" rows="4"
-          placeholder="Écris quelque chose à découvrir plus tard…" maxlength="600"></textarea>
-        <div class="spacer"></div>
-
-        <!-- SÉLECTEUR DE DATE TACTILE -->
-        <div class="date-picker-wrap">
-          <span class="date-picker-label">📅 Date de déblocage — utilise les flèches ↑↓</span>
-          <div class="date-display" id="cap-date-display">Choisir une date…</div>
-          <div class="drum-row">
-            <!-- JOUR -->
-            <div class="drum-col">
-              <span class="drum-col-label">Jour</span>
-              <button class="drum-btn" onclick="drumChange('day',1)">▲</button>
-              <span class="drum-val" id="drum-day">01</span>
-              <button class="drum-btn" onclick="drumChange('day',-1)">▼</button>
-            </div>
-            <!-- MOIS -->
-            <div class="drum-col">
-              <span class="drum-col-label">Mois</span>
-              <button class="drum-btn" onclick="drumChange('month',1)">▲</button>
-              <span class="drum-val" id="drum-month">01</span>
-              <button class="drum-btn" onclick="drumChange('month',-1)">▼</button>
-            </div>
-            <!-- ANNÉE -->
-            <div class="drum-col">
-              <span class="drum-col-label">Année</span>
-              <button class="drum-btn" onclick="drumChange('year',1)">▲</button>
-              <span class="drum-val" id="drum-year">2025</span>
-              <button class="drum-btn" onclick="drumChange('year',-1)">▼</button>
-            </div>
+      <div>
+        <span class="lbl">Ton message secret ✉️</span>
+        <textarea id="cap-text" class="inp" rows="4" placeholder="Quelque chose à découvrir plus tard…" maxlength="600"></textarea>
+      </div>
+      <div>
+        <span class="lbl">📅 Date de déblocage — utilise les flèches</span>
+        <div class="date-display" id="cap-date-display">Choisir une date…</div>
+        <div class="drum-row">
+          <div class="drum-col">
+            <span class="drum-col-lbl">Jour</span>
+            <button class="drum-btn" onclick="drumChg('day',1)">▲</button>
+            <span class="drum-val" id="drum-day">01</span>
+            <button class="drum-btn" onclick="drumChg('day',-1)">▼</button>
+          </div>
+          <div class="drum-col">
+            <span class="drum-col-lbl">Mois</span>
+            <button class="drum-btn" onclick="drumChg('month',1)">▲</button>
+            <span class="drum-val" id="drum-month">Jan</span>
+            <button class="drum-btn" onclick="drumChg('month',-1)">▼</button>
+          </div>
+          <div class="drum-col">
+            <span class="drum-col-lbl">Année</span>
+            <button class="drum-btn" onclick="drumChg('year',1)">▲</button>
+            <span class="drum-val" id="drum-year">2026</span>
+            <button class="drum-btn" onclick="drumChg('year',-1)">▼</button>
           </div>
         </div>
-        <!-- Champ date caché pour la compatibilité JS -->
         <input type="hidden" id="cap-date" value="">
+      </div>
+      <button class="btn btn-primary" onclick="addCapsuleMessage()">🔒 Sceller le message</button>
+    </div>
+    <div class="act-side">
+      <div style="text-align:center;opacity:.35">
+        <div style="font-size:min(6em,10vw)">⏳</div>
+        <div style="font-size:min(1em,2vw);color:rgba(255,255,255,.6);margin-top:12px;line-height:1.6">Un message<br>que le temps<br>révélera</div>
+      </div>
+    </div>
+  </div>
 
-        <div class="spacer"></div>
-        <button class="big-btn" onclick="addCapsuleMessage()">🔒 Sceller le message</button>
+</div><!-- /page-activity -->
+
+<!-- ═══════════ PAGE ADMIN ═══════════ -->
+<div id="page-admin" class="page hidden">
+  <div class="adm-header">
+    <button class="act-back" onclick="logoutAdmin()">←</button>
+    <div class="adm-header-title">🔐 Espace administrateur</div>
+    <button class="btn btn-secondary" onclick="logoutAdmin()" style="padding:8px 16px;font-size:.82em;width:auto;min-height:0">Quitter</button>
+  </div>
+  <div class="adm-nav">
+    <button class="adm-tab on" onclick="showAdmSec('stats')"    id="adm-t-stats"  >📊 Tableau</button>
+    <button class="adm-tab"    onclick="showAdmSec('gb')"       id="adm-t-gb"     >📖 Messages</button>
+    <button class="adm-tab"    onclick="showAdmSec('audio')"    id="adm-t-audio"  >🎤 Vocaux</button>
+    <button class="adm-tab"    onclick="showAdmSec('photos')"   id="adm-t-photos" >📸 Photos</button>
+    <button class="adm-tab"    onclick="showAdmSec('draws')"    id="adm-t-draws"  >🎨 Dessins</button>
+    <button class="adm-tab"    onclick="showAdmSec('caps')"     id="adm-t-caps"   >⏳ Capsules</button>
+    <button class="adm-tab"    onclick="showAdmSec('backup')"   id="adm-t-backup" >💾 Sauvegardes</button>
+  </div>
+  <div class="adm-body">
+
+    <div id="adm-stats" class="adm-sec on">
+      <div class="adm-sec-title">📊 Tableau de bord</div>
+      <div class="stat-grid" id="stat-grid"></div>
+      <div class="autosave-box" id="autosave-box">
+        <strong>🔄 Sauvegarde automatique</strong><br>
+        <span id="autosave-status">Chargement…</span><br>
+        <span style="color:rgba(255,255,255,.35);font-size:.9em">Copie locale horaire dans localStorage. Export manuel requis pour récupérer un fichier (limitation Safari).</span>
       </div>
     </div>
 
-  </div><!-- /content -->
-
-  <!-- ===== PANNEAU ADMIN ===== -->
-  <div id="admin-panel">
-    <div id="admin-nav">
-      <button class="adm-btn active" onclick="showAdminSection('stats')"      id="adm-nav-stats"     >📊 Stats</button>
-      <button class="adm-btn"        onclick="showAdminSection('adm-gb')"     id="adm-nav-adm-gb"    >📖 Messages</button>
-      <button class="adm-btn"        onclick="showAdminSection('adm-audio')"  id="adm-nav-adm-audio" >🎤 Vocaux</button>
-      <button class="adm-btn"        onclick="showAdminSection('adm-photos')" id="adm-nav-adm-photos">📸 Photos</button>
-      <button class="adm-btn"        onclick="showAdminSection('adm-draws')"  id="adm-nav-adm-draws" >🎨 Dessins</button>
-      <button class="adm-btn"        onclick="showAdminSection('adm-caps')"   id="adm-nav-adm-caps"  >⏳ Capsules</button>
-      <button class="adm-btn"        onclick="showAdminSection('adm-backup')" id="adm-nav-adm-backup">💾 Sauvegardes</button>
+    <div id="adm-gb" class="adm-sec">
+      <div class="adm-sec-title">📖 Livre d'or</div>
+      <div id="adm-gb-list"></div>
     </div>
-    <div id="admin-content">
 
-      <!-- STATS -->
-      <div id="adm-section-stats" class="adm-section active">
-        <div class="adm-title">📊 Tableau de bord</div>
-        <div class="stat-grid" id="stat-grid"></div>
-        <div class="autosave-info">
-          <div class="autosave-label">🔄 Sauvegarde automatique</div>
-          <div class="autosave-val" id="autosave-status">Chargement…</div>
-        </div>
-        <button class="adm-logout" onclick="logoutAdmin()">🚪 Quitter l'espace admin</button>
-      </div>
-
-      <!-- LIVRE D'OR ADMIN -->
-      <div id="adm-section-adm-gb" class="adm-section">
-        <div class="adm-title">📖 Livre d'or</div>
-        <div id="adm-gb-list"></div>
-      </div>
-
-      <!-- AUDIO ADMIN -->
-      <div id="adm-section-adm-audio" class="adm-section">
-        <div class="adm-title">🎤 Messages vocaux</div>
-        <div id="adm-audio-list"></div>
-      </div>
-
-      <!-- PHOTOS/VIDÉOS ADMIN -->
-      <div id="adm-section-adm-photos" class="adm-section">
-        <div class="adm-title">📸 Photos</div>
-        <div id="adm-photo-grid" class="adm-photo-grid"></div>
-      </div>
-
-      <!-- DESSINS ADMIN -->
-      <div id="adm-section-adm-draws" class="adm-section">
-        <div class="adm-title">🎨 Dessins</div>
-        <div id="adm-draw-grid" class="adm-drawing-grid"></div>
-      </div>
-
-      <!-- CAPSULES ADMIN -->
-      <div id="adm-section-adm-caps" class="adm-section">
-        <div class="adm-title">⏳ Capsules temporelles</div>
-        <div id="adm-caps-list"></div>
-      </div>
-
-      <!-- SAUVEGARDES ADMIN -->
-      <div id="adm-section-adm-backup" class="adm-section">
-        <div class="adm-title">💾 Sauvegardes</div>
-        <div class="autosave-info" style="margin-bottom:14px">
-          <div class="autosave-label">🔄 Sauvegarde automatique (toutes les heures)</div>
-          <div class="autosave-val" id="autosave-status2">Chargement…</div>
-          <div style="color:#6d6a8a;font-size:.78em;margin-top:8px;line-height:1.5">
-            ℹ️ La sauvegarde auto conserve une copie de secours dans localStorage.<br>
-            Elle n'exporte PAS de fichier automatiquement (impossible hors-ligne sur Safari).<br>
-            Utilisez le bouton Export JSON pour récupérer vos données.
-          </div>
-        </div>
-        <div class="card">
-          <p style="color:#a78bfa;font-size:.85em;line-height:1.6;margin-bottom:12px">📤 <strong style="color:#FFD700">Export JSON</strong> — tout en un seul fichier (textes, photos, audio, dessins).</p>
-          <button class="big-btn" onclick="exportData()">📤 Exporter tout (JSON)</button>
-        </div>
-        <div class="card">
-          <p style="color:#a78bfa;font-size:.85em;line-height:1.6;margin-bottom:12px">📥 <strong style="color:#FFD700">Importer</strong> — restaure une sauvegarde JSON précédente.</p>
-          <input type="file" id="import-file" accept=".json" onchange="importData(this)" style="display:none">
-          <button class="big-btn secondary" onclick="document.getElementById('import-file').click()">📥 Importer une sauvegarde</button>
-        </div>
-        <div class="card">
-          <p style="color:#FB923C;font-size:.85em;line-height:1.6;margin-bottom:12px">⚠️ Efface définitivement toutes les données.</p>
-          <button class="big-btn danger" onclick="clearAllData()">🗑 Tout effacer</button>
-        </div>
-      </div>
-
+    <div id="adm-audio" class="adm-sec">
+      <div class="adm-sec-title">🎤 Messages vocaux</div>
+      <div id="adm-audio-list"></div>
     </div>
-  </div><!-- /admin-panel -->
 
-</div><!-- /app -->
+    <div id="adm-photos" class="adm-sec">
+      <div class="adm-sec-title">📸 Photos</div>
+      <div id="adm-photo-grid" class="adm-photo-grid"></div>
+    </div>
+
+    <div id="adm-draws" class="adm-sec">
+      <div class="adm-sec-title">🎨 Dessins</div>
+      <div id="adm-draw-grid" class="adm-draw-grid"></div>
+    </div>
+
+    <div id="adm-caps" class="adm-sec">
+      <div class="adm-sec-title">⏳ Capsules temporelles</div>
+      <div id="adm-caps-list"></div>
+    </div>
+
+    <div id="adm-backup" class="adm-sec">
+      <div class="adm-sec-title">💾 Sauvegardes</div>
+      <div class="autosave-box" style="margin-bottom:16px">
+        <strong>🔄 Sauvegarde automatique toutes les heures</strong><br>
+        <span id="autosave-status2">Chargement…</span>
+      </div>
+      <div class="adm-card">
+        <div style="color:rgba(255,255,255,.55);font-size:.88em;line-height:1.6;margin-bottom:12px">📤 <strong style="color:#f5c518">Export JSON</strong> — télécharge tout (textes, photos base64, audio, dessins). Transfère via Finder / câble USB.</div>
+        <button class="btn btn-gold" onclick="exportData()">📤 Exporter tout en JSON</button>
+      </div>
+      <div class="adm-card">
+        <div style="color:rgba(255,255,255,.55);font-size:.88em;line-height:1.6;margin-bottom:12px">📥 <strong style="color:#f5c518">Importer</strong> — restaure une sauvegarde JSON.</div>
+        <input type="file" id="import-file" accept=".json" onchange="importData(this)" style="display:none">
+        <button class="btn btn-secondary" onclick="document.getElementById('import-file').click()">📥 Importer une sauvegarde</button>
+      </div>
+      <div class="adm-card">
+        <div style="color:rgba(251,146,60,.7);font-size:.88em;line-height:1.6;margin-bottom:12px">⚠️ Efface définitivement toutes les données.</div>
+        <button class="btn btn-danger" onclick="clearAllData()">🗑 Tout effacer</button>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /page-admin -->
 
 <script>
-// ======================================================
-// CONFIGURATION — MODIFIER ICI
-// ======================================================
-var ADMIN_PASSWORD = 'Antonio76';   // ← Changez votre mot de passe ici
-var DB_KEY         = 'party18_v3';
-var DB_BACKUP_KEY  = 'party18_v3_backup';
-var MAX_VIDEOS     = 5;   // limite vidéos (lourdes en mémoire)
-var MAX_PHOTOS     = 30;
-var MAX_DRAWINGS   = 12;
+/* ═══════════════════════════════════════════════
+   CONFIGURATION
+═══════════════════════════════════════════════ */
+var ADMIN_PASSWORD = 'fete2025'; /* ← Changez le mot de passe ici */
+var DB_KEY        = 'party18_v4';
+var DB_BACKUP_KEY = 'party18_v4_bk';
+var MAX_PHOTOS    = 30;
+var MAX_DRAWINGS  = 12;
 
-// ======================================================
-// ÉTAT GLOBAL
-// ======================================================
-var data = { guestbook:[], capsules:[], drawings:[], photos:[], audioMeta:[], videos:[] };
+/* ═══════════════════════════════════════════════
+   ÉTAT
+═══════════════════════════════════════════════ */
+var data = {guestbook:[],capsules:[],drawings:[],photos:[],audioMeta:[],videos:[]};
 var audioBlobs = {};
-var isAdminMode = false;
-var pwContext   = 'welcome';
+var currentPage = 'welcome'; /* welcome | activity | thanks | admin */
 
-// ======================================================
-// INIT
-// ======================================================
-function enterApp() {
-  document.getElementById('welcome-screen').style.display = 'none';
-  var app = document.getElementById('app');
-  app.style.display = '-webkit-flex';
-  app.style.display = 'flex';
-  loadData();
-  initCamera();
-  initCanvas();
-  checkAudioSupport();
-  updateAutosaveStatus();
+/* ═══════════════════════════════════════════════
+   NAVIGATION PAGES
+═══════════════════════════════════════════════ */
+function showPage(id) {
+  var pages = ['page-welcome','page-activity','page-thanks','page-admin'];
+  for (var i=0;i<pages.length;i++) {
+    var el = document.getElementById(pages[i]);
+    if (pages[i] === id) { el.classList.remove('hidden'); el.classList.add('visible'); }
+    else { el.classList.add('hidden'); el.classList.remove('visible'); }
+  }
+  currentPage = id.replace('page-','');
 }
 
-function returnToWelcome() {
+function goTo(section) {
+  /* Masquer tous les sous-panneaux */
+  var sects = ['guestbook','audio','photo','draw','capsule'];
+  for (var i=0;i<sects.length;i++) {
+    var s = document.getElementById('section-'+sects[i]);
+    if (s) s.style.display='none';
+  }
+  /* Afficher le bon */
+  var target = document.getElementById('section-'+section);
+  if (target) {
+    target.style.display = (section==='draw') ? '-webkit-flex' : '-webkit-flex';
+    target.style.display = (section==='draw') ? 'flex' : 'flex';
+  }
+  /* Titre */
+  var titles = {guestbook:'📖 Livre d\'or',audio:'🎤 Message vocal',photo:'📸 Photo Booth',draw:'🎨 Dessin libre',capsule:'⏳ Capsule temporelle'};
+  document.getElementById('act-title').textContent = titles[section] || '';
+  showPage('page-activity');
+  if (section==='photo') initCamera();
+  if (section==='draw')  setTimeout(resizeCanvas, 80);
+  if (section==='capsule') setTimeout(initDrum, 50);
+}
+
+function returnHome() {
   stopCameraStream();
   stopAnyRecording();
-  document.getElementById('thanks-screen').style.display = 'none';
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('welcome-screen').style.display = '-webkit-flex';
-  document.getElementById('welcome-screen').style.display = 'flex';
-  showSection('guestbook');
-  logoutAdmin();
+  if (thanksTimer)     clearTimeout(thanksTimer);
+  if (thanksCountdown) clearInterval(thanksCountdown);
+  showPage('page-welcome');
 }
 
-// ======================================================
-// GESTION IMAGE ACCUEIL
-// ======================================================
-// Si src vide → on cache l'img, on montre les initiales
-(function(){
-  var img = document.getElementById('ws-photo-img');
-  var ini = document.getElementById('ws-initials');
-  if (!img.src || img.src === window.location.href) {
-    img.style.display = 'none';
-    ini.style.display = 'block';
-  }
-})();
-
-// ======================================================
-// STOCKAGE PRINCIPAL
-// ======================================================
+/* ═══════════════════════════════════════════════
+   STOCKAGE
+═══════════════════════════════════════════════ */
 function saveData() {
   try {
-    var obj = {
-      guestbook: data.guestbook,
-      capsules:  data.capsules,
-      drawings:  data.drawings,
-      photos:    data.photos,
-      audioMeta: data.audioMeta,
-      videos:    data.videos,
-      audioBlobs: audioBlobs
-    };
-    localStorage.setItem(DB_KEY, JSON.stringify(obj));
-  } catch(e) {
-    showToast('⚠️ Stockage plein ! Exportez puis effacez des données.');
-  }
+    localStorage.setItem(DB_KEY, JSON.stringify({
+      guestbook:data.guestbook, capsules:data.capsules,
+      drawings:data.drawings, photos:data.photos,
+      audioMeta:data.audioMeta, videos:data.videos,
+      audioBlobs:audioBlobs
+    }));
+  } catch(e) { showToast('⚠️ Stockage plein ! Exportez puis effacez des données.'); }
 }
-
 function loadData() {
   try {
     var raw = localStorage.getItem(DB_KEY);
-    if (raw) {
-      var p = JSON.parse(raw);
-      data.guestbook = p.guestbook  || [];
-      data.capsules  = p.capsules   || [];
-      data.drawings  = p.drawings   || [];
-      data.photos    = p.photos     || [];
-      data.audioMeta = p.audioMeta  || [];
-      data.videos    = p.videos     || [];
-      audioBlobs     = p.audioBlobs || {};
-    }
-  } catch(e) { console.log('load error:', e); }
+    if (!raw) return;
+    var p = JSON.parse(raw);
+    data.guestbook = p.guestbook  || [];
+    data.capsules  = p.capsules   || [];
+    data.drawings  = p.drawings   || [];
+    data.photos    = p.photos     || [];
+    data.audioMeta = p.audioMeta  || [];
+    data.videos    = p.videos     || [];
+    audioBlobs     = p.audioBlobs || {};
+  } catch(e) {}
 }
+loadData();
 
-// ======================================================
-// SAUVEGARDE AUTOMATIQUE (toutes les heures)
-// Principe : copie de sécurité dans localStorage
-// Note sur les limites du navigateur :
-//   • Safari iOS ne permet PAS de déclencher un téléchargement
-//     de fichier automatiquement (sans geste utilisateur).
-//   • On garde donc une copie locale horodatée en localStorage.
-//   • Pour un export fichier, l'admin doit cliquer manuellement.
-// ======================================================
+/* ═══════════════════════════════════════════════
+   AUTOSAVE HORAIRE
+═══════════════════════════════════════════════ */
 var autoSaveInterval = null;
 var lastAutoSave = null;
-
 function doAutoSave() {
   try {
-    var obj = {
-      savedAt:   new Date().toISOString(),
-      guestbook: data.guestbook,
-      capsules:  data.capsules,
-      drawings:  data.drawings,
-      photos:    data.photos,
-      audioMeta: data.audioMeta,
-      videos:    data.videos,
-      audioBlobs: audioBlobs
-    };
-    localStorage.setItem(DB_BACKUP_KEY, JSON.stringify(obj));
+    localStorage.setItem(DB_BACKUP_KEY, JSON.stringify({
+      savedAt:new Date().toISOString(),
+      guestbook:data.guestbook, capsules:data.capsules,
+      drawings:data.drawings, photos:data.photos,
+      audioMeta:data.audioMeta, videos:data.videos,
+      audioBlobs:audioBlobs
+    }));
     lastAutoSave = new Date();
-    updateAutosaveStatus();
-  } catch(e) {
-    console.log('autosave error:', e);
-  }
-}
-
-function startAutoSave() {
-  // Vérifier s'il existe déjà une sauvegarde
-  try {
-    var existing = localStorage.getItem(DB_BACKUP_KEY);
-    if (existing) {
-      var parsed = JSON.parse(existing);
-      if (parsed.savedAt) lastAutoSave = new Date(parsed.savedAt);
-    }
+    updateAutosaveUI();
   } catch(e) {}
-  // Toutes les 60 minutes
-  if (autoSaveInterval) clearInterval(autoSaveInterval);
-  autoSaveInterval = setInterval(doAutoSave, 60 * 60 * 1000);
-  // Aussi à chaque ajout de contenu (via saveData + doAutoSave)
 }
-
-function updateAutosaveStatus() {
+function startAutoSave() {
+  try {
+    var ex = localStorage.getItem(DB_BACKUP_KEY);
+    if (ex) { var p=JSON.parse(ex); if(p.savedAt) lastAutoSave=new Date(p.savedAt); }
+  } catch(e){}
+  updateAutosaveUI();
+  if (autoSaveInterval) clearInterval(autoSaveInterval);
+  autoSaveInterval = setInterval(doAutoSave, 3600000);
+}
+function updateAutosaveUI() {
   var msg = lastAutoSave
     ? 'Dernière sauvegarde : ' + lastAutoSave.toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'})
-    : 'Aucune sauvegarde auto encore effectuée.';
-  var el1 = document.getElementById('autosave-status');
-  var el2 = document.getElementById('autosave-status2');
-  if (el1) el1.textContent = msg;
-  if (el2) el2.textContent = msg;
+    : 'Aucune sauvegarde auto effectuée.';
+  var e1=document.getElementById('autosave-status'), e2=document.getElementById('autosave-status2');
+  if(e1) e1.textContent=msg; if(e2) e2.textContent=msg;
 }
+startAutoSave();
 
-// ======================================================
-// NAVIGATION INVITÉS
-// ======================================================
-function showSection(name) {
-  var sects = document.querySelectorAll('#content .section');
-  for (var i=0; i<sects.length; i++) sects[i].classList.remove('active');
-  var navs = document.querySelectorAll('#nav .nav-btn');
-  for (var j=0; j<navs.length; j++) navs[j].classList.remove('active');
-  var s = document.getElementById('section-'+name);
-  if (s) s.classList.add('active');
-  var n = document.getElementById('nav-'+name);
-  if (n) n.classList.add('active');
-  if (name === 'draw') { setTimeout(resizeCanvas, 50); }
-}
-
-// ======================================================
-// TOAST
-// ======================================================
-var toastTmr = null;
+/* ═══════════════════════════════════════════════
+   TOAST
+═══════════════════════════════════════════════ */
+var toastTmr=null;
 function showToast(msg) {
-  var t = document.getElementById('toast');
-  t.textContent = msg; t.style.opacity = '1';
-  if (toastTmr) clearTimeout(toastTmr);
-  toastTmr = setTimeout(function(){ t.style.opacity = '0'; }, 2800);
+  var t=document.getElementById('toast');
+  t.textContent=msg; t.style.opacity='1';
+  if(toastTmr) clearTimeout(toastTmr);
+  toastTmr=setTimeout(function(){t.style.opacity='0';},2800);
 }
 
-// ======================================================
-// ÉCRAN MERCI + RETOUR AUTO
-// ======================================================
-var thanksTimer = null;
-var thanksCountdown = null;
-
-function showThanks(emoji, sub, count) {
+/* ═══════════════════════════════════════════════
+   ÉCRAN MERCI
+═══════════════════════════════════════════════ */
+var thanksTimer=null, thanksCountdown=null;
+function showThanks(emoji,sub,count) {
   stopAnyRecording();
-  document.getElementById('thanks-emoji').textContent  = emoji || '🎉';
-  document.getElementById('thanks-sub').textContent    = sub   || 'Enregistré !';
-  document.getElementById('thanks-count').textContent  = count || '';
-  var ts = document.getElementById('thanks-screen');
-  ts.style.display = '-webkit-flex';
-  ts.style.display = 'flex';
-  // Countdown
-  var secs = 6;
-  document.getElementById('thanks-countdown').textContent = secs;
-  if (thanksTimer)     clearTimeout(thanksTimer);
-  if (thanksCountdown) clearInterval(thanksCountdown);
-  thanksCountdown = setInterval(function(){
+  document.getElementById('ty-emoji').textContent = emoji||'🎉';
+  document.getElementById('ty-sub').textContent   = sub||'Enregistré !';
+  document.getElementById('ty-count').textContent = count||'';
+  showPage('page-thanks');
+  var secs=6;
+  document.getElementById('ty-cd').textContent=secs;
+  if(thanksTimer)     clearTimeout(thanksTimer);
+  if(thanksCountdown) clearInterval(thanksCountdown);
+  thanksCountdown=setInterval(function(){
     secs--;
-    var el = document.getElementById('thanks-countdown');
-    if (el) el.textContent = secs;
-    if (secs <= 0) { clearInterval(thanksCountdown); }
-  }, 1000);
-  thanksTimer = setTimeout(function(){
-    if (ts.style.display !== 'none') returnToWelcome();
-  }, 6000);
+    var el=document.getElementById('ty-cd'); if(el) el.textContent=secs;
+    if(secs<=0) clearInterval(thanksCountdown);
+  },1000);
+  thanksTimer=setTimeout(function(){
+    if(currentPage==='thanks') returnHome();
+  },6000);
 }
 
-// ======================================================
-// MOT DE PASSE / ADMIN
-// ======================================================
-function openPwModal(ctx) {
-  pwContext = ctx || 'welcome';
-  document.getElementById('pw-input').value = '';
-  document.getElementById('pw-error').style.display = 'none';
-  document.getElementById('pw-modal').style.display = '-webkit-flex';
-  document.getElementById('pw-modal').style.display = 'flex';
-  setTimeout(function(){ try{ document.getElementById('pw-input').focus(); }catch(e){} }, 200);
+/* ═══════════════════════════════════════════════
+   MOT DE PASSE
+═══════════════════════════════════════════════ */
+function openPw() {
+  document.getElementById('pw-input').value='';
+  document.getElementById('pw-err').style.display='none';
+  document.getElementById('pw-modal').style.display='-webkit-flex';
+  document.getElementById('pw-modal').style.display='flex';
+  setTimeout(function(){try{document.getElementById('pw-input').focus();}catch(e){}},200);
 }
-function closePwModal() {
-  document.getElementById('pw-modal').style.display = 'none';
-}
-function checkPassword() {
-  var val = document.getElementById('pw-input').value;
-  if (val === ADMIN_PASSWORD) {
-    closePwModal();
-    enterAdminMode();
+function closePw() { document.getElementById('pw-modal').style.display='none'; }
+function checkPw() {
+  if(document.getElementById('pw-input').value===ADMIN_PASSWORD){
+    closePw(); enterAdmin();
   } else {
-    document.getElementById('pw-error').style.display = 'block';
-    document.getElementById('pw-input').value = '';
-    setTimeout(function(){ document.getElementById('pw-error').style.display = 'none'; }, 2500);
+    document.getElementById('pw-err').style.display='block';
+    document.getElementById('pw-input').value='';
+    setTimeout(function(){document.getElementById('pw-err').style.display='none';},2400);
   }
 }
-function enterAdminMode() {
-  isAdminMode = true;
-  if (document.getElementById('app').style.display === 'none') {
-    document.getElementById('welcome-screen').style.display = 'none';
-    var app = document.getElementById('app');
-    app.style.display = '-webkit-flex';
-    app.style.display = 'flex';
-    loadData();
-    initCanvas();
-    checkAudioSupport();
-  }
-  document.getElementById('nav').style.display     = 'none';
-  document.getElementById('content').style.display = 'none';
-  var ap = document.getElementById('admin-panel');
-  ap.style.display           = '-webkit-flex';
-  ap.style.display           = 'flex';
-  ap.style.webkitFlexDirection = 'column';
-  ap.style.flexDirection     = 'column';
-  ap.style.webkitFlex        = '1';
-  ap.style.flex              = '1';
-  ap.style.overflow          = 'hidden';
-  showAdminSection('stats');
-  renderAdminAll();
+function enterAdmin() {
+  loadData(); renderAdminAll(); showPage('page-admin');
 }
-function logoutAdmin() {
-  isAdminMode = false;
-  document.getElementById('nav').style.display     = '-webkit-flex';
-  document.getElementById('nav').style.display     = 'flex';
-  document.getElementById('content').style.display = 'block';
-  document.getElementById('admin-panel').style.display = 'none';
-  showSection('guestbook');
-}
-function showAdminSection(name) {
-  var sects = document.querySelectorAll('#admin-content .adm-section');
-  for (var i=0; i<sects.length; i++) sects[i].classList.remove('active');
-  var btns = document.querySelectorAll('#admin-nav .adm-btn');
-  for (var j=0; j<btns.length; j++) btns[j].classList.remove('active');
-  var s = document.getElementById('adm-section-'+name);
-  if (s) s.classList.add('active');
-  var n = document.getElementById('adm-nav-'+name);
-  if (n) n.classList.add('active');
+function logoutAdmin() { showPage('page-welcome'); }
+function showAdmSec(name) {
+  var secs=document.querySelectorAll('.adm-sec');
+  for(var i=0;i<secs.length;i++) secs[i].classList.remove('on');
+  var tabs=document.querySelectorAll('.adm-tab');
+  for(var j=0;j<tabs.length;j++) tabs[j].classList.remove('on');
+  var s=document.getElementById('adm-'+name); if(s) s.classList.add('on');
+  var t=document.getElementById('adm-t-'+name); if(t) t.classList.add('on');
 }
 
-// ======================================================
-// LIVRE D'OR
-// ======================================================
+/* ═══════════════════════════════════════════════
+   LIVRE D'OR
+═══════════════════════════════════════════════ */
 function addGuestbookMessage() {
-  var name = document.getElementById('gb-name').value.trim() || 'Anonyme';
-  var text = document.getElementById('gb-text').value.trim();
-  if (!text) { showToast('✏️ Écris quelque chose d\'abord !'); return; }
-  data.guestbook.unshift({ id: Date.now(), name: name, text: text, date: nowStr() });
+  var name=document.getElementById('gb-name').value.trim()||'Anonyme';
+  var text=document.getElementById('gb-text').value.trim();
+  if(!text){showToast('✏️ Écris quelque chose d\'abord !');return;}
+  data.guestbook.unshift({id:Date.now(),name:name,text:text,date:nowStr()});
   saveData(); doAutoSave();
-  document.getElementById('gb-name').value = '';
-  document.getElementById('gb-text').value = '';
-  showThanks('📖', 'Ton message a bien été enregistré !\nL\'organisateur le découvrira après la fête.', 'Message n°' + data.guestbook.length);
+  document.getElementById('gb-name').value='';
+  document.getElementById('gb-text').value='';
+  showThanks('📖','Ton message a été enregistré !\nIl sera découvert après la fête.','Message n°'+data.guestbook.length);
 }
-function renderAdminGuestbook() {
-  var el = document.getElementById('adm-gb-list');
-  if (!data.guestbook.length) {
-    el.innerHTML = '<div class="card" style="text-align:center;color:#6d6a8a">Aucun message</div>'; return;
+function renderAdminGb() {
+  var el=document.getElementById('adm-gb-list');
+  if(!data.guestbook.length){el.innerHTML='<div class="adm-card" style="text-align:center;color:rgba(255,255,255,.3)">Aucun message</div>';return;}
+  var h='';
+  for(var i=0;i<data.guestbook.length;i++){
+    var m=data.guestbook[i];
+    h+='<div class="adm-card"><div class="adm-author">✨ '+escH(m.name)+'</div>'
+      +'<div class="adm-text">'+escH(m.text)+'</div>'
+      +'<div class="adm-date">'+m.date+'</div></div>';
   }
-  var h = '';
-  for (var i=0; i<data.guestbook.length; i++) {
-    var m = data.guestbook[i];
-    h += '<div class="adm-msg-item">'
-       + '<div class="adm-msg-author">✨ '+escH(m.name)+'</div>'
-       + '<div class="adm-msg-text">'+escH(m.text)+'</div>'
-       + '<div class="adm-msg-date">'+m.date+'</div></div>';
-  }
-  el.innerHTML = h;
+  el.innerHTML=h;
 }
 
-// ======================================================
-// AUDIO
-// ======================================================
-var mediaRecorder = null, audioChunks = [], recTmrInt = null, recSec = 0;
+/* ═══════════════════════════════════════════════
+   AUDIO
+═══════════════════════════════════════════════ */
+var mediaRecorder=null,audioChunks=[],recTmrInt=null,recSec=0;
 
 function checkAudioSupport() {
-  if (!window.MediaRecorder || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    document.getElementById('audio-unavailable').style.display = 'block';
-    document.getElementById('audio-available').style.display   = 'none';
+  if(!window.MediaRecorder||!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    document.getElementById('audio-unavailable').style.display='block';
+    document.getElementById('audio-available').style.display='none';
   }
 }
+checkAudioSupport();
+
 function startRecording() {
-  navigator.mediaDevices.getUserMedia({ audio: true }).then(function(stream) {
-    var opts = {};
-    if (window.MediaRecorder && MediaRecorder.isTypeSupported) {
-      if (MediaRecorder.isTypeSupported('audio/mp4'))  opts.mimeType = 'audio/mp4';
-      else if (MediaRecorder.isTypeSupported('audio/webm')) opts.mimeType = 'audio/webm';
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    var opts={};
+    if(window.MediaRecorder&&MediaRecorder.isTypeSupported){
+      if(MediaRecorder.isTypeSupported('audio/mp4')) opts.mimeType='audio/mp4';
+      else if(MediaRecorder.isTypeSupported('audio/webm')) opts.mimeType='audio/webm';
     }
-    try { mediaRecorder = new MediaRecorder(stream, opts); }
-    catch(e) { mediaRecorder = new MediaRecorder(stream); }
-    audioChunks = [];
-    mediaRecorder.ondataavailable = function(e) { if (e.data && e.data.size > 0) audioChunks.push(e.data); };
-    mediaRecorder.onstop = function() {
-      var mime = (mediaRecorder.mimeType || 'audio/webm');
-      var blob = new Blob(audioChunks, { type: mime });
-      var reader = new FileReader();
-      reader.onload = function(ev) {
-        var id  = 'audio_' + Date.now();
-        var ext = mime.indexOf('mp4') >= 0 ? 'mp4' : 'webm';
-        data.audioMeta.unshift({ id: id, date: nowStr(), duration: recSec, ext: ext, mime: mime });
-        audioBlobs[id] = ev.target.result;
+    try{mediaRecorder=new MediaRecorder(stream,opts);}
+    catch(e){mediaRecorder=new MediaRecorder(stream);}
+    audioChunks=[];
+    mediaRecorder.ondataavailable=function(e){if(e.data&&e.data.size>0)audioChunks.push(e.data);};
+    mediaRecorder.onstop=function(){
+      var mime=mediaRecorder.mimeType||'audio/webm';
+      var blob=new Blob(audioChunks,{type:mime});
+      var reader=new FileReader();
+      reader.onload=function(ev){
+        var id='audio_'+Date.now();
+        var ext=mime.indexOf('mp4')>=0?'mp4':'webm';
+        data.audioMeta.unshift({id:id,date:nowStr(),duration:recSec,ext:ext,mime:mime});
+        audioBlobs[id]=ev.target.result;
         saveData(); doAutoSave();
-        showThanks('🎤', 'Ton message vocal a été enregistré !\nIl sera découvert après la fête.', formatDur(recSec) + ' enregistrées');
+        showThanks('🎤','Ton message vocal a été enregistré !\nIl sera découvert après la fête.',formatDur(recSec)+' enregistrées');
       };
       reader.readAsDataURL(blob);
-      stream.getTracks().forEach(function(t){ t.stop(); });
+      stream.getTracks().forEach(function(t){t.stop();});
     };
     mediaRecorder.start();
-    recSec = 0;
-    document.getElementById('rec-timer').textContent = '0:00';
-    document.getElementById('rec-indicator').style.display = '-webkit-flex';
-    document.getElementById('rec-indicator').style.display = 'flex';
-    document.getElementById('btn-rec-start').style.display = 'none';
-    document.getElementById('btn-rec-stop').style.display  = 'block';
-    recTmrInt = setInterval(function() {
+    recSec=0;
+    document.getElementById('rec-timer').textContent='0:00';
+    document.getElementById('rec-indicator').style.display='-webkit-flex';
+    document.getElementById('rec-indicator').style.display='flex';
+    document.getElementById('btn-rec-start').style.display='none';
+    document.getElementById('btn-rec-stop').style.display='block';
+    /* animer les barres */
+    var bars=document.querySelectorAll('#audio-wave .wave-bar');
+    for(var b=0;b<bars.length;b++) bars[b].classList.add('active');
+    recTmrInt=setInterval(function(){
       recSec++;
-      var m = Math.floor(recSec/60), s = recSec % 60;
-      document.getElementById('rec-timer').textContent = m + ':' + (s < 10 ? '0' : '') + s;
-      if (recSec >= 120) stopRecording();
-    }, 1000);
-  }).catch(function() { showToast('⚠️ Micro non autorisé. Vérifiez les réglages Safari.'); });
+      var m=Math.floor(recSec/60),s=recSec%60;
+      document.getElementById('rec-timer').textContent=m+':'+(s<10?'0':'')+s;
+      if(recSec>=120) stopRecording();
+    },1000);
+  }).catch(function(){showToast('⚠️ Micro non autorisé — Réglages → Safari → Micro');});
 }
 function stopRecording() {
-  if (mediaRecorder && mediaRecorder.state !== 'inactive') {
-    mediaRecorder.stop();
-    clearInterval(recTmrInt);
-    document.getElementById('rec-indicator').style.display = 'none';
-    document.getElementById('btn-rec-start').style.display = 'block';
-    document.getElementById('btn-rec-stop').style.display  = 'none';
+  if(mediaRecorder&&mediaRecorder.state!=='inactive'){
+    mediaRecorder.stop(); clearInterval(recTmrInt);
+    document.getElementById('rec-indicator').style.display='none';
+    document.getElementById('btn-rec-start').style.display='block';
+    document.getElementById('btn-rec-stop').style.display='none';
+    var bars=document.querySelectorAll('#audio-wave .wave-bar');
+    for(var b=0;b<bars.length;b++) bars[b].classList.remove('active');
   }
 }
 function renderAdminAudio() {
-  var el = document.getElementById('adm-audio-list');
-  if (!data.audioMeta.length) {
-    el.innerHTML = '<div class="card" style="text-align:center;color:#6d6a8a">Aucun message vocal</div>'; return;
+  var el=document.getElementById('adm-audio-list');
+  if(!data.audioMeta.length){el.innerHTML='<div class="adm-card" style="text-align:center;color:rgba(255,255,255,.3)">Aucun message vocal</div>';return;}
+  var h='';
+  for(var i=0;i<data.audioMeta.length;i++){
+    var m=data.audioMeta[i]; var src=audioBlobs[m.id]||''; var ext=m.ext||'webm';
+    h+='<div class="adm-card"><div class="adm-author">🎤 '+m.date+' ('+formatDur(m.duration)+')</div>';
+    if(src) h+='<audio controls src="'+src+'" style="width:100%;height:36px;margin-top:8px"></audio>'
+      +'<button class="adm-dl" onclick="dlBlob(\''+src+'\',\'vocal_'+m.id+'.'+ext+'\')">⬇️ Télécharger ('+ext+')</button>';
+    else h+='<span style="color:rgba(255,255,255,.3);font-size:.82em">Fichier indisponible</span>';
+    h+='</div>';
   }
-  var h = '';
-  for (var i=0; i<data.audioMeta.length; i++) {
-    var m   = data.audioMeta[i];
-    var src = audioBlobs[m.id] || '';
-    var ext = m.ext || 'webm';
-    h += '<div class="adm-audio-item">'
-       + '<div style="color:#FFD700;font-size:.82em;margin-bottom:6px">🎤 '+m.date+' ('+formatDur(m.duration)+')</div>';
-    if (src) h += '<audio controls src="'+src+'" style="width:100%;height:36px"></audio>'
-       + '<button class="adm-dl-btn" onclick="downloadBlob(\''+src+'\',\'vocal_'+m.id+'.'+ext+'\')">⬇️ Télécharger ('+ext+')</button>';
-    else h += '<span style="color:#6d6a8a;font-size:.82em">Fichier indisponible</span>';
-    h += '</div>';
-  }
-  el.innerHTML = h;
+  el.innerHTML=h;
 }
 
-// ======================================================
-// PHOTO BOOTH + VIDÉO
-// ======================================================
-var currentStream   = null;
-var facingMode      = 'user';
-var cameraActive    = false;
-var videoRecorder   = null;
-var videoChunks     = [];
-var vidRecTmrInt    = null;
-var vidRecSec       = 0;
+/* ═══════════════════════════════════════════════
+   PHOTO BOOTH
+   Safari/iPad : getUserMedia retourne une promesse.
+   La vidéo DOIT être muted + autoplay + playsinline.
+   Sur certains vieux iPad, la caméra frontale (user)
+   peut rester noire si le stream n'est pas réassigné
+   après un resize. On réassigne srcObject à chaque fois.
+   On utilise `environment` en premier (caméra arrière)
+   car elle est plus fiable sur vieux iPad.
+═══════════════════════════════════════════════ */
+var camStream=null, camFacing='environment', camReady=false;
 
-function initCamera() { startCamera(); }
-
-function startCamera() {
+function initCamera() {
   stopCameraStream();
-  var constraints = {
-    video: { facingMode: facingMode, width: { ideal: 1280 }, height: { ideal: 720 } },
-    audio: false
-  };
-  if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-    document.getElementById('cam-error-msg').style.display = 'block'; return;
+  if(!navigator.mediaDevices||!navigator.mediaDevices.getUserMedia){
+    showCamStatus(true); return;
   }
-  navigator.mediaDevices.getUserMedia(constraints).then(function(stream) {
-    currentStream = stream; cameraActive = true;
-    var v = document.getElementById('video-preview');
-    v.srcObject = stream;
-    v.play().catch(function(){});
-    document.getElementById('cam-error-msg').style.display = 'none';
-    document.getElementById('btn-cam-toggle').textContent = '⏸';
-  }).catch(function(err) {
-    document.getElementById('cam-error-msg').style.display = 'block';
-    console.log('cam error:', err);
-  });
+  var constraints={video:{facingMode:camFacing},audio:false};
+  navigator.mediaDevices.getUserMedia(constraints)
+    .then(function(stream){
+      camStream=stream; camReady=true;
+      var v=document.getElementById('video-el');
+      /* Safari : assigner srcObject puis play() explicitement */
+      v.srcObject=null; /* reset d'abord */
+      v.srcObject=stream;
+      /* mirror uniquement pour caméra frontale */
+      if(camFacing==='user'){
+        v.style.webkitTransform='scaleX(-1)'; v.style.transform='scaleX(-1)';
+      } else {
+        v.style.webkitTransform='none'; v.style.transform='none';
+      }
+      /* play() peut échouer silencieusement sur vieux Safari — on ignore */
+      try{ v.play().catch(function(){}); } catch(e){}
+      showCamStatus(false);
+    })
+    .catch(function(err){
+      console.log('cam error:',err);
+      /* Si caméra arrière échoue, essayer frontale */
+      if(camFacing==='environment'){
+        camFacing='user';
+        var c2={video:{facingMode:'user'},audio:false};
+        navigator.mediaDevices.getUserMedia(c2)
+          .then(function(s2){
+            camStream=s2; camReady=true;
+            var v=document.getElementById('video-el');
+            v.srcObject=null; v.srcObject=s2;
+            v.style.webkitTransform='scaleX(-1)'; v.style.transform='scaleX(-1)';
+            try{ v.play().catch(function(){}); }catch(e){}
+            showCamStatus(false);
+          })
+          .catch(function(){ showCamStatus(true); });
+      } else { showCamStatus(true); }
+    });
+}
+function showCamStatus(show) {
+  var el=document.getElementById('cam-status');
+  if(show) el.classList.add('visible'); else el.classList.remove('visible');
 }
 function stopCameraStream() {
-  if (currentStream) {
-    currentStream.getTracks().forEach(function(t){ t.stop(); });
-    currentStream = null; cameraActive = false;
-  }
+  if(camStream){ camStream.getTracks().forEach(function(t){t.stop();}); camStream=null; camReady=false; }
 }
-function switchCamera() {
-  facingMode = (facingMode === 'user') ? 'environment' : 'user';
-  startCamera();
+function flipCamera() {
+  camFacing=(camFacing==='environment')?'user':'environment';
+  initCamera();
 }
-function toggleCamera() {
-  var v = document.getElementById('video-preview');
-  if (cameraActive) {
-    stopCameraStream();
-    v.srcObject = null;
-    document.getElementById('btn-cam-toggle').textContent = '▶️';
-  } else { startCamera(); }
-}
-
 function takePhoto() {
-  var video  = document.getElementById('video-preview');
-  var canvas = document.getElementById('photo-canvas');
-  if (!currentStream || !video.videoWidth) { showToast('📷 La caméra n\'est pas active !'); return; }
-  var ov = document.getElementById('flash-overlay');
-  ov.style.opacity = '1';
-  setTimeout(function(){ ov.style.opacity = '0'; }, 160);
-  canvas.width = video.videoWidth; canvas.height = video.videoHeight;
-  var ctx = canvas.getContext('2d');
-  if (facingMode === 'user') { ctx.translate(canvas.width, 0); ctx.scale(-1, 1); }
-  ctx.drawImage(video, 0, 0);
-  var url = canvas.toDataURL('image/jpeg', 0.78);
-  savePhoto(url);
+  var v=document.getElementById('video-el');
+  var cv=document.getElementById('photo-canvas');
+  /* vérifier que la vidéo a des données */
+  if(!camStream||!v.videoWidth||v.videoWidth<2){
+    showToast('📷 Caméra pas encore prête — patiente 1 seconde'); return;
+  }
+  /* flash */
+  var fl=document.getElementById('flash');
+  fl.style.opacity='1'; setTimeout(function(){fl.style.opacity='0';},180);
+  cv.width=v.videoWidth; cv.height=v.videoHeight;
+  var ctx=cv.getContext('2d');
+  /* miroir si caméra frontale */
+  if(camFacing==='user'){ctx.translate(cv.width,0);ctx.scale(-1,1);}
+  ctx.drawImage(v,0,0);
+  var url=cv.toDataURL('image/jpeg',0.78);
+  if(data.photos.length>=MAX_PHOTOS){showToast('⚠️ Limite '+MAX_PHOTOS+' photos. Exportez d\'abord.');return;}
+  data.photos.unshift({id:'photo_'+Date.now(),src:url,date:nowStr()});
+  saveData(); doAutoSave();
+  showThanks('📸','Super photo ! 😄\nElle sera découverte après la fête.',data.photos.length+' photo(s) enregistrée(s)');
+}
+function importPhoto(input) {
+  var file=input.files[0]; if(!file) return;
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var maxW=1280,maxH=960,w=img.width,h=img.height;
+      if(w>maxW||h>maxH){var r=Math.min(maxW/w,maxH/h);w=Math.round(w*r);h=Math.round(h*r);}
+      var cv=document.createElement('canvas'); cv.width=w; cv.height=h;
+      cv.getContext('2d').drawImage(img,0,0,w,h);
+      var url=cv.toDataURL('image/jpeg',0.78);
+      if(data.photos.length>=MAX_PHOTOS){showToast('⚠️ Limite atteinte.');return;}
+      data.photos.unshift({id:'photo_'+Date.now(),src:url,date:nowStr()});
+      saveData(); doAutoSave();
+      showThanks('📸','Photo importée !\nElle sera découverte après la fête.',data.photos.length+' photo(s)');
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file); input.value='';
+}
+function renderAdminPhotos() {
+  var el=document.getElementById('adm-photo-grid');
+  if(!data.photos.length){el.innerHTML='<div class="adm-card" style="text-align:center;color:rgba(255,255,255,.3);width:100%">Aucune photo</div>';return;}
+  var h='';
+  for(var i=0;i<data.photos.length;i++){
+    var p=data.photos[i];
+    h+='<div class="adm-photo-item"><img src="'+p.src+'" loading="lazy" alt="photo">'
+      +'<div class="adm-meta">📸 '+p.date+'</div>'
+      +'<button class="adm-dl" onclick="dlBlob(\''+p.src+'\',\'photo_'+p.id+'.jpg\')">⬇️ Télécharger</button></div>';
+  }
+  el.innerHTML=h;
 }
 
-// (fonctions vidéo supprimées — photo uniquement)
-
-// ======================================================
-// DESSIN
-// ======================================================
-var drawCtx = null, isDrawing = false;
-var currentColor = '#1a1a1a', brushSize = 6, isEraser = false;
-var lastX = 0, lastY = 0;
-
+/* ═══════════════════════════════════════════════
+   DESSIN
+═══════════════════════════════════════════════ */
+var drawCtx=null,isDrawing=false,drawColor='#111111',brushSz=7,erasing=false,lx=0,ly=0;
 function initCanvas() {
-  var cv = document.getElementById('main-canvas');
-  if (!cv) return;
-  drawCtx = cv.getContext('2d');
-  resizeCanvas();
-  cv.addEventListener('touchstart', onTS, { passive: false });
-  cv.addEventListener('touchmove',  onTM, { passive: false });
-  cv.addEventListener('touchend',   onTE, { passive: false });
-  cv.addEventListener('mousedown', function(e){ isDrawing=true; var p=getMPos(e); lastX=p.x; lastY=p.y; });
-  cv.addEventListener('mousemove', function(e){ if(isDrawing){ var p=getMPos(e); drawL(lastX,lastY,p.x,p.y); lastX=p.x; lastY=p.y; } });
-  cv.addEventListener('mouseup',   function(){  isDrawing=false; });
+  var cv=document.getElementById('main-canvas'); if(!cv) return;
+  drawCtx=cv.getContext('2d'); resizeCanvas();
+  cv.addEventListener('touchstart',onTS,{passive:false});
+  cv.addEventListener('touchmove', onTM,{passive:false});
+  cv.addEventListener('touchend',  onTE,{passive:false});
+  cv.addEventListener('mousedown',function(e){isDrawing=true;var p=mpos(e);lx=p.x;ly=p.y;});
+  cv.addEventListener('mousemove',function(e){if(isDrawing){var p=mpos(e);dline(lx,ly,p.x,p.y);lx=p.x;ly=p.y;}});
+  cv.addEventListener('mouseup',  function(){isDrawing=false;});
 }
 function resizeCanvas() {
-  var cv   = document.getElementById('main-canvas');
-  var sect = document.getElementById('section-draw');
-  if (!cv || !sect || !sect.classList.contains('active')) return;
-  var tb   = document.getElementById('draw-toolbar');
-  var navH = document.getElementById('nav').offsetHeight || 56;
-  var hdrH = document.getElementById('app-header').offsetHeight || 40;
-  var tbH  = tb ? tb.offsetHeight : 58;
-  var h    = Math.max(window.innerHeight - navH - hdrH - tbH, 200);
-  var w    = sect.clientWidth || window.innerWidth;
-  var tmp  = null;
-  if (cv.width > 0 && cv.height > 0) { try { tmp = drawCtx.getImageData(0,0,cv.width,cv.height); } catch(e){} }
-  cv.width = w; cv.height = h;
-  cv.style.width = w+'px'; cv.style.height = h+'px';
-  drawCtx.fillStyle = '#fff'; drawCtx.fillRect(0,0,w,h);
-  if (tmp) { try { drawCtx.putImageData(tmp,0,0); } catch(e){} }
-}
-function getCVPos(cv,cx,cy){ var r=cv.getBoundingClientRect(); return { x:(cx-r.left)*(cv.width/r.width), y:(cy-r.top)*(cv.height/r.height) }; }
-function getMPos(e){ return getCVPos(document.getElementById('main-canvas'),e.clientX,e.clientY); }
-function onTS(e){ e.preventDefault(); isDrawing=true; var t=e.touches[0]; var p=getCVPos(e.target,t.clientX,t.clientY); lastX=p.x; lastY=p.y; drawL(lastX,lastY,lastX+.1,lastY+.1); }
-function onTM(e){ e.preventDefault(); if(!isDrawing) return; var t=e.touches[0]; var p=getCVPos(e.target,t.clientX,t.clientY); drawL(lastX,lastY,p.x,p.y); lastX=p.x; lastY=p.y; }
-function onTE(e){ e.preventDefault(); isDrawing=false; }
-function drawL(x1,y1,x2,y2){ drawCtx.beginPath(); drawCtx.moveTo(x1,y1); drawCtx.lineTo(x2,y2); drawCtx.strokeStyle=isEraser?'#ffffff':currentColor; drawCtx.lineWidth=isEraser?brushSize*3:brushSize; drawCtx.lineCap='round'; drawCtx.lineJoin='round'; drawCtx.stroke(); }
-function setColor(c,btn){ currentColor=c; isEraser=false; var bs=document.querySelectorAll('.color-btn'); for(var i=0;i<bs.length;i++) bs[i].classList.remove('selected'); btn.classList.add('selected'); document.getElementById('eraser-btn').classList.remove('selected'); }
-function toggleEraser(){ isEraser=!isEraser; var eb=document.getElementById('eraser-btn'); if(isEraser){ eb.classList.add('selected'); var bs=document.querySelectorAll('.color-btn'); for(var i=0;i<bs.length;i++) bs[i].classList.remove('selected'); } else { eb.classList.remove('selected'); } }
-function setBrushSize(v){ brushSize=parseInt(v); }
-function clearCanvas(){
-  if(!confirm('Effacer le dessin ?')) return;
   var cv=document.getElementById('main-canvas');
-  drawCtx.fillStyle='#fff'; drawCtx.fillRect(0,0,cv.width,cv.height);
+  var sect=document.getElementById('section-draw');
+  if(!cv||!sect||sect.style.display==='none') return;
+  var tb=document.getElementById('draw-toolbar');
+  var hdr=document.getElementById('act-header')||{offsetHeight:56};
+  var tbH=tb?tb.offsetHeight:54;
+  var hdrH=hdr.offsetHeight||56;
+  var h=Math.max(window.innerHeight-hdrH-tbH,180);
+  var w=sect.clientWidth||window.innerWidth;
+  var tmp=null;
+  if(cv.width>0&&cv.height>0){try{tmp=drawCtx.getImageData(0,0,cv.width,cv.height);}catch(e){}}
+  cv.width=w; cv.height=h; cv.style.width=w+'px'; cv.style.height=h+'px';
+  drawCtx.fillStyle='#fff'; drawCtx.fillRect(0,0,w,h);
+  if(tmp){try{drawCtx.putImageData(tmp,0,0);}catch(e){}}
 }
+function cvpos(cv,cx,cy){var r=cv.getBoundingClientRect();return{x:(cx-r.left)*(cv.width/r.width),y:(cy-r.top)*(cv.height/r.height)};}
+function mpos(e){return cvpos(document.getElementById('main-canvas'),e.clientX,e.clientY);}
+function onTS(e){e.preventDefault();isDrawing=true;var t=e.touches[0];var p=cvpos(e.target,t.clientX,t.clientY);lx=p.x;ly=p.y;dline(lx,ly,lx+.1,ly+.1);}
+function onTM(e){e.preventDefault();if(!isDrawing)return;var t=e.touches[0];var p=cvpos(e.target,t.clientX,t.clientY);dline(lx,ly,p.x,p.y);lx=p.x;ly=p.y;}
+function onTE(e){e.preventDefault();isDrawing=false;}
+function dline(x1,y1,x2,y2){drawCtx.beginPath();drawCtx.moveTo(x1,y1);drawCtx.lineTo(x2,y2);drawCtx.strokeStyle=erasing?'#fff':drawColor;drawCtx.lineWidth=erasing?brushSz*3:brushSz;drawCtx.lineCap='round';drawCtx.lineJoin='round';drawCtx.stroke();}
+function setClr(c,btn){drawColor=c;erasing=false;var bs=document.querySelectorAll('.clr');for(var i=0;i<bs.length;i++)bs[i].classList.remove('on');btn.classList.add('on');document.getElementById('eraser-btn').classList.remove('on');}
+function toggleEraser(){erasing=!erasing;var eb=document.getElementById('eraser-btn');if(erasing){eb.classList.add('on');var bs=document.querySelectorAll('.clr');for(var i=0;i<bs.length;i++)bs[i].classList.remove('on');}else{eb.classList.remove('on');}}
+function setBrush(v){brushSz=parseInt(v);}
+function clearCanvas(){if(!confirm('Effacer le dessin ?'))return;var cv=document.getElementById('main-canvas');drawCtx.fillStyle='#fff';drawCtx.fillRect(0,0,cv.width,cv.height);}
 function saveDrawing(){
   var cv=document.getElementById('main-canvas');
   var url=cv.toDataURL('image/png');
-  var d={ id:'draw_'+Date.now(), src:url, date:nowStr() };
+  var d={id:'draw_'+Date.now(),src:url,date:nowStr()};
   data.drawings.unshift(d);
-  if(data.drawings.length > MAX_DRAWINGS) data.drawings=data.drawings.slice(0,MAX_DRAWINGS);
+  if(data.drawings.length>MAX_DRAWINGS) data.drawings=data.drawings.slice(0,MAX_DRAWINGS);
   saveData(); doAutoSave();
   drawCtx.fillStyle='#fff'; drawCtx.fillRect(0,0,cv.width,cv.height);
   showThanks('🎨','Ton dessin a été sauvegardé !\nIl sera découvert après la fête.',data.drawings.length+' dessin(s)');
 }
 function renderAdminDrawings(){
   var el=document.getElementById('adm-draw-grid');
-  if(!data.drawings.length){ el.innerHTML='<div class="card" style="text-align:center;color:#6d6a8a;width:100%">Aucun dessin</div>'; return; }
+  if(!data.drawings.length){el.innerHTML='<div class="adm-card" style="text-align:center;color:rgba(255,255,255,.3);width:100%">Aucun dessin</div>';return;}
   var h='';
   for(var i=0;i<data.drawings.length;i++){
     var d=data.drawings[i];
-    h+='<div class="adm-drawing-item">'
-      +'<img src="'+d.src+'" loading="lazy" alt="dessin">'
-      +'<div class="adm-media-meta">🎨 '+d.date+'</div>'
-      +'<button class="adm-dl-btn" onclick="downloadBlob(\''+d.src+'\',\'dessin_'+d.id+'.png\')">⬇️ Télécharger (PNG)</button>'
-      +'</div>';
+    h+='<div class="adm-draw-item"><img src="'+d.src+'" loading="lazy" alt="dessin">'
+      +'<div class="adm-meta">🎨 '+d.date+'</div>'
+      +'<button class="adm-dl" onclick="dlBlob(\''+d.src+'\',\'dessin_'+d.id+'.png\')">⬇️ Télécharger</button></div>';
   }
   el.innerHTML=h;
 }
+initCanvas();
 
-// ======================================================
-// CAPSULE TEMPORELLE — sélecteur drums tactile
-// ======================================================
-
-// Initialisation du drum à la date actuelle + 1 an
-var drumDay   = 1;
-var drumMonth = 1;
-var drumYear  = new Date().getFullYear() + 1;
-
-function initDrum() {
-  var now = new Date();
-  drumDay   = now.getDate();
-  drumMonth = now.getMonth() + 1;
-  drumYear  = now.getFullYear() + 1;
-  updateDrumDisplay();
+/* ═══════════════════════════════════════════════
+   CAPSULE TEMPORELLE — drums tactiles
+═══════════════════════════════════════════════ */
+var drumD=1,drumM=1,drumY=new Date().getFullYear()+1;
+var MOIS=['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];
+var JOURS=['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
+function initDrum(){
+  var n=new Date(); drumD=n.getDate(); drumM=n.getMonth()+1; drumY=n.getFullYear()+1;
+  renderDrum();
 }
-
-function drumChange(field, delta) {
-  if (field === 'day') {
-    drumDay += delta;
-    var maxDay = new Date(drumYear, drumMonth, 0).getDate();
-    if (drumDay < 1)       drumDay = maxDay;
-    if (drumDay > maxDay)  drumDay = 1;
-  } else if (field === 'month') {
-    drumMonth += delta;
-    if (drumMonth < 1)  drumMonth = 12;
-    if (drumMonth > 12) drumMonth = 1;
-    // Corriger le jour si nécessaire
-    var maxD = new Date(drumYear, drumMonth, 0).getDate();
-    if (drumDay > maxD) drumDay = maxD;
-  } else if (field === 'year') {
-    drumYear += delta;
-    var minY = new Date().getFullYear();
-    if (drumYear < minY) drumYear = minY;
-    if (drumYear > minY + 20) drumYear = minY + 20;
+function drumChg(f,d){
+  if(f==='day'){
+    drumD+=d; var mx=new Date(drumY,drumM,0).getDate();
+    if(drumD<1) drumD=mx; if(drumD>mx) drumD=1;
+  } else if(f==='month'){
+    drumM+=d; if(drumM<1) drumM=12; if(drumM>12) drumM=1;
+    var mx2=new Date(drumY,drumM,0).getDate(); if(drumD>mx2) drumD=mx2;
+  } else {
+    drumY+=d; var minY=new Date().getFullYear();
+    if(drumY<minY) drumY=minY; if(drumY>minY+20) drumY=minY+20;
   }
-  updateDrumDisplay();
+  renderDrum();
 }
-
-var MOIS_FR = ['Jan','Fév','Mar','Avr','Mai','Juin','Juil','Aoû','Sep','Oct','Nov','Déc'];
-
-function updateDrumDisplay() {
-  var dd = document.getElementById('drum-day');
-  var dm = document.getElementById('drum-month');
-  var dy = document.getElementById('drum-year');
-  if (dd) dd.textContent = (drumDay < 10 ? '0' : '') + drumDay;
-  if (dm) dm.textContent = MOIS_FR[drumMonth-1] || drumMonth;
-  if (dy) dy.textContent = drumYear;
-  // Mettre à jour le champ hidden et l'affichage résumé
-  var pad = function(n){ return n < 10 ? '0'+n : ''+n; };
-  var dateStr = drumYear + '-' + pad(drumMonth) + '-' + pad(drumDay);
-  var capDate = document.getElementById('cap-date');
-  if (capDate) capDate.value = dateStr;
-  var disp = document.getElementById('cap-date-display');
-  if (disp) {
-    var jours = ['Dim','Lun','Mar','Mer','Jeu','Ven','Sam'];
-    var d = new Date(drumYear, drumMonth-1, drumDay);
-    disp.textContent = jours[d.getDay()] + ' ' + pad(drumDay) + ' ' + MOIS_FR[drumMonth-1] + ' ' + drumYear;
-  }
+function pad2(n){return n<10?'0'+n:''+n;}
+function renderDrum(){
+  var dd=document.getElementById('drum-day'), dm=document.getElementById('drum-month'), dy=document.getElementById('drum-year');
+  if(dd) dd.textContent=pad2(drumD);
+  if(dm) dm.textContent=MOIS[drumM-1];
+  if(dy) dy.textContent=drumY;
+  var ds=drumY+'-'+pad2(drumM)+'-'+pad2(drumD);
+  var cd=document.getElementById('cap-date'); if(cd) cd.value=ds;
+  var disp=document.getElementById('cap-date-display');
+  if(disp){var dt=new Date(drumY,drumM-1,drumD);disp.textContent=JOURS[dt.getDay()]+' '+pad2(drumD)+' '+MOIS[drumM-1]+' '+drumY;}
 }
-
-// Init drums dès que possible
-setTimeout(initDrum, 100);
-
 function addCapsuleMessage(){
-  var text   = document.getElementById('cap-text').value.trim();
-  var name   = document.getElementById('cap-name').value.trim() || 'Anonyme';
-  var target = document.getElementById('cap-date').value;
-  if(!text)   { showToast('✏️ Écris un message d\'abord !'); return; }
-  if(!target) { showToast('📅 Choisis une date de déblocage !'); return; }
-  data.capsules.unshift({ id:'cap_'+Date.now(), name:name, text:text, targetDate:target, createdDate:new Date().toISOString().slice(0,10) });
+  var text=document.getElementById('cap-text').value.trim();
+  var name=document.getElementById('cap-name').value.trim()||'Anonyme';
+  var target=document.getElementById('cap-date').value;
+  if(!text){showToast('✏️ Écris un message d\'abord !');return;}
+  if(!target){showToast('📅 Choisis une date de déblocage !');return;}
+  data.capsules.unshift({id:'cap_'+Date.now(),name:name,text:text,targetDate:target,createdDate:new Date().toISOString().slice(0,10)});
   saveData(); doAutoSave();
   document.getElementById('cap-text').value='';
   document.getElementById('cap-name').value='';
-  document.getElementById('cap-date').value='';
   showThanks('⏳','Ton message est scellé jusqu\'au '+fmtDate(target)+'.\nIl sera une belle surprise !','🔒 Capsule verrouillée');
 }
-function renderAdminCapsules(){
+function renderAdminCaps(){
   var el=document.getElementById('adm-caps-list');
-  if(!data.capsules.length){ el.innerHTML='<div class="card" style="text-align:center;color:#6d6a8a">Aucune capsule</div>'; return; }
-  var today=new Date().toISOString().slice(0,10);
-  var h='';
+  if(!data.capsules.length){el.innerHTML='<div class="adm-card" style="text-align:center;color:rgba(255,255,255,.3)">Aucune capsule</div>';return;}
+  var today=new Date().toISOString().slice(0,10); var h='';
   for(var i=0;i<data.capsules.length;i++){
-    var c=data.capsules[i];
-    var unlocked=(today>=c.targetDate);
-    if(unlocked){
-      h+='<div class="cap-unlocked"><div style="color:#67e8f9;font-weight:700;margin-bottom:6px">🔓 Débloqué — De '+escH(c.name)+'</div>'
-        +'<div style="color:#e9d5ff;line-height:1.5">'+escH(c.text)+'</div>'
-        +'<div class="cap-date">Créé le '+fmtDate(c.createdDate)+' — Ouvert depuis le '+fmtDate(c.targetDate)+'</div></div>';
+    var c=data.capsules[i]; var open=(today>=c.targetDate);
+    if(open){
+      h+='<div class="cap-open"><div style="color:#67e8f9;font-weight:700;margin-bottom:6px">🔓 Débloqué — De '+escH(c.name)+'</div>'
+        +'<div style="color:rgba(255,255,255,.8);line-height:1.5">'+escH(c.text)+'</div>'
+        +'<div style="color:rgba(255,255,255,.25);font-size:.78em;margin-top:6px">'+fmtDate(c.createdDate)+' → '+fmtDate(c.targetDate)+'</div></div>';
     } else {
       var days=Math.ceil((new Date(c.targetDate)-new Date(today))/86400000);
-      h+='<div class="cap-locked"><div style="font-size:1.4em">🔒</div>'
+      h+='<div class="cap-locked"><div style="font-size:1.6em">🔒</div>'
         +'<div style="font-weight:700;margin:4px 0">De '+escH(c.name)+'</div>'
-        +'<div>Ouvrir le <strong style="color:#FFD700">'+fmtDate(c.targetDate)+'</strong></div>'
+        +'<div>Ouvrir le <strong style="color:#f5c518">'+fmtDate(c.targetDate)+'</strong></div>'
         +'<div style="font-size:.82em;margin-top:4px">encore '+days+' jour'+(days>1?'s':'')+'</div></div>';
     }
   }
   el.innerHTML=h;
 }
 
-// ======================================================
-// ADMIN — STATS
-// ======================================================
+/* ═══════════════════════════════════════════════
+   ADMIN STATS
+═══════════════════════════════════════════════ */
 function renderAdminStats(){
   var size=0;
-  try{ size=new Blob([localStorage.getItem(DB_KEY)||'']).size; }catch(e){}
-  var sizeStr=size>1048576?(size/1048576).toFixed(1)+' MB':Math.round(size/1024)+' KB';
-  var g=document.getElementById('stat-grid');
-  g.innerHTML='<div class="stat-card"><div class="stat-num">'+data.guestbook.length+'</div><div class="stat-label">📖 Messages</div></div>'
-    +'<div class="stat-card"><div class="stat-num">'+data.audioMeta.length+'</div><div class="stat-label">🎤 Vocaux</div></div>'
-    +'<div class="stat-card"><div class="stat-num">'+data.photos.length+'</div><div class="stat-label">📸 Photos</div></div>'
-    +'<div class="stat-card"><div class="stat-num">'+data.drawings.length+'</div><div class="stat-label">🎨 Dessins</div></div>'
-    +'<div class="stat-card"><div class="stat-num">'+data.capsules.length+'</div><div class="stat-label">⏳ Capsules</div></div>'
-    +'<div class="stat-card" style="min-width:calc(100% - 0px)"><div class="stat-size">'+sizeStr+'</div><div class="stat-label">💾 Stockage utilisé</div></div>';
-  updateAutosaveStatus();
+  try{size=new Blob([localStorage.getItem(DB_KEY)||'']).size;}catch(e){}
+  var ss=size>1048576?(size/1048576).toFixed(1)+' MB':Math.round(size/1024)+' KB';
+  document.getElementById('stat-grid').innerHTML=
+    '<div class="stat-card"><div class="stat-n">'+data.guestbook.length+'</div><div class="stat-l">📖 Messages</div></div>'
+   +'<div class="stat-card"><div class="stat-n">'+data.audioMeta.length+'</div><div class="stat-l">🎤 Vocaux</div></div>'
+   +'<div class="stat-card"><div class="stat-n">'+data.photos.length+'</div><div class="stat-l">📸 Photos</div></div>'
+   +'<div class="stat-card"><div class="stat-n">'+data.drawings.length+'</div><div class="stat-l">🎨 Dessins</div></div>'
+   +'<div class="stat-card"><div class="stat-n">'+data.capsules.length+'</div><div class="stat-l">⏳ Capsules</div></div>'
+   +'<div class="stat-card" style="min-width:calc(100% - 0px)"><div class="stat-n" style="font-size:1.4em;color:#67e8f9">'+ss+'</div><div class="stat-l">💾 Stockage</div></div>';
+  updateAutosaveUI();
 }
 function renderAdminAll(){
-  renderAdminStats();
-  renderAdminGuestbook();
-  renderAdminAudio();
-  renderAdminPhotos();
-  renderAdminDrawings();
-  renderAdminCapsules();
+  renderAdminStats(); renderAdminGb(); renderAdminAudio();
+  renderAdminPhotos(); renderAdminDrawings(); renderAdminCaps();
 }
 
-// ======================================================
-// EXPORT / IMPORT / TÉLÉCHARGEMENT
-// ======================================================
-function downloadBlob(dataUrl, filename) {
-  try {
-    var a = document.createElement('a');
-    a.href = dataUrl;
-    a.download = filename;
-    document.body.appendChild(a);
-    a.click();
-    setTimeout(function(){ document.body.removeChild(a); }, 1000);
-    showToast('⬇️ Téléchargement de '+filename);
-  } catch(e) {
-    showToast('⚠️ Téléchargement non supporté sur cet appareil.');
-  }
+/* ═══════════════════════════════════════════════
+   EXPORT / IMPORT
+═══════════════════════════════════════════════ */
+function dlBlob(dataUrl,filename){
+  try{
+    var a=document.createElement('a'); a.href=dataUrl; a.download=filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){document.body.removeChild(a);},1000);
+    showToast('⬇️ Téléchargement : '+filename);
+  } catch(e){showToast('⚠️ Téléchargement non supporté.');}
 }
-
 function exportData(){
-  var obj={ version:3, exportDate:new Date().toISOString(), data:data, audioBlobs:audioBlobs };
-  var json=JSON.stringify(obj);
-  var blob=new Blob([json],{type:'application/json'});
+  var obj={version:4,exportDate:new Date().toISOString(),data:data,audioBlobs:audioBlobs};
+  var blob=new Blob([JSON.stringify(obj)],{type:'application/json'});
   var url=URL.createObjectURL(blob);
   var a=document.createElement('a');
   a.href=url; a.download='anniversaire18_'+new Date().toISOString().slice(0,10)+'.json';
   document.body.appendChild(a); a.click();
-  setTimeout(function(){ document.body.removeChild(a); URL.revokeObjectURL(url); },1000);
+  setTimeout(function(){document.body.removeChild(a);URL.revokeObjectURL(url);},1000);
   showToast('📤 Export téléchargé !');
 }
-
 function importData(input){
   var file=input.files[0]; if(!file) return;
   var reader=new FileReader();
   reader.onload=function(e){
     try{
       var p=JSON.parse(e.target.result);
-      if(!p.data){ showToast('❌ Fichier invalide !'); return; }
+      if(!p.data){showToast('❌ Fichier invalide !');return;}
       if(!confirm('Importer ? Les données actuelles seront remplacées.')) return;
-      data={ guestbook:p.data.guestbook||[], capsules:p.data.capsules||[], drawings:p.data.drawings||[], photos:p.data.photos||[], audioMeta:p.data.audioMeta||[], videos:p.data.videos||[] };
+      data={guestbook:p.data.guestbook||[],capsules:p.data.capsules||[],
+            drawings:p.data.drawings||[],photos:p.data.photos||[],
+            audioMeta:p.data.audioMeta||[],videos:p.data.videos||[]};
       audioBlobs=p.audioBlobs||{};
-      saveData(); renderAdminAll();
-      showToast('✅ Sauvegarde importée !');
-    }catch(err){ showToast('❌ Erreur import !'); console.log(err); }
+      saveData(); renderAdminAll(); showToast('✅ Sauvegarde importée !');
+    }catch(err){showToast('❌ Erreur import !');console.log(err);}
   };
   reader.readAsText(file); input.value='';
 }
-
 function clearAllData(){
   if(!confirm('⚠️ Effacer TOUTES les données ?')) return;
-  if(!confirm('Dernière confirmation — action irréversible !')) return;
-  data={ guestbook:[], capsules:[], drawings:[], photos:[], audioMeta:[], videos:[] }; // videos conservé pour compat export
+  if(!confirm('Dernière confirmation — irréversible !')) return;
+  data={guestbook:[],capsules:[],drawings:[],photos:[],audioMeta:[],videos:[]};
   audioBlobs={};
-  saveData(); renderAdminAll();
-  showToast('🗑 Données effacées.');
+  saveData(); renderAdminAll(); showToast('🗑 Données effacées.');
 }
 
-// ======================================================
-// UTILITAIRES
-// ======================================================
+/* ═══════════════════════════════════════════════
+   UTILITAIRES
+═══════════════════════════════════════════════ */
 function stopAnyRecording(){
-  if(mediaRecorder && mediaRecorder.state!=='inactive'){ try{ mediaRecorder.stop(); }catch(e){} }
+  if(mediaRecorder&&mediaRecorder.state!=='inactive'){try{mediaRecorder.stop();}catch(e){}}
   clearInterval(recTmrInt);
-  try{ document.getElementById('rec-indicator').style.display='none'; }catch(e){}
-  try{ document.getElementById('btn-rec-start').style.display='block'; document.getElementById('btn-rec-stop').style.display='none'; }catch(e){}
+  try{document.getElementById('rec-indicator').style.display='none';}catch(e){}
+  try{document.getElementById('btn-rec-start').style.display='block';document.getElementById('btn-rec-stop').style.display='none';}catch(e){}
 }
-function nowStr(){ return new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}); }
-function fmtDate(d){ if(!d) return '?'; var p=d.split('-'); return p[2]+'/'+p[1]+'/'+p[0]; }
-function formatDur(s){ if(!s) return '0:00'; var m=Math.floor(s/60),sec=s%60; return m+':'+(sec<10?'0':'')+sec; }
-function escH(str){ if(!str) return ''; return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'); }
+function nowStr(){return new Date().toLocaleDateString('fr-FR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'});}
+function fmtDate(d){if(!d)return'?';var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function formatDur(s){if(!s)return'0:00';var m=Math.floor(s/60),sec=s%60;return m+':'+(sec<10?'0':'')+sec;}
+function escH(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
 
-// ======================================================
-// EVENTS
-// ======================================================
-window.addEventListener('orientationchange', function(){ setTimeout(resizeCanvas, 350); });
-window.addEventListener('resize',            function(){ resizeCanvas(); });
-
-// Démarrer la sauvegarde automatique immédiatement
-startAutoSave();
+window.addEventListener('orientationchange',function(){setTimeout(resizeCanvas,350);});
+window.addEventListener('resize',function(){resizeCanvas();});
 </script>
 </body>
 </html>
