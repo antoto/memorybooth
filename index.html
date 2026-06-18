@@ -176,10 +176,17 @@ body{
 .wc-card.teal{border-color:rgba(103,232,249,.3);background:rgba(103,232,249,.07)}
 /* bouton admin discret */
 .wc-admin{
-  position:fixed;bottom:calc(env(safe-area-inset-bottom)+12px);right:calc(env(safe-area-inset-right)+16px);
-  background:none;border:none;
-  color:rgba(255,255,255,.18);font-size:.78em;cursor:pointer;padding:10px 14px;
-  -webkit-transition:color .2s;transition:color .2s;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9999;
+
+  background: none;
+  border: none;
+  color: rgba(255,255,255,.18);
+  font-size: .78em;
+  cursor: pointer;
+  padding: 10px 14px;
 }
 .wc-admin:active{color:rgba(255,255,255,.5)}
 
@@ -930,7 +937,7 @@ body{
 /* ═══════════════════════════════════════════════
    CONFIGURATION
 ═══════════════════════════════════════════════ */
-var ADMIN_PASSWORD = 'fete2025'; /* ← Changez le mot de passe ici */
+var ADMIN_PASSWORD = 'Antonio76'; /* ← Changez le mot de passe ici */
 var DB_KEY        = 'party18_v4';
 var DB_BACKUP_KEY = 'party18_v4_bk';
 var MAX_PHOTOS    = 30;
