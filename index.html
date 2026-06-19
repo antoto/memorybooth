@@ -179,6 +179,7 @@ body{
   position: fixed;
   bottom: calc(env(safe-area-inset-bottom) + 12px);
   right: calc(env(safe-area-inset-right) + 16px);
+
   left: auto;
   top: auto;
 
@@ -188,8 +189,95 @@ body{
   font-size: .78em;
   cursor: pointer;
   padding: 10px 14px;
+
+  -webkit-transition: color .2s;
+  transition: color .2s;
 }
 .wc-admin:active{color:rgba(255,255,255,.5)}
+
+/* ─── BOUTON PLEIN ÉCRAN ───────────────────────────────
+   Stratégie plein écran sur iPad / Safari :
+
+   1. MODE STANDALONE (recommandé, vrai plein écran)
+      Ajouter ce fichier HTML à l'écran d'accueil de l'iPad :
+        • Maintenir le doigt sur Safari → "Partager" → "Sur l'écran d'accueil"
+        • L'app s'ouvre sans barre Safari, sans barre d'adresse.
+        • La barre de statut système (heure/batterie) est rendue
+          transparente grâce à black-translucent et viewport-fit=cover.
+        • C'est le seul vrai "plein écran natif" disponible sur iPad.
+
+   2. BOUTON FULLSCREEN JS (Fullscreen API)
+      - Fonctionne sur iPad avec Safari 16.4+ (iPadOS 16.4+).
+      - Sur les vieux iPad (< 16.4) : l'API n'existe pas ou est
+        désactivée ; le bouton est alors masqué automatiquement.
+      - requestFullscreen() doit être déclenché par un geste utilisateur.
+
+   3. MODE IMMERSION (fallback universel)
+      Sur les vieux iPad où l'API n'est pas disponible, on cache
+      simplement l'act-header pour maximiser la zone utile.
+──────────────────────────────────────────────────────── */
+
+/* Bouton plein écran flottant (visible quand API dispo) */
+#btn-fullscreen {
+  position: fixed;
+  /* coin bas-gauche, discret mais accessible */
+  bottom: calc(env(safe-area-inset-bottom) + 14px);
+  left:  calc(env(safe-area-inset-left)  + 14px);
+  z-index: 500;
+  background: rgba(255,255,255,.1);
+  border: 1.5px solid rgba(255,255,255,.2);
+  border-radius: 12px;
+  color: rgba(255,255,255,.55);
+  font-size: .78em;
+  font-weight: 600;
+  padding: 9px 14px;
+  cursor: pointer;
+  display: none; /* masqué par défaut, affiché par JS si API dispo */
+  -webkit-transition: background .2s, color .2s;
+  transition: background .2s, color .2s;
+  gap: 6px;
+  -webkit-align-items: center; align-items: center;
+}
+#btn-fullscreen:active { background: rgba(255,255,255,.22); color: #fff; }
+/* Quand l'app est déjà en fullscreen, montrer l'icône "quitter" */
+#btn-fullscreen .icon-enter { display: inline; }
+#btn-fullscreen .icon-exit  { display: none;   }
+body.is-fullscreen #btn-fullscreen .icon-enter { display: none;   }
+body.is-fullscreen #btn-fullscreen .icon-exit  { display: inline; }
+
+/* ─── BANNIÈRE "AJOUTER À L'ÉCRAN D'ACCUEIL" ────────────
+   Affichée automatiquement si l'app tourne dans Safari
+   (pas en standalone). Disparaît au tap. ────────────── */
+#pwa-banner {
+  position: fixed;
+  bottom: calc(env(safe-area-inset-bottom) + 16px);
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 600;
+  background: linear-gradient(135deg, #1e0845, #3b0764);
+  border: 1.5px solid rgba(245,197,24,.45);
+  border-radius: 18px;
+  padding: 14px 20px;
+  display: none; /* affiché par JS uniquement dans Safari hors standalone */
+  -webkit-align-items: center; align-items: center;
+  gap: 14px;
+  box-shadow: 0 8px 36px rgba(0,0,0,.55);
+  max-width: calc(100vw - 40px);
+  cursor: pointer;
+}
+.pwa-banner-icon  { font-size: 1.6em; flex-shrink: 0; }
+.pwa-banner-text  { display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; gap: 2px; }
+.pwa-banner-title { font-size: .9em; font-weight: 800; color: #f5c518; }
+.pwa-banner-desc  { font-size: .75em; color: rgba(255,255,255,.55); line-height: 1.4; }
+.pwa-banner-close { font-size: 1.1em; color: rgba(255,255,255,.35); flex-shrink: 0; padding: 4px 6px; }
+
+/* En mode standalone : safe-area déjà gérée par le body,
+   mais on s'assure que rien n'est tronqué */
+@media all and (display-mode: standalone) {
+  #pwa-banner    { display: none !important; }
+  #btn-fullscreen { display: -webkit-flex !important; display: flex !important; }
+}
 
 /* ═══════════════════════════════════════════════════════
    PAGE ACTIVITÉ (layout paysage : gauche / droite)
@@ -691,6 +779,22 @@ body{
   </div>
 
   <button class="wc-admin" onclick="openPw()">⚙</button>
+</div>
+
+<!-- ═══════════ BOUTON PLEIN ÉCRAN (global, hors pages) ═══════════ -->
+<button id="btn-fullscreen" onclick="toggleFullscreen()">
+  <span class="icon-enter">⛶ Plein écran</span>
+  <span class="icon-exit">✕ Quitter</span>
+</button>
+
+<!-- ═══════════ BANNIÈRE INSTALLATION PWA ═══════════ -->
+<div id="pwa-banner" onclick="closePwaBanner()">
+  <span class="pwa-banner-icon">📲</span>
+  <div class="pwa-banner-text">
+    <span class="pwa-banner-title">Ajouter à l'écran d'accueil</span>
+    <span class="pwa-banner-desc">Tap ⬆ Partager → "Sur l'écran d'accueil"<br>pour une expérience plein écran sans barre Safari</span>
+  </div>
+  <span class="pwa-banner-close">✕</span>
 </div>
 
 <!-- ═══════════ PAGE MERCI ═══════════ -->
@@ -1587,6 +1691,131 @@ function nowStr(){return new Date().toLocaleDateString('fr-FR',{day:'2-digit',mo
 function fmtDate(d){if(!d)return'?';var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
 function formatDur(s){if(!s)return'0:00';var m=Math.floor(s/60),sec=s%60;return m+':'+(sec<10?'0':'')+sec;}
 function escH(str){if(!str)return'';return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+/* ═══════════════════════════════════════════════
+   PLEIN ÉCRAN & MODE STANDALONE
+   ─────────────────────────────────────────────
+   Trois niveaux de "plein écran" sur iPad :
+
+   A) STANDALONE (meilleur résultat, sans code)
+      → Ajouter à l'écran d'accueil via Safari.
+      La barre système devient transparente grâce à
+      black-translucent + viewport-fit=cover (déjà en place).
+      La bannière #pwa-banner invite à le faire.
+
+   B) FULLSCREEN API (Safari 16.4+ / iPadOS 16.4+)
+      → requestFullscreen() sur l'élément <html>.
+      Cache la barre de statut ET la barre Safari.
+      Le bouton #btn-fullscreen est affiché si l'API est dispo.
+      Sur vieux iPad (< 16.4) : API absente, bouton masqué.
+
+   C) FALLBACK "MODE IMMERSION" (vieux iPad, tous Safari)
+      → On passe en plein écran via l'API si dispo,
+        sinon on cache juste l'act-header pour gagner de l'espace.
+        Pas de vrai plein écran OS, mais expérience maximisée.
+═══════════════════════════════════════════════ */
+
+/* ─── Détection mode standalone ─── */
+var isStandalone = (
+  window.navigator.standalone === true ||
+  window.matchMedia('(display-mode: standalone)').matches
+);
+
+/* ─── Fullscreen API : compatibilité cross-browser ─── */
+function fsRequest(el) {
+  if      (el.requestFullscreen)       return el.requestFullscreen();
+  else if (el.webkitRequestFullscreen) return el.webkitRequestFullscreen();
+  else if (el.mozRequestFullScreen)    return el.mozRequestFullScreen();
+  else if (el.msRequestFullscreen)     return el.msRequestFullscreen();
+  return null;
+}
+function fsExit() {
+  if      (document.exitFullscreen)       document.exitFullscreen();
+  else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  else if (document.mozCancelFullScreen)  document.mozCancelFullScreen();
+  else if (document.msExitFullscreen)     document.msExitFullscreen();
+}
+function fsElement() {
+  return document.fullscreenElement ||
+         document.webkitFullscreenElement ||
+         document.mozFullScreenElement ||
+         document.msFullscreenElement || null;
+}
+function fsAvailable() {
+  return !!(
+    document.documentElement.requestFullscreen ||
+    document.documentElement.webkitRequestFullscreen ||
+    document.documentElement.mozRequestFullScreen ||
+    document.documentElement.msRequestFullscreen
+  );
+}
+
+function toggleFullscreen() {
+  if (fsElement()) {
+    /* Quitter le plein écran */
+    fsExit();
+  } else {
+    /* Entrer en plein écran */
+    var p = fsRequest(document.documentElement);
+    if (p && p.catch) p.catch(function(e){ console.log('fs error:', e); });
+  }
+}
+
+/* Mettre à jour l'état visuel du bouton et de body */
+function onFsChange() {
+  if (fsElement()) {
+    document.body.classList.add('is-fullscreen');
+  } else {
+    document.body.classList.remove('is-fullscreen');
+  }
+}
+document.addEventListener('fullscreenchange',       onFsChange);
+document.addEventListener('webkitfullscreenchange', onFsChange);
+document.addEventListener('mozfullscreenchange',    onFsChange);
+document.addEventListener('MSFullscreenChange',     onFsChange);
+
+/* ─── Bannière PWA ─── */
+function closePwaBanner() {
+  var b = document.getElementById('pwa-banner');
+  b.style.display = 'none';
+  try { localStorage.setItem('pwa_banner_dismissed', '1'); } catch(e) {}
+}
+
+/* ─── Initialisation au démarrage ─── */
+(function initFullscreenUI() {
+  var btn = document.getElementById('btn-fullscreen');
+  var banner = document.getElementById('pwa-banner');
+
+  if (isStandalone) {
+    /* Mode standalone : pas de bannière, bouton FS si API dispo */
+    if (banner) banner.style.display = 'none';
+    if (btn && fsAvailable()) {
+      btn.style.display = '-webkit-flex';
+      btn.style.display = 'flex';
+    }
+  } else {
+    /* Mode navigateur Safari normal */
+    /* Afficher le bouton FS si API disponible */
+    if (btn && fsAvailable()) {
+      btn.style.display = '-webkit-flex';
+      btn.style.display = 'flex';
+    }
+    /* Afficher la bannière d'installation sauf si déjà refusée */
+    var dismissed = false;
+    try { dismissed = localStorage.getItem('pwa_banner_dismissed') === '1'; } catch(e) {}
+    /* Afficher la bannière seulement sur iOS Safari (pas sur desktop) */
+    var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+    if (banner && isIOS && !dismissed && !isStandalone) {
+      /* Délai pour ne pas distraire dès l'ouverture */
+      setTimeout(function() {
+        banner.style.display = '-webkit-flex';
+        banner.style.display = 'flex';
+        /* Disparaît automatiquement après 12 secondes */
+        setTimeout(closePwaBanner, 12000);
+      }, 3000);
+    }
+  }
+})();
 
 window.addEventListener('orientationchange',function(){setTimeout(resizeCanvas,350);});
 window.addEventListener('resize',function(){resizeCanvas();});
