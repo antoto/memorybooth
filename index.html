@@ -1,0 +1,1583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js');
+    }
+  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Memorybooth — Les souvenirs des 18 ans d'Antonin</title>
+<style>
+
+/* ============================================================
+   MEMORYBOOTH — index.html unique
+   Identité visuelle inspirée du logo "18 ans Antonin" :
+   crème / beige / turquoise / bleu clair / jaune-or / orange / rouge-orangé / noir
+   ============================================================ */
+
+:root{
+  --creme:      #F7EFDD;
+  --beige:      #E9D9B4;
+  --beige-fonce:#D8C08A;
+  --turquoise:  #2FB8AE;
+  --turquoise-fonce: #1E8B85;
+  --bleu-clair: #BFEAEA;
+  --or:         #F3B23E;
+  --orange:     #F0862E;
+  --rouge:      #E4572E;
+  --noir:       #221C15;
+  --blanc:      #FFFFFF;
+  --ombre:      0 10px 30px rgba(34,28,21,0.18);
+  --radius-l:   28px;
+  --radius-m:   18px;
+  --radius-s:   12px;
+}
+
+*{ box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+
+html,body{
+  margin:0; padding:0; width:100%; height:100%;
+  overflow-x:hidden;
+  background:
+    repeating-linear-gradient(180deg, var(--beige) 0px, var(--beige) 36px, var(--beige-fonce) 36px, var(--beige-fonce) 40px);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  color: var(--noir);
+  -webkit-user-select:none; user-select:none;
+  touch-action: manipulation;
+}
+
+/* Zone déroulante interne pour listes admin */
+.scrollable{ -webkit-overflow-scrolling: touch; overflow-y:auto; }
+
+h1,h2,h3{ font-family: Georgia, "Times New Roman", serif; margin:0; }
+
+button{ font-family:inherit; cursor:pointer; border:none; }
+input, textarea, select{ font-family:inherit; }
+
+.app{ position:relative; width:100%; min-height:100%; }
+
+.screen{
+  position:fixed; inset:0;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:flex-start;
+  padding: 28px 22px 40px;
+  overflow-y:auto; -webkit-overflow-scrolling:touch;
+  opacity:0; pointer-events:none; transform:scale(0.98);
+  transition: opacity .35s ease, transform .35s ease;
+  background:
+    repeating-linear-gradient(180deg, var(--beige) 0px, var(--beige) 36px, var(--beige-fonce) 36px, var(--beige-fonce) 40px);
+}
+.screen.active{ opacity:1; pointer-events:auto; transform:scale(1); z-index:5; }
+.screen.lower{
+  background:
+    repeating-linear-gradient(180deg, var(--turquoise) 0px, var(--turquoise) 36px, var(--turquoise-fonce) 36px, var(--turquoise-fonce) 40px);
+  color: var(--blanc);
+}
+
+/* ---------- Badge décoratif (esprit du logo) ---------- */
+.badge{
+  position:relative;
+  width: 170px; height:170px;
+  border-radius:50%;
+  margin: 6px auto 10px;
+  background:
+    radial-gradient(circle at 50% 38%, var(--bleu-clair) 0%, var(--bleu-clair) 46%, transparent 47%),
+    linear-gradient(180deg, var(--creme) 0%, var(--creme) 48%, var(--turquoise) 48%, var(--turquoise) 100%);
+  box-shadow: var(--ombre);
+  display:flex; align-items:center; justify-content:center;
+  overflow:hidden;
+  border: 4px solid var(--noir);
+}
+.badge .sun{
+  position:absolute; top:18px; left:50%; transform:translateX(-50%);
+  width:34px; height:34px; border-radius:50%;
+  background: radial-gradient(circle, var(--or) 55%, var(--orange) 100%);
+}
+.badge .palm{ position:absolute; bottom:56%; font-size:22px; }
+.badge .palm.l{ left:20px; }
+.badge .palm.r{ right:20px; }
+.badge .num{
+  position:relative; z-index:2;
+  font-family: Georgia, serif; font-weight:900; font-size:52px; color:var(--noir);
+  text-shadow: 0 2px 0 rgba(255,255,255,0.4);
+  line-height:1;
+}
+.badge .ans{
+  position:absolute; bottom:34px; left:50%; transform:translateX(-50%);
+  font-weight:800; color:var(--or); font-size:15px; letter-spacing:1px;
+}
+.badge .ribbon{
+  position:absolute; bottom:6px; left:50%; transform:translateX(-50%);
+  background: var(--rouge); color:var(--blanc);
+  font-size:11px; font-weight:800; letter-spacing:1px;
+  padding:3px 14px; border-radius:20px; white-space:nowrap;
+  box-shadow:0 3px 6px rgba(0,0,0,0.25);
+}
+
+.portrait{
+  width:96px; height:96px; border-radius:50%;
+  object-fit:cover; border:4px solid var(--blanc);
+  box-shadow: var(--ombre);
+  margin-bottom:10px;
+}
+
+.title-main{ font-size: 40px; color:var(--noir); text-align:center; letter-spacing:1px; }
+.title-sub{ font-size:17px; color: var(--turquoise-fonce); font-weight:600; text-align:center; margin-top:6px; margin-bottom: 22px; }
+
+/* ---------- Grille de cartes ---------- */
+.cards-grid{
+  width:100%; max-width: 900px;
+  display:grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap:16px;
+  margin-top: 8px;
+}
+@media (min-width: 760px){ .cards-grid{ grid-template-columns: repeat(3, 1fr);} }
+
+.card-btn{
+  background: var(--creme);
+  border-radius: var(--radius-l);
+  box-shadow: var(--ombre);
+  border: 3px solid var(--noir);
+  padding: 22px 14px;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:10px;
+  min-height: 150px;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.card-btn:active{ transform: scale(0.95); box-shadow:0 4px 10px rgba(0,0,0,0.2); }
+.card-btn .emoji{ font-size:44px; }
+.card-btn .label{ font-weight:800; font-size:17px; text-align:center; color:var(--noir); }
+
+.card-btn.c1{ background: linear-gradient(160deg, var(--creme), var(--bleu-clair)); }
+.card-btn.c2{ background: linear-gradient(160deg, var(--creme), var(--or)); }
+.card-btn.c3{ background: linear-gradient(160deg, var(--creme), var(--orange)); }
+.card-btn.c4{ background: linear-gradient(160deg, var(--creme), #B7E4D8); }
+.card-btn.c5{ background: linear-gradient(160deg, var(--creme), var(--rouge)); }
+
+.home-footer{
+  margin-top:26px; display:flex; flex-direction:column; align-items:center; gap:14px;
+  width:100%;
+}
+
+.pill-btn{
+  background: var(--turquoise); color:var(--blanc); font-weight:700;
+  padding: 14px 26px; border-radius: 30px; box-shadow: var(--ombre);
+  font-size:16px;
+}
+.pill-btn:active{ transform:scale(0.96); }
+.pill-btn.ghost{ background:transparent; color:var(--turquoise-fonce); box-shadow:none; border:2px solid var(--turquoise-fonce); }
+.pill-btn.dark{ background: var(--noir); color:var(--creme); }
+.pill-btn.warn{ background: var(--rouge); color:var(--blanc); }
+.pill-btn.grey{ background:#8a8a8a; color:#fff; }
+.pill-btn:disabled{ opacity:.5; }
+
+.gear-btn{
+  position: fixed; top: 16px; right: 16px; z-index: 20;
+  width:46px; height:46px; border-radius:50%;
+  background: rgba(255,255,255,0.55); color:var(--noir);
+  display:flex; align-items:center; justify-content:center; font-size:22px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* ---------- Contenu de sous-écrans ---------- */
+.panel{
+  width:100%; max-width: 640px;
+  background: var(--creme); border-radius: var(--radius-l);
+  border: 3px solid var(--noir); box-shadow: var(--ombre);
+  padding: 26px 22px; margin-top: 10px;
+}
+.screen.lower .panel{ background: var(--blanc); }
+
+.back-row{
+  width:100%; max-width:640px; display:flex; align-items:center; justify-content:flex-start;
+  margin-bottom: 6px;
+}
+.back-btn{ background:transparent; color:inherit; font-size:16px; font-weight:700; padding:10px 6px; display:flex; align-items:center; gap:6px; }
+
+label.field-label{ display:block; font-weight:700; margin: 14px 0 6px; font-size:15px; }
+input[type=text], textarea, input[type=date]{
+  width:100%; border-radius: var(--radius-s); border: 2px solid var(--beige-fonce);
+  padding: 14px; font-size:16px; background: var(--blanc);
+}
+textarea{ min-height: 140px; resize:vertical; }
+.hint{ font-size:13px; color:#6b6355; margin-top:4px; }
+
+.actions-row{ display:flex; gap:12px; margin-top:22px; flex-wrap:wrap; }
+
+/* ---------- Confirmation ---------- */
+.confirm-emoji{ font-size:64px; margin-bottom:8px; }
+.confirm-title{ font-size:26px; font-weight:800; text-align:center; }
+.confirm-text{ font-size:16px; text-align:center; margin-top:10px; opacity:0.95; max-width:420px; }
+.countdown{ margin-top:22px; font-size:15px; opacity:0.85; }
+
+/* ---------- Popup modale ---------- */
+.modal-overlay{
+  position:fixed; inset:0; background: rgba(20,16,10,0.55);
+  display:none; align-items:center; justify-content:center; z-index:50; padding:20px;
+}
+.modal-overlay.active{ display:flex; }
+.modal-box{
+  background: var(--creme); border-radius: var(--radius-l); border:3px solid var(--noir);
+  max-width: 480px; width:100%; padding: 26px 22px; box-shadow: var(--ombre);
+  max-height: 82vh; overflow-y:auto;
+}
+.modal-box h2{ font-size:22px; margin-bottom:12px; }
+.modal-box ul{ padding-left: 20px; }
+.modal-box li{ margin-bottom:8px; }
+
+/* ---------- Voice recorder ---------- */
+.mic-circle{
+  width: 150px; height:150px; border-radius:50%;
+  background: var(--turquoise-fonce); color:var(--blanc);
+  display:flex; align-items:center; justify-content:center; font-size:56px;
+  box-shadow: var(--ombre); margin: 18px auto; border: 4px solid var(--blanc);
+}
+.mic-circle.recording{ background: var(--rouge); animation: pulse 1.2s infinite; }
+@keyframes pulse{ 0%{box-shadow:0 0 0 0 rgba(228,87,46,0.5);} 70%{box-shadow:0 0 0 22px rgba(228,87,46,0);} 100%{box-shadow:0 0 0 0 rgba(228,87,46,0);} }
+.timer-txt{ font-size:34px; font-weight:800; text-align:center; font-variant-numeric: tabular-nums; }
+.rec-status{ text-align:center; font-weight:700; margin-top:6px; }
+audio{ width:100%; margin-top:14px; }
+
+/* ---------- Photo booth ---------- */
+.cam-wrap{ position:relative; width:100%; max-width:520px; aspect-ratio: 3/4; background:#000; border-radius: var(--radius-m); overflow:hidden; border:3px solid var(--noir); box-shadow:var(--ombre); }
+video#camVideo{ width:100%; height:100%; object-fit:cover; }
+canvas#shotCanvas{ width:100%; height:100%; object-fit:cover; display:none; }
+.flash-overlay{ position:fixed; inset:0; background:#fff; opacity:0; pointer-events:none; z-index:60; transition:opacity .06s ease; }
+.flash-overlay.on{ opacity:1; }
+.filters-row{ display:flex; gap:8px; overflow-x:auto; width:100%; max-width:520px; padding:12px 2px; -webkit-overflow-scrolling:touch; }
+.filter-chip{ flex:0 0 auto; padding:9px 14px; border-radius:20px; background:var(--blanc); border:2px solid var(--beige-fonce); font-size:13px; font-weight:700; }
+.filter-chip.active{ background: var(--turquoise); color:var(--blanc); border-color:var(--turquoise); }
+.cam-controls{ display:flex; gap:14px; align-items:center; justify-content:center; margin-top:10px; flex-wrap:wrap; }
+.shutter-btn{ width:74px; height:74px; border-radius:50%; background:var(--blanc); border:4px solid var(--noir); }
+.shutter-btn:active{ transform:scale(0.9); }
+.icon-toggle{ padding:10px 16px; border-radius:20px; background: var(--blanc); border:2px solid var(--beige-fonce); font-weight:700; font-size:14px; }
+.icon-toggle.active{ background: var(--or); border-color: var(--or); }
+
+/* ---------- Dessin ---------- */
+.draw-toolbar{ width:100%; max-width:640px; display:flex; flex-direction:column; gap:10px; margin-bottom:8px;}
+.color-row{ display:flex; gap:8px; overflow-x:auto; padding:4px 2px; -webkit-overflow-scrolling:touch; }
+.color-dot{ flex:0 0 auto; width:34px; height:34px; border-radius:50%; border:3px solid var(--blanc); box-shadow:0 0 0 1.5px var(--noir); }
+.color-dot.active{ box-shadow:0 0 0 3px var(--turquoise-fonce); transform:scale(1.12); }
+.thick-row{ display:flex; gap:8px; }
+.thick-btn{ flex:1; background:var(--blanc); border:2px solid var(--beige-fonce); border-radius:var(--radius-s); padding:10px; display:flex; align-items:center; justify-content:center; }
+.thick-btn.active{ border-color: var(--turquoise-fonce); background: var(--bleu-clair); }
+.thick-dot{ border-radius:50%; background:var(--noir); }
+.tool-row{ display:flex; gap:10px; flex-wrap:wrap; }
+canvas#drawCanvas{ width:100%; max-width:640px; aspect-ratio: 4/3; background:#fff; border-radius: var(--radius-m); border:3px solid var(--noir); box-shadow:var(--ombre); touch-action:none; }
+
+/* ---------- Admin login ---------- */
+.admin-pass-box{ display:flex; flex-direction:column; align-items:center; gap:16px; }
+
+/* ---------- Admin dashboard ---------- */
+.stats-grid{ display:grid; grid-template-columns: repeat(2,1fr); gap:12px; width:100%; max-width:640px; }
+@media(min-width:640px){ .stats-grid{ grid-template-columns: repeat(3,1fr);} }
+.stat-card{ background: var(--blanc); border-radius: var(--radius-m); padding:16px; text-align:center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.stat-card .num{ font-size:30px; font-weight:800; color: var(--turquoise-fonce); }
+.stat-card .lab{ font-size:13px; font-weight:600; margin-top:2px; }
+.storage-box{ width:100%; max-width:640px; background:var(--blanc); border-radius:var(--radius-m); padding:18px; margin-top:16px; }
+.storage-bar{ height:14px; border-radius:10px; background:#eee; overflow:hidden; display:flex; margin-top:10px; }
+.storage-bar > div{ height:100%; }
+.storage-legend{ display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; font-size:12px; }
+.legend-dot{ width:10px; height:10px; border-radius:50%; display:inline-block; margin-right:4px; }
+
+.admin-nav{ display:flex; gap:8px; flex-wrap:wrap; width:100%; max-width:640px; margin: 18px 0; }
+.admin-nav button{ flex:1 1 auto; background:var(--blanc); border-radius:16px; padding:10px 12px; font-weight:700; font-size:13px; border:2px solid transparent; }
+.admin-nav button.active{ border-color: var(--turquoise-fonce); background: var(--bleu-clair); }
+
+.list-item{ background:var(--blanc); border-radius:var(--radius-m); padding:14px; margin-bottom:10px; box-shadow:0 3px 8px rgba(0,0,0,0.06); }
+.list-item .meta{ font-size:12px; color:#777; margin-top:4px; }
+.list-item .name{ font-weight:800; }
+.list-item .msg{ margin-top:6px; white-space:pre-wrap; }
+.gallery{ display:grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap:10px; width:100%; max-width:640px; }
+.gallery img{ width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; box-shadow:0 3px 8px rgba(0,0,0,0.1); }
+.locked-tag{ background:#999; color:#fff; font-size:11px; padding:3px 10px; border-radius:10px; display:inline-block; margin-top:4px; }
+.unlocked-tag{ background: var(--turquoise); color:#fff; font-size:11px; padding:3px 10px; border-radius:10px; display:inline-block; margin-top:4px; }
+
+.empty-state{ text-align:center; opacity:0.6; padding: 30px 10px; font-weight:600; }
+
+.danger-box{ width:100%; max-width:640px; background: #FFF1EC; border: 2px solid var(--rouge); border-radius: var(--radius-m); padding:18px; margin-top:20px; }
+
+.toast{
+  position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px);
+  background: var(--noir); color:var(--creme); padding:12px 22px; border-radius:30px;
+  font-weight:700; font-size:14px; z-index:80; opacity:0; transition: all .3s ease; pointer-events:none;
+  max-width:90%; text-align:center;
+}
+.toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+.error-banner{ width:100%; max-width:640px; background:#FFF1EC; border:2px solid var(--rouge); color:#7a2c14; border-radius: var(--radius-m); padding:12px 16px; margin-bottom:14px; font-size:14px; font-weight:600; }
+
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- ============ ACCUEIL ============ -->
+  <div class="screen active" id="screen-home">
+    <button class="gear-btn" id="gearBtn" title="Administration">⚙️</button>
+    <div id="portraitWrap"></div>
+    <div class="badge">
+      <div class="sun"></div>
+      <span class="palm l">🌴</span><span class="palm r">🌴</span>
+      <div class="num">18</div>
+      <div class="ans">ans</div>
+      <div class="ribbon">ANTONIN</div>
+    </div>
+    <h1 class="title-main">🎉 MEMORYBOOTH</h1>
+    <div class="title-sub">Les souvenirs des 18 ans d'Antonin</div>
+
+    <div class="cards-grid">
+      <button class="card-btn c1" data-go="guestbook"><span class="emoji">💌</span><span class="label">Livre d'or</span></button>
+      <button class="card-btn c2" data-go="voice"><span class="emoji">🎙️</span><span class="label">Message vocal</span></button>
+      <button class="card-btn c3" data-go="photo"><span class="emoji">📸</span><span class="label">Photo Booth</span></button>
+      <button class="card-btn c4" data-go="draw"><span class="emoji">🎨</span><span class="label">Dessin</span></button>
+      <button class="card-btn c5" data-go="capsule"><span class="emoji">⏳</span><span class="label">Capsule temporelle</span></button>
+    </div>
+
+    <div class="home-footer">
+      <button class="pill-btn ghost" id="howItWorksBtn">Comment ça marche ?</button>
+    </div>
+  </div>
+
+  <!-- ============ LIVRE D'OR ============ -->
+  <div class="screen" id="screen-guestbook">
+    <div class="back-row"><button class="back-btn" data-go="home">← Retour</button></div>
+    <div class="panel">
+      <h2>💌 Livre d'or</h2>
+      <div id="guestbookError"></div>
+      <label class="field-label">Prénom / Nom (facultatif)</label>
+      <input type="text" id="gbName" maxlength="60" placeholder="Laisse vide pour rester anonyme">
+      <label class="field-label">Ton message pour Antonin</label>
+      <textarea id="gbMessage" maxlength="2000" placeholder="Écris ton message ici..."></textarea>
+      <div class="actions-row">
+        <button class="pill-btn" id="gbSubmit">Envoyer mon message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MESSAGE VOCAL ============ -->
+  <div class="screen" id="screen-voice">
+    <div class="back-row"><button class="back-btn" data-go="home">← Retour</button></div>
+    <div class="panel" style="text-align:center;">
+      <h2>🎙️ Message vocal</h2>
+      <div id="voiceError"></div>
+      <label class="field-label" style="text-align:left;">Prénom / Nom (facultatif)</label>
+      <input type="text" id="vName" maxlength="60" placeholder="Laisse vide pour rester anonyme">
+      <div class="mic-circle" id="micCircle">🎙️</div>
+      <div class="timer-txt" id="micTimer">00:00</div>
+      <div class="rec-status" id="micStatus">Appuie pour enregistrer</div>
+      <audio id="micAudioPreview" controls style="display:none;"></audio>
+      <div class="actions-row" style="justify-content:center;" id="voiceActions"></div>
+    </div>
+  </div>
+
+  <!-- ============ PHOTO BOOTH ============ -->
+  <div class="screen" id="screen-photo">
+    <div class="back-row"><button class="back-btn" data-go="home">← Retour</button></div>
+    <div id="photoError" style="width:100%;max-width:520px;"></div>
+    <div class="cam-wrap">
+      <video id="camVideo" autoplay playsinline muted></video>
+      <canvas id="shotCanvas"></canvas>
+    </div>
+    <div class="filters-row" id="filtersRow"></div>
+    <div class="cam-controls" id="camControlsLive">
+      <button class="icon-toggle" id="switchCamBtn">🔄 Caméra</button>
+      <button class="shutter-btn" id="shutterBtn"></button>
+      <button class="icon-toggle" id="flashToggleBtn">⚡ Flash: OFF</button>
+    </div>
+    <div class="cam-controls" id="camControlsPreview" style="display:none;">
+      <button class="pill-btn grey" id="retakeBtn">↺ Recommencer</button>
+      <button class="pill-btn" id="savePhotoBtn">✔ Enregistrer la photo</button>
+    </div>
+  </div>
+
+  <!-- ============ DESSIN ============ -->
+  <div class="screen" id="screen-draw">
+    <div class="back-row"><button class="back-btn" data-go="home">← Retour</button></div>
+    <div id="drawError" style="width:100%;max-width:640px;"></div>
+    <div class="draw-toolbar">
+      <div class="color-row" id="colorRow"></div>
+      <div class="thick-row" id="thickRow"></div>
+      <div class="tool-row">
+        <button class="pill-btn ghost" id="eraserBtn" style="flex:1;">🧹 Gomme</button>
+        <button class="pill-btn ghost" id="clearBtn" style="flex:1;">🗑️ Tout effacer</button>
+      </div>
+    </div>
+    <canvas id="drawCanvas"></canvas>
+    <div class="actions-row">
+      <button class="pill-btn grey" id="restartDrawBtn">↺ Recommencer</button>
+      <button class="pill-btn" id="saveDrawBtn">✔ Enregistrer mon dessin</button>
+    </div>
+  </div>
+
+  <!-- ============ CAPSULE TEMPORELLE ============ -->
+  <div class="screen" id="screen-capsule">
+    <div class="back-row"><button class="back-btn" data-go="home">← Retour</button></div>
+    <div class="panel">
+      <h2>⏳ Capsule temporelle</h2>
+      <div id="capsuleError"></div>
+      <p class="hint">Ton message sera verrouillé jusqu'à la date que tu choisis. Antonin ne pourra le lire qu'à partir de ce moment-là.</p>
+      <label class="field-label">Prénom / Nom (facultatif)</label>
+      <input type="text" id="capName" maxlength="60" placeholder="Laisse vide pour rester anonyme">
+      <label class="field-label">Ton message pour le futur</label>
+      <textarea id="capMessage" maxlength="2000" placeholder="Antonin, ouvre ça quand..."></textarea>
+      <label class="field-label">Date de déverrouillage</label>
+      <input type="date" id="capDate">
+      <div class="actions-row">
+        <button class="pill-btn" id="capSubmit">Sceller la capsule</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ CONFIRMATION ============ -->
+  <div class="screen lower" id="screen-confirm">
+    <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; width:100%;">
+      <div class="confirm-emoji" id="confirmEmoji">❤️</div>
+      <div class="confirm-title" id="confirmTitle">Merci !</div>
+      <div class="confirm-text" id="confirmText">Ton souvenir a bien été enregistré.</div>
+      <div class="countdown" id="confirmCountdown">Retour à l'accueil dans 5 secondes...</div>
+      <div class="actions-row" style="margin-top:26px;">
+        <button class="pill-btn dark" data-go="home">Retour à l'accueil</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ ADMIN : MOT DE PASSE ============ -->
+  <div class="screen" id="screen-admin-login">
+    <div class="back-row"><button class="back-btn" data-go="home">← Retour</button></div>
+    <div class="panel admin-pass-box">
+      <h2>🔒 Espace administrateur</h2>
+      <div id="adminLoginError" style="width:100%;"></div>
+      <input type="text" inputmode="numeric" autocomplete="off" id="adminPassInput" placeholder="Mot de passe administrateur" style="text-align:center; letter-spacing:2px;">
+      <button class="pill-btn" id="adminLoginBtn" style="width:100%;">Se connecter</button>
+    </div>
+  </div>
+
+  <!-- ============ ADMIN : DASHBOARD ============ -->
+  <div class="screen" id="screen-admin">
+    <div class="back-row" style="justify-content:space-between; max-width:640px;">
+      <button class="back-btn" data-go="home">← Accueil</button>
+      <button class="back-btn" id="adminLogoutBtn">Déconnexion 🔓</button>
+    </div>
+    <h2 style="align-self:center;">📊 Tableau de bord</h2>
+    <div class="stats-grid" id="statsGrid"></div>
+    <div class="storage-box">
+      <strong>💾 Stockage utilisé (estimation)</strong>
+      <div id="storageTotalTxt" style="margin-top:4px; font-size:20px; font-weight:800;"></div>
+      <div class="storage-bar" id="storageBar"></div>
+      <div class="storage-legend" id="storageLegend"></div>
+    </div>
+
+    <div class="admin-nav" id="adminNav">
+      <button data-tab="guestbook" class="active">💌 Livre d'or</button>
+      <button data-tab="voice">🎙️ Vocaux</button>
+      <button data-tab="photo">📸 Photos</button>
+      <button data-tab="draw">🎨 Dessins</button>
+      <button data-tab="capsule">⏳ Capsules</button>
+      <button data-tab="backup">💾 Sauvegarde</button>
+    </div>
+
+    <div id="adminTabContent" style="width:100%; max-width:640px;"></div>
+  </div>
+
+</div>
+
+<div class="flash-overlay" id="flashOverlay"></div>
+<div class="toast" id="toast"></div>
+
+<div class="modal-overlay" id="howItWorksModal">
+  <div class="modal-box">
+    <h2>👋 Bienvenue dans le Memorybooth d'Antonin !</h2>
+    <p>Choisis une activité et laisse-lui un souvenir :</p>
+    <ul>
+      <li>💌 <strong>Livre d'or</strong> — écris un message</li>
+      <li>🎙️ <strong>Message vocal</strong> — laisse-lui un message audio</li>
+      <li>📸 <strong>Photo Booth</strong> — prends une photo</li>
+      <li>🎨 <strong>Dessin</strong> — réalise ton chef-d'œuvre</li>
+      <li>⏳ <strong>Capsule temporelle</strong> — écris un message pour le futur</li>
+    </ul>
+    <p><strong>Tes souvenirs restent privés</strong> et ne seront pas visibles par les autres invités.</p>
+    <div class="actions-row" style="justify-content:center;">
+      <button class="pill-btn" id="howItWorksClose">J'ai compris</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="clearAllModal">
+  <div class="modal-box">
+    <h2>⚠️ ATTENTION</h2>
+    <p>Cette action supprimera <strong>définitivement</strong> toutes les données actuellement présentes sur l'iPad (livre d'or, messages vocaux, photos, dessins, capsules).</p>
+    <p><strong>Assure-toi d'avoir effectué une sauvegarde (export) avant de continuer.</strong> Cette action est irréversible.</p>
+    <div class="actions-row" style="justify-content:center;">
+      <button class="pill-btn grey" id="clearAllCancel">Annuler</button>
+      <button class="pill-btn warn" id="clearAllStep2">SUPPRIMER TOUT</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="clearAllModal2">
+  <div class="modal-box">
+    <h2>⚠️ Dernière confirmation</h2>
+    <p>Es-tu <strong>vraiment sûr</strong> ? Toutes les données seront perdues si elles n'ont pas été exportées.</p>
+    <div class="actions-row" style="justify-content:center;">
+      <button class="pill-btn grey" id="clearAllCancel2">Annuler</button>
+      <button class="pill-btn warn" id="clearAllConfirm">Oui, tout supprimer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="importSummaryModal">
+  <div class="modal-box">
+    <h2>✅ Import terminé !</h2>
+    <div id="importSummaryContent"></div>
+    <div class="actions-row" style="justify-content:center;">
+      <button class="pill-btn" id="importSummaryClose">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="importConfirmModal">
+  <div class="modal-box">
+    <h2>Importer cette sauvegarde ?</h2>
+    <div id="importConfirmContent"></div>
+    <p class="hint">Les éléments déjà présents (même identifiant) ne seront pas dupliqués. Les données existantes ne seront pas effacées.</p>
+    <div class="actions-row" style="justify-content:center;">
+      <button class="pill-btn grey" id="importConfirmCancel">Annuler</button>
+      <button class="pill-btn" id="importConfirmOk">Importer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   CONFIGURATION — À MODIFIER FACILEMENT
+   ============================================================ */
+const ADMIN_PASSWORD = "Antonio76"; // <-- change ce mot de passe ici
+const PORTRAIT_URL = "IMG_1881 copie.JPG"; // <-- colle ici le lien/chemin vers ta photo, ex: "portrait.jpg". Laisse vide pour ne rien afficher.
+const LOGO_URL = "LOGO_18.ai.png"; // <-- colle ici le lien/chemin vers ton logo PNG (rond), ex: "logo.png". Si vide, le badge dessiné en CSS est utilisé à la place.
+const ADMIN_INACTIVITY_TIMEOUT_MS = 3 * 60 * 1000; // retour auto à l'accueil après 3 min d'inactivité en admin
+const AUTO_RETURN_SECONDS = 5;
+
+/* ============================================================
+   UTILITAIRES
+   ============================================================ */
+function uid(){
+  return 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,10);
+}
+function nowISO(){ return new Date().toISOString(); }
+function fmtBytes(bytes){
+  if(!bytes) return "0 Mo";
+  const mo = bytes / (1024*1024);
+  if(mo < 0.1) return "< 0.1 Mo";
+  return mo.toFixed(1) + " Mo";
+}
+function escapeHtml(str){
+  if(!str) return "";
+  return str.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function showToast(msg, ms){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(showToast._tm);
+  showToast._tm = setTimeout(()=> t.classList.remove('show'), ms || 2600);
+}
+function showError(containerId, msg){
+  const el = document.getElementById(containerId);
+  if(!el) return;
+  if(!msg){ el.innerHTML = ""; return; }
+  el.innerHTML = '<div class="error-banner">⚠️ ' + escapeHtml(msg) + '</div>';
+}
+function blobToBase64(blob){
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result); // data URL
+    r.onerror = () => reject(new Error("Lecture du fichier impossible."));
+    r.readAsDataURL(blob);
+  });
+}
+function base64ToBlob(dataUrl){
+  try{
+    const parts = dataUrl.split(',');
+    const meta = parts[0];
+    const mimeMatch = meta.match(/data:(.*?);base64/);
+    const mime = mimeMatch ? mimeMatch[1] : 'application/octet-stream';
+    const binary = atob(parts[1]);
+    const arr = new Uint8Array(binary.length);
+    for(let i=0;i<binary.length;i++) arr[i] = binary.charCodeAt(i);
+    return new Blob([arr], {type: mime});
+  }catch(e){
+    throw new Error("Fichier de sauvegarde invalide ou corrompu.");
+  }
+}
+
+/* ============================================================
+   STOCKAGE — IndexedDB
+   Choix d'architecture : IndexedDB stocke directement les Blobs
+   (photos JPEG compressées, audio, PNG des dessins) + métadonnées.
+   C'est l'option la plus fiable et la plus compatible pour un
+   usage 100% hors-ligne sur iPad, sans limite de taille de type
+   localStorage (~5 Mo) et sans dépendance externe.
+   Pour l'EXPORT, on convertit les Blobs en base64 dans un seul
+   fichier JSON : plus volumineux qu'un binaire brut, mais
+   beaucoup plus simple, fiable et sans librairie externe
+   (pas de ZIP nécessitant un CDN) — conformément à la préférence
+   "simple et fiable plutôt qu'impressionnant mais fragile".
+   ============================================================ */
+const DB_NAME = "memorybooth_db";
+const DB_VERSION = 1;
+const STORES = ["guestbook","voice","photo","draw","capsule"];
+let db = null;
+
+function openDB(){
+  return new Promise((resolve, reject)=>{
+    if(!('indexedDB' in window)){
+      reject(new Error("Ce navigateur ne supporte pas le stockage local (IndexedDB). L'application ne peut pas fonctionner."));
+      return;
+    }
+    const req = indexedDB.open(DB_NAME, DB_VERSION);
+    req.onupgradeneeded = (e)=>{
+      const _db = e.target.result;
+      STORES.forEach(name=>{
+        if(!_db.objectStoreNames.contains(name)){
+          _db.createObjectStore(name, {keyPath:"id"});
+        }
+      });
+    };
+    req.onsuccess = (e)=>{ db = e.target.result; resolve(db); };
+    req.onerror = (e)=>{ reject(new Error("Impossible d'ouvrir le stockage local.")); };
+  });
+}
+function dbAdd(store, record){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx = db.transaction(store,"readwrite");
+      tx.objectStore(store).put(record);
+      tx.oncomplete = ()=>resolve(record);
+      tx.onerror = ()=>reject(new Error("Erreur lors de la sauvegarde."));
+    }catch(e){ reject(e); }
+  });
+}
+function dbGetAll(store){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx = db.transaction(store,"readonly");
+      const req = tx.objectStore(store).getAll();
+      req.onsuccess = ()=>resolve(req.result || []);
+      req.onerror = ()=>reject(new Error("Erreur de lecture."));
+    }catch(e){ reject(e); }
+  });
+}
+function dbClear(store){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx = db.transaction(store,"readwrite");
+      tx.objectStore(store).clear();
+      tx.oncomplete = ()=>resolve();
+      tx.onerror = ()=>reject(new Error("Erreur lors de la suppression."));
+    }catch(e){ reject(e); }
+  });
+}
+function dbHas(store, id){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx = db.transaction(store,"readonly");
+      const req = tx.objectStore(store).get(id);
+      req.onsuccess = ()=>resolve(!!req.result);
+      req.onerror = ()=>reject(new Error("Erreur de lecture."));
+    }catch(e){ reject(e); }
+  });
+}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+let currentScreen = "home";
+let autoReturnTimer = null;
+let autoReturnInterval = null;
+
+function goTo(screenName){
+  clearTimeout(autoReturnTimer);
+  clearInterval(autoReturnInterval);
+  stopCameraStream();
+  stopMicIfRecording();
+
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  const target = document.getElementById('screen-' + screenName);
+  if(target) target.classList.add('active');
+  currentScreen = screenName;
+  window.scrollTo(0,0);
+
+  if(screenName === 'home'){ resetAllForms(); }
+  if(screenName === 'photo'){ initPhotoScreen(); }
+  if(screenName === 'draw'){ initDrawScreen(); }
+  if(screenName === 'voice'){ initVoiceScreen(); }
+  if(screenName === 'admin'){ resetAdminInactivity(); renderAdminDashboard(); }
+  if(screenName === 'admin-login'){ document.getElementById('adminPassInput').value=""; showError('adminLoginError', null); }
+}
+
+document.addEventListener('click', (e)=>{
+  const btn = e.target.closest('[data-go]');
+  if(btn){ goTo(btn.getAttribute('data-go')); }
+});
+
+function resetAllForms(){
+  document.getElementById('gbName').value = "";
+  document.getElementById('gbMessage').value = "";
+  showError('guestbookError', null);
+
+  document.getElementById('capName').value = "";
+  document.getElementById('capMessage').value = "";
+  document.getElementById('capDate').value = "";
+  showError('capsuleError', null);
+
+  const preview = document.getElementById('micAudioPreview');
+  preview.pause(); preview.src=""; preview.style.display="none";
+  document.getElementById('vName').value = "";
+}
+
+function showConfirm(emoji, title, text){
+  document.getElementById('confirmEmoji').textContent = emoji;
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmText').textContent = text;
+  goTo('confirm');
+  let remaining = AUTO_RETURN_SECONDS;
+  const cd = document.getElementById('confirmCountdown');
+  cd.textContent = "Retour à l'accueil dans " + remaining + " secondes...";
+  autoReturnInterval = setInterval(()=>{
+    remaining--;
+    if(remaining <= 0){
+      clearInterval(autoReturnInterval);
+      goTo('home');
+    } else {
+      cd.textContent = "Retour à l'accueil dans " + remaining + " secondes...";
+    }
+  }, 1000);
+}
+
+/* ============================================================
+   ACCUEIL — portrait & popup
+   ============================================================ */
+if(PORTRAIT_URL){
+  document.getElementById('portraitWrap').innerHTML =
+    '<img class="portrait" src="' + PORTRAIT_URL + '" alt="Antonin" onerror="this.style.display=\'none\'">';
+}
+if(LOGO_URL){
+  document.querySelectorAll('.badge').forEach(el=>{
+    el.innerHTML = '';
+    el.style.background = 'none';
+    el.style.border = 'none';
+    el.style.boxShadow = 'none';
+    const img = document.createElement('img');
+    img.src = LOGO_URL;
+    img.alt = "Logo 18 ans Antonin";
+    img.style.width = "100%";
+    img.style.height = "100%";
+    img.style.objectFit = "cover";
+    img.style.borderRadius = "50%";
+    img.style.boxShadow = "var(--ombre)";
+    img.onerror = function(){
+      // Si l'image ne charge pas (lien invalide), on affiche un simple avertissement discret
+      el.style.background = "#eee";
+      el.innerHTML = '<span style="font-size:12px;color:#999;text-align:center;padding:8px;">Logo introuvable<br>(vérifie LOGO_URL)</span>';
+    };
+    el.appendChild(img);
+  });
+}
+
+document.getElementById('gearBtn').addEventListener('click', ()=>{
+  goTo(isAdminAuthed() ? 'admin' : 'admin-login');
+});
+document.getElementById('howItWorksBtn').addEventListener('click', ()=>{
+  document.getElementById('howItWorksModal').classList.add('active');
+});
+document.getElementById('howItWorksClose').addEventListener('click', ()=>{
+  document.getElementById('howItWorksModal').classList.remove('active');
+});
+
+/* ============================================================
+   1) LIVRE D'OR
+   ============================================================ */
+document.getElementById('gbSubmit').addEventListener('click', async ()=>{
+  showError('guestbookError', null);
+  const name = document.getElementById('gbName').value.trim();
+  const message = document.getElementById('gbMessage').value.trim();
+  if(!message){ showError('guestbookError', "Écris un message avant d'envoyer."); return; }
+  try{
+    await dbAdd('guestbook', { id: uid(), name: name || null, message, createdAt: nowISO() });
+    showConfirm('💌','MERCI !',"Ton message a bien été enregistré. Il restera précieusement conservé pour Antonin.");
+  }catch(e){
+    showError('guestbookError', "Impossible d'enregistrer ton message. Réessaie.");
+  }
+});
+
+/* ============================================================
+   2) MESSAGE VOCAL
+   ============================================================ */
+const VOICE_MAX_MS = 2 * 60 * 1000;
+let mediaRecorder = null;
+let mediaStream = null;
+let recordedChunks = [];
+let recStartTime = 0;
+let recTimerInterval = null;
+let recordedBlob = null;
+let recordedDurationMs = 0;
+let mimeTypeUsed = "";
+
+function pickAudioMime(){
+  const candidates = ["audio/mp4","audio/webm;codecs=opus","audio/webm","audio/aac","audio/ogg"];
+  if(!window.MediaRecorder || !MediaRecorder.isTypeSupported) return "";
+  for(const c of candidates){ if(MediaRecorder.isTypeSupported(c)) return c; }
+  return "";
+}
+
+function initVoiceScreen(){
+  showError('voiceError', null);
+  const micCircle = document.getElementById('micCircle');
+  const micTimer = document.getElementById('micTimer');
+  const micStatus = document.getElementById('micStatus');
+  const preview = document.getElementById('micAudioPreview');
+  const actions = document.getElementById('voiceActions');
+  micCircle.classList.remove('recording');
+  micCircle.textContent = "🎙️";
+  micTimer.textContent = "00:00";
+  micStatus.textContent = "Appuie pour enregistrer";
+  preview.pause(); preview.src=""; preview.style.display="none";
+  actions.innerHTML = "";
+  recordedBlob = null;
+  recordedDurationMs = 0;
+
+  if(!window.MediaRecorder || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    showError('voiceError', "L'enregistrement audio n'est pas disponible sur ce navigateur.");
+    micCircle.onclick = null;
+    return;
+  }
+  micCircle.onclick = ()=> startRecording();
+}
+
+function fmtTimer(ms){
+  const s = Math.floor(ms/1000);
+  const mm = String(Math.floor(s/60)).padStart(2,'0');
+  const ss = String(s%60).padStart(2,'0');
+  return mm + ":" + ss;
+}
+
+async function startRecording(){
+  showError('voiceError', null);
+  try{
+    mediaStream = await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){
+    showError('voiceError', "Le microphone n'a pas pu être activé. Vérifie que l'autorisation microphone est bien accordée.");
+    return;
+  }
+  mimeTypeUsed = pickAudioMime();
+  try{
+    mediaRecorder = mimeTypeUsed ? new MediaRecorder(mediaStream, {mimeType: mimeTypeUsed}) : new MediaRecorder(mediaStream);
+  }catch(e){
+    showError('voiceError', "L'enregistrement audio n'a pas pu démarrer sur ce navigateur.");
+    stopMicTracks();
+    return;
+  }
+  recordedChunks = [];
+  mediaRecorder.ondataavailable = (e)=>{ if(e.data && e.data.size>0) recordedChunks.push(e.data); };
+  mediaRecorder.onstop = onRecordingStopped;
+  mediaRecorder.start();
+  recStartTime = Date.now();
+
+  const micCircle = document.getElementById('micCircle');
+  micCircle.classList.add('recording');
+  micCircle.textContent = "⏹️";
+  micCircle.onclick = ()=> stopRecording();
+  document.getElementById('micStatus').textContent = "🔴 ENREGISTREMENT EN COURS";
+
+  recTimerInterval = setInterval(()=>{
+    const elapsed = Date.now() - recStartTime;
+    document.getElementById('micTimer').textContent = fmtTimer(elapsed);
+    if(elapsed >= VOICE_MAX_MS){ stopRecording(); }
+  }, 200);
+}
+
+function stopRecording(){
+  if(mediaRecorder && mediaRecorder.state !== "inactive"){ mediaRecorder.stop(); }
+  clearInterval(recTimerInterval);
+}
+function stopMicTracks(){
+  if(mediaStream){ mediaStream.getTracks().forEach(t=>t.stop()); mediaStream = null; }
+}
+function stopMicIfRecording(){
+  if(mediaRecorder && mediaRecorder.state === "recording"){ mediaRecorder.stop(); }
+  clearInterval(recTimerInterval);
+  stopMicTracks();
+}
+
+function onRecordingStopped(){
+  stopMicTracks();
+  recordedDurationMs = Date.now() - recStartTime;
+  recordedBlob = new Blob(recordedChunks, {type: mimeTypeUsed || 'audio/webm'});
+  const micCircle = document.getElementById('micCircle');
+  micCircle.classList.remove('recording');
+  micCircle.textContent = "🎙️";
+  micCircle.onclick = null;
+  document.getElementById('micStatus').textContent = "Enregistrement terminé";
+
+  const preview = document.getElementById('micAudioPreview');
+  preview.src = URL.createObjectURL(recordedBlob);
+  preview.style.display = "block";
+
+  const actions = document.getElementById('voiceActions');
+  actions.innerHTML = "";
+  const btnRedo = document.createElement('button');
+  btnRedo.className = "pill-btn grey"; btnRedo.textContent = "↺ Recommencer";
+  btnRedo.onclick = ()=> initVoiceScreen();
+  const btnSave = document.createElement('button');
+  btnSave.className = "pill-btn"; btnSave.textContent = "✔ Enregistrer";
+  btnSave.onclick = saveVoiceMessage;
+  actions.appendChild(btnRedo);
+  actions.appendChild(btnSave);
+}
+
+async function saveVoiceMessage(){
+  if(!recordedBlob){ return; }
+  const name = document.getElementById('vName').value.trim();
+  try{
+    await dbAdd('voice', {
+      id: uid(), name: name || null, createdAt: nowISO(),
+      mime: recordedBlob.type, size: recordedBlob.size, durationMs: recordedDurationMs || null, blob: recordedBlob
+    });
+    showConfirm('🎙️','MERCI !',"Ton message vocal a bien été enregistré pour Antonin.");
+  }catch(e){
+    showError('voiceError', "Impossible d'enregistrer ce message vocal. Réessaie.");
+  }
+}
+
+/* ============================================================
+   3) PHOTO BOOTH
+   ============================================================ */
+const FILTERS = [
+  {id:'normal', label:'Normal', css:'none'},
+  {id:'bw', label:'Noir & blanc', css:'grayscale(1)'},
+  {id:'sepia', label:'Sépia', css:'sepia(0.85)'},
+  {id:'vintage', label:'Vintage', css:'sepia(0.35) contrast(1.1) saturate(0.8) brightness(1.05)'},
+  {id:'warm', label:'Chaud', css:'saturate(1.3) hue-rotate(-8deg) brightness(1.05)'},
+  {id:'cold', label:'Froid', css:'saturate(1.1) hue-rotate(15deg) brightness(1.02)'},
+];
+let currentFilter = FILTERS[0];
+let camStream = null;
+let facingMode = "user";
+let flashOn = false;
+let photoBlobToSave = null;
+
+function initPhotoScreen(){
+  showError('photoError', null);
+  document.getElementById('camControlsLive').style.display = "flex";
+  document.getElementById('camControlsPreview').style.display = "none";
+  document.getElementById('camVideo').style.display = "block";
+  document.getElementById('shotCanvas').style.display = "none";
+  photoBlobToSave = null;
+
+  const row = document.getElementById('filtersRow');
+  row.innerHTML = "";
+  FILTERS.forEach(f=>{
+    const chip = document.createElement('button');
+    chip.className = "filter-chip" + (f.id===currentFilter.id?" active":"");
+    chip.textContent = f.label;
+    chip.onclick = ()=>{
+      currentFilter = f;
+      document.querySelectorAll('.filter-chip').forEach(c=>c.classList.remove('active'));
+      chip.classList.add('active');
+      document.getElementById('camVideo').style.filter = f.css;
+    };
+    row.appendChild(chip);
+  });
+  document.getElementById('camVideo').style.filter = currentFilter.css;
+  updateFlashBtn();
+  startCameraStream();
+}
+
+async function startCameraStream(){
+  stopCameraStream();
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    showError('photoError', "La caméra n'est pas disponible sur ce navigateur.");
+    return;
+  }
+  try{
+    camStream = await navigator.mediaDevices.getUserMedia({ video: {facingMode: facingMode}, audio:false });
+    const video = document.getElementById('camVideo');
+    video.srcObject = camStream;
+  }catch(e){
+    showError('photoError', "La caméra n'a pas pu être activée. Vérifie que l'autorisation caméra est bien accordée.");
+  }
+}
+function stopCameraStream(){
+  if(camStream){ camStream.getTracks().forEach(t=>t.stop()); camStream = null; }
+}
+
+document.getElementById('switchCamBtn').addEventListener('click', ()=>{
+  facingMode = (facingMode === "user") ? "environment" : "user";
+  startCameraStream();
+});
+document.getElementById('flashToggleBtn').addEventListener('click', ()=>{
+  flashOn = !flashOn;
+  updateFlashBtn();
+});
+function updateFlashBtn(){
+  const btn = document.getElementById('flashToggleBtn');
+  btn.textContent = "⚡ Flash: " + (flashOn ? "ON" : "OFF");
+  btn.classList.toggle('active', flashOn);
+}
+
+document.getElementById('shutterBtn').addEventListener('click', ()=>{
+  const video = document.getElementById('camVideo');
+  const canvas = document.getElementById('shotCanvas');
+  if(!video.videoWidth){ showError('photoError',"La caméra n'est pas encore prête, patiente une seconde."); return; }
+
+  const doCapture = ()=>{
+    const MAX_DIM = 1280;
+    let w = video.videoWidth, h = video.videoHeight;
+    const scale = Math.min(1, MAX_DIM / Math.max(w,h));
+    canvas.width = Math.round(w*scale);
+    canvas.height = Math.round(h*scale);
+    const ctx = canvas.getContext('2d');
+    ctx.filter = currentFilter.css;
+    // Effet miroir pour caméra avant, comme un vrai appareil photo
+    if(facingMode === "user"){
+      ctx.translate(canvas.width,0); ctx.scale(-1,1);
+    }
+    ctx.drawImage(video, 0,0, canvas.width, canvas.height);
+    if(facingMode === "user"){ ctx.setTransform(1,0,0,1,0,0); }
+
+    canvas.toBlob((blob)=>{
+      photoBlobToSave = blob;
+      video.style.display = "none";
+      canvas.style.display = "block";
+      document.getElementById('camControlsLive').style.display = "none";
+      document.getElementById('camControlsPreview').style.display = "flex";
+    }, "image/jpeg", 0.78);
+  };
+
+  if(flashOn){
+    const overlay = document.getElementById('flashOverlay');
+    overlay.classList.add('on');
+    setTimeout(()=>{ doCapture(); setTimeout(()=> overlay.classList.remove('on'), 90); }, 60);
+  } else {
+    doCapture();
+  }
+});
+
+document.getElementById('retakeBtn').addEventListener('click', ()=>{
+  photoBlobToSave = null;
+  document.getElementById('camVideo').style.display = "block";
+  document.getElementById('shotCanvas').style.display = "none";
+  document.getElementById('camControlsLive').style.display = "flex";
+  document.getElementById('camControlsPreview').style.display = "none";
+});
+
+document.getElementById('savePhotoBtn').addEventListener('click', async ()=>{
+  if(!photoBlobToSave) return;
+  try{
+    await dbAdd('photo', { id: uid(), createdAt: nowISO(), mime: "image/jpeg", size: photoBlobToSave.size, blob: photoBlobToSave });
+    showConfirm('📸','MERCI !',"Ta photo a bien été enregistrée dans le Memorybooth.");
+  }catch(e){
+    showError('photoError', "Impossible d'enregistrer cette photo. Réessaie.");
+  }
+});
+
+/* ============================================================
+   4) DESSIN
+   ============================================================ */
+const DRAW_COLORS = ["#111111","#FFFFFF","#E4572E","#F0862E","#F3B23E","#2E9E4A","#2FB8AE","#2E6FE4","#8A6BD1","#E85A9C","#7A4A2B","#8A8A8A"];
+const THICKNESSES = [{id:'xs',label:'Très fin',w:3},{id:'s',label:'Fin',w:6},{id:'m',label:'Moyen',w:12},{id:'l',label:'Épais',w:20},{id:'xl',label:'Très épais',w:32}];
+let drawColor = DRAW_COLORS[0];
+let drawThickness = THICKNESSES[2].w;
+let eraserMode = false;
+let drawCtx = null;
+let drawing = false;
+let lastPt = null;
+let hasDrawn = false;
+
+function initDrawScreen(){
+  showError('drawError', null);
+  const canvas = document.getElementById('drawCanvas');
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * 2;
+  canvas.height = rect.height * 2;
+  drawCtx = canvas.getContext('2d');
+  drawCtx.fillStyle = "#ffffff";
+  drawCtx.fillRect(0,0,canvas.width, canvas.height);
+  drawCtx.lineCap = "round"; drawCtx.lineJoin = "round";
+  hasDrawn = false;
+
+  const colorRow = document.getElementById('colorRow');
+  colorRow.innerHTML = "";
+  DRAW_COLORS.forEach(c=>{
+    const dot = document.createElement('button');
+    dot.className = "color-dot" + (c===drawColor?" active":"");
+    dot.style.background = c;
+    dot.onclick = ()=>{
+      drawColor = c; eraserMode = false;
+      document.getElementById('eraserBtn').classList.remove('active');
+      document.querySelectorAll('.color-dot').forEach(d=>d.classList.remove('active'));
+      dot.classList.add('active');
+    };
+    colorRow.appendChild(dot);
+  });
+
+  const thickRow = document.getElementById('thickRow');
+  thickRow.innerHTML = "";
+  THICKNESSES.forEach(t=>{
+    const btn = document.createElement('button');
+    btn.className = "thick-btn" + (t.w===drawThickness?" active":"");
+    btn.innerHTML = '<span class="thick-dot" style="width:'+Math.min(t.w,22)+'px;height:'+Math.min(t.w,22)+'px;"></span>';
+    btn.onclick = ()=>{
+      drawThickness = t.w;
+      document.querySelectorAll('.thick-btn').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+    };
+    thickRow.appendChild(btn);
+  });
+
+  document.getElementById('eraserBtn').classList.remove('active');
+  eraserMode = false;
+
+  attachDrawEvents(canvas);
+}
+
+function getCanvasPoint(canvas, evt){
+  const rect = canvas.getBoundingClientRect();
+  const touch = evt.touches ? evt.touches[0] : evt;
+  const x = (touch.clientX - rect.left) * (canvas.width / rect.width);
+  const y = (touch.clientY - rect.top) * (canvas.height / rect.height);
+  return {x,y};
+}
+
+function attachDrawEvents(canvas){
+  const start = (e)=>{
+    e.preventDefault();
+    drawing = true; hasDrawn = true;
+    lastPt = getCanvasPoint(canvas, e);
+    drawDot(lastPt);
+  };
+  const move = (e)=>{
+    if(!drawing) return;
+    e.preventDefault();
+    const pt = getCanvasPoint(canvas, e);
+    drawLine(lastPt, pt);
+    lastPt = pt;
+  };
+  const end = (e)=>{ drawing = false; lastPt = null; };
+
+  canvas.ontouchstart = start; canvas.ontouchmove = move; canvas.ontouchend = end; canvas.ontouchcancel = end;
+  canvas.onmousedown = start;
+  canvas.onmousemove = (e)=>{ if(e.buttons===1) move(e); };
+  canvas.onmouseup = end; canvas.onmouseleave = end;
+}
+
+function drawDot(pt){
+  drawCtx.beginPath();
+  drawCtx.fillStyle = eraserMode ? "#ffffff" : drawColor;
+  drawCtx.arc(pt.x, pt.y, drawThickness/2, 0, Math.PI*2);
+  drawCtx.fill();
+}
+function drawLine(a,b){
+  drawCtx.beginPath();
+  drawCtx.strokeStyle = eraserMode ? "#ffffff" : drawColor;
+  drawCtx.lineWidth = drawThickness;
+  drawCtx.moveTo(a.x,a.y);
+  drawCtx.lineTo(b.x,b.y);
+  drawCtx.stroke();
+}
+
+document.getElementById('eraserBtn').addEventListener('click', function(){
+  eraserMode = !eraserMode;
+  this.classList.toggle('active', eraserMode);
+});
+
+document.getElementById('clearBtn').addEventListener('click', ()=>{
+  if(!hasDrawn){ resetDrawCanvas(); return; }
+  if(confirm("Tout effacer ? Ton dessin actuel sera perdu.")){
+    resetDrawCanvas();
+  }
+});
+function resetDrawCanvas(){
+  const canvas = document.getElementById('drawCanvas');
+  drawCtx.fillStyle = "#ffffff";
+  drawCtx.fillRect(0,0,canvas.width, canvas.height);
+  hasDrawn = false;
+}
+document.getElementById('restartDrawBtn').addEventListener('click', ()=>{
+  if(!hasDrawn || confirm("Recommencer ? Ton dessin actuel sera perdu.")){ resetDrawCanvas(); }
+});
+
+document.getElementById('saveDrawBtn').addEventListener('click', ()=>{
+  if(!hasDrawn){ showError('drawError',"Dessine quelque chose avant d'enregistrer."); return; }
+  const canvas = document.getElementById('drawCanvas');
+  canvas.toBlob(async (blob)=>{
+    try{
+      await dbAdd('draw', { id: uid(), createdAt: nowISO(), mime:"image/png", size: blob.size, blob });
+      showConfirm('🎨','MERCI !',"Ton dessin a bien été enregistré pour Antonin.");
+    }catch(e){
+      showError('drawError', "Impossible d'enregistrer ce dessin. Réessaie.");
+    }
+  }, "image/png");
+});
+
+/* ============================================================
+   5) CAPSULE TEMPORELLE
+   ============================================================ */
+document.getElementById('capSubmit').addEventListener('click', async ()=>{
+  showError('capsuleError', null);
+  const name = document.getElementById('capName').value.trim();
+  const message = document.getElementById('capMessage').value.trim();
+  const dateVal = document.getElementById('capDate').value;
+  if(!message){ showError('capsuleError',"Écris un message avant d'envoyer."); return; }
+  if(!dateVal){ showError('capsuleError',"Choisis une date de déverrouillage."); return; }
+  const unlockDate = new Date(dateVal + "T00:00:00");
+  if(isNaN(unlockDate.getTime())){ showError('capsuleError',"Date invalide."); return; }
+  try{
+    await dbAdd('capsule', { id: uid(), name: name || null, message, createdAt: nowISO(), unlockAt: unlockDate.toISOString() });
+    showConfirm('⏳','CAPSULE SCELLÉE !',"Ton message est en sécurité et sera lu par Antonin à la date choisie.");
+  }catch(e){
+    showError('capsuleError', "Impossible d'enregistrer cette capsule. Réessaie.");
+  }
+});
+
+/* ============================================================
+   ADMIN — authentification
+   ============================================================ */
+function isAdminAuthed(){ return sessionStorage.getItem('mb_admin') === "1"; }
+function setAdminAuthed(v){ if(v) sessionStorage.setItem('mb_admin',"1"); else sessionStorage.removeItem('mb_admin'); }
+
+document.getElementById('adminLoginBtn').addEventListener('click', doAdminLogin);
+document.getElementById('adminPassInput').addEventListener('keydown', (e)=>{ if(e.key==="Enter") doAdminLogin(); });
+function doAdminLogin(){
+  const val = document.getElementById('adminPassInput').value;
+  if(val === ADMIN_PASSWORD){
+    setAdminAuthed(true);
+    goTo('admin');
+  } else {
+    showError('adminLoginError', "Mot de passe incorrect.");
+  }
+}
+document.getElementById('adminLogoutBtn').addEventListener('click', ()=>{
+  setAdminAuthed(false);
+  goTo('home');
+});
+
+let adminInactivityTimer = null;
+function resetAdminInactivity(){
+  clearTimeout(adminInactivityTimer);
+  adminInactivityTimer = setTimeout(()=>{
+    if(currentScreen === 'admin'){ setAdminAuthed(false); goTo('home'); showToast("Session admin fermée pour inactivité."); }
+  }, ADMIN_INACTIVITY_TIMEOUT_MS);
+}
+['click','touchstart','keydown'].forEach(evt=>{
+  document.addEventListener(evt, ()=>{ if(currentScreen === 'admin' || currentScreen === 'admin-login'){ resetAdminInactivity(); } });
+});
+
+/* ============================================================
+   ADMIN — Dashboard
+   ============================================================ */
+const CATEGORY_META = {
+  guestbook: {icon:'💌', label:"Livre d'or"},
+  voice: {icon:'🎙️', label:"Messages vocaux"},
+  photo: {icon:'📸', label:"Photos"},
+  draw: {icon:'🎨', label:"Dessins"},
+  capsule: {icon:'⏳', label:"Capsules temporelles"},
+};
+const CATEGORY_COLORS = { guestbook:'#F3B23E', voice:'#2FB8AE', photo:'#E4572E', draw:'#2E6FE4', capsule:'#8A6BD1' };
+
+let currentAdminTab = "guestbook";
+
+async function computeAllData(){
+  const data = {};
+  for(const s of STORES){ data[s] = await dbGetAll(s); }
+  return data;
+}
+
+async function renderAdminDashboard(){
+  const data = await computeAllData();
+  const statsGrid = document.getElementById('statsGrid');
+  statsGrid.innerHTML = "";
+  STORES.forEach(s=>{
+    const meta = CATEGORY_META[s];
+    const div = document.createElement('div');
+    div.className = "stat-card";
+    div.innerHTML = '<div class="num">'+data[s].length+'</div><div class="lab">'+meta.icon+' '+meta.label+'</div>';
+    statsGrid.appendChild(div);
+  });
+
+  const sizes = {};
+  let total = 0;
+  STORES.forEach(s=>{
+    let sum = 0;
+    data[s].forEach(r=>{ sum += (r.size || (r.message ? r.message.length : 0) || 0); });
+    sizes[s] = sum; total += sum;
+  });
+  document.getElementById('storageTotalTxt').textContent = "Stockage utilisé : " + fmtBytes(total);
+  const bar = document.getElementById('storageBar');
+  bar.innerHTML = "";
+  const legend = document.getElementById('storageLegend');
+  legend.innerHTML = "";
+  STORES.forEach(s=>{
+    const pct = total>0 ? (sizes[s]/total*100) : 0;
+    const seg = document.createElement('div');
+    seg.style.width = pct + "%";
+    seg.style.background = CATEGORY_COLORS[s];
+    bar.appendChild(seg);
+    const leg = document.createElement('span');
+    leg.innerHTML = '<span class="legend-dot" style="background:'+CATEGORY_COLORS[s]+'"></span>' + CATEGORY_META[s].label + ": " + fmtBytes(sizes[s]);
+    legend.appendChild(leg);
+  });
+
+  renderAdminTab(currentAdminTab, data);
+}
+
+document.getElementById('adminNav').addEventListener('click', async (e)=>{
+  const btn = e.target.closest('button[data-tab]');
+  if(!btn) return;
+  currentAdminTab = btn.getAttribute('data-tab');
+  document.querySelectorAll('#adminNav button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const data = await computeAllData();
+  renderAdminTab(currentAdminTab, data);
+});
+
+function objectUrlsToRevoke(){ return (renderAdminTab._urls = renderAdminTab._urls || []); }
+
+function renderAdminTab(tab, data){
+  // révoque les anciennes URL objets pour libérer la mémoire
+  (objectUrlsToRevoke()).forEach(u=>URL.revokeObjectURL(u));
+  renderAdminTab._urls = [];
+
+  const container = document.getElementById('adminTabContent');
+  container.innerHTML = "";
+
+  if(tab === 'backup'){ renderBackupTab(container); return; }
+
+  const items = data[tab] || [];
+  if(items.length === 0){
+    container.innerHTML = '<div class="empty-state">Aucun élément pour le moment.</div>';
+    return;
+  }
+  items.sort((a,b)=> (b.createdAt||"").localeCompare(a.createdAt||""));
+
+  if(tab === 'guestbook' || tab === 'capsule'){
+    const list = document.createElement('div');
+    items.forEach(it=>{
+      const div = document.createElement('div');
+      div.className = "list-item";
+      let extra = "";
+      if(tab === 'capsule'){
+        const unlocked = new Date(it.unlockAt) <= new Date();
+        extra = '<div>' + (unlocked ? '<span class="unlocked-tag">🔓 Déverrouillée le '+fmtDate(it.unlockAt)+'</span>' : '<span class="locked-tag">🔒 Verrouillée jusqu\'au '+fmtDate(it.unlockAt)+'</span>') + '</div>';
+      }
+      div.innerHTML =
+        '<div class="name">'+ (it.name ? escapeHtml(it.name) : 'Anonyme') +'</div>' +
+        '<div class="meta">'+ fmtDate(it.createdAt) +'</div>' +
+        ( (tab==='guestbook') || (tab==='capsule' && new Date(it.unlockAt) <= new Date()) ?
+          '<div class="msg">'+escapeHtml(it.message)+'</div>' :
+          '<div class="msg" style="opacity:.5;">🔒 Contenu verrouillé</div>' ) +
+        extra;
+      list.appendChild(div);
+    });
+    container.appendChild(list);
+  }
+
+  if(tab === 'voice'){
+    items.forEach(it=>{
+      const div = document.createElement('div');
+      div.className = "list-item";
+      const url = URL.createObjectURL(it.blob);
+      objectUrlsToRevoke().push(url);
+      div.innerHTML =
+        '<div class="name">'+ (it.name ? escapeHtml(it.name) : 'Anonyme') +'</div>' +
+        '<div class="meta">'+ fmtDate(it.createdAt) + ' · ' + fmtBytes(it.size) +'</div>';
+      const audio = document.createElement('audio');
+      audio.controls = true; audio.src = url; audio.style.width="100%"; audio.style.marginTop="8px";
+      div.appendChild(audio);
+      container.appendChild(div);
+    });
+  }
+
+  if(tab === 'photo' || tab === 'draw'){
+    const gallery = document.createElement('div');
+    gallery.className = "gallery";
+    items.forEach(it=>{
+      const url = URL.createObjectURL(it.blob);
+      objectUrlsToRevoke().push(url);
+      const img = document.createElement('img');
+      img.src = url;
+      gallery.appendChild(img);
+    });
+    container.appendChild(gallery);
+  }
+}
+
+function fmtDate(iso){
+  if(!iso) return "";
+  const d = new Date(iso);
+  return d.toLocaleDateString('fr-FR', {day:'2-digit',month:'2-digit',year:'numeric'}) + " à " +
+         d.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
+}
+
+/* ============================================================
+   ADMIN — SAUVEGARDE (export / import / suppression totale)
+   ============================================================ */
+function renderBackupTab(container){
+  const box = document.createElement('div');
+  box.className = "panel";
+  box.style.maxWidth = "none";
+  box.innerHTML =
+    '<h2 style="margin-bottom:6px;">💾 Sauvegarde</h2>' +
+    '<p class="hint">Exporte régulièrement les données vers ton ordinateur, puis vide l\'iPad pour repartir avec de la place libre.</p>' +
+    '<div class="actions-row"><button class="pill-btn" id="exportAllBtn" style="width:100%;">⬇️ Exporter toutes les données</button></div>' +
+    '<div class="actions-row" style="margin-top:10px;"><label class="pill-btn ghost" style="width:100%; text-align:center;" for="importFileInput">⬆️ Importer une sauvegarde</label>' +
+    '<input type="file" id="importFileInput" accept="application/json" style="display:none;"></div>' +
+    '<div class="danger-box"><strong>⚠️ Zone dangereuse</strong><p class="hint">Supprime définitivement toutes les données présentes sur l\'iPad. Fais un export avant !</p>' +
+    '<button class="pill-btn warn" id="clearAllBtn" style="width:100%;">🗑️ Tout effacer</button></div>';
+  container.appendChild(box);
+
+  document.getElementById('exportAllBtn').addEventListener('click', exportAllData);
+  document.getElementById('importFileInput').addEventListener('change', onImportFileSelected);
+  document.getElementById('clearAllBtn').addEventListener('click', ()=>{
+    document.getElementById('clearAllModal').classList.add('active');
+  });
+}
+
+async function exportAllData(){
+  showToast("Préparation de l'export...");
+  try{
+    const data = await computeAllData();
+    const exportObj = { app: "memorybooth", version: 1, exportedAt: nowISO(), data: {} };
+    for(const store of STORES){
+      exportObj.data[store] = [];
+      for(const rec of data[store]){
+        const copy = Object.assign({}, rec);
+        if(copy.blob){
+          copy.blobBase64 = await blobToBase64(copy.blob);
+          delete copy.blob;
+        }
+        exportObj.data[store].push(copy);
+      }
+    }
+    const json = JSON.stringify(exportObj);
+    const blob = new Blob([json], {type:"application/json"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().replace(/[:.]/g,'-');
+    a.href = url; a.download = "memorybooth-backup-" + stamp + ".json";
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(()=>URL.revokeObjectURL(url), 4000);
+    showToast("Export terminé. Le fichier a été téléchargé.");
+  }catch(e){
+    showToast("Erreur pendant l'export. Réessaie.");
+  }
+}
+
+let pendingImportData = null;
+function onImportFileSelected(e){
+  const file = e.target.files[0];
+  e.target.value = "";
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{
+      const parsed = JSON.parse(reader.result);
+      if(!parsed || parsed.app !== "memorybooth" || !parsed.data){
+        showToast("Fichier de sauvegarde invalide.");
+        return;
+      }
+      pendingImportData = parsed;
+      const counts = STORES.map(s=> (parsed.data[s]||[]).length + " " + CATEGORY_META[s].label.toLowerCase());
+      document.getElementById('importConfirmContent').innerHTML =
+        '<p>Cette sauvegarde contient :</p><ul>' + STORES.map(s=>'<li>'+CATEGORY_META[s].icon+' '+(parsed.data[s]||[]).length+' '+CATEGORY_META[s].label.toLowerCase()+'</li>').join('') + '</ul>' +
+        '<p class="hint">Exportée le ' + fmtDate(parsed.exportedAt) + '</p>';
+      document.getElementById('importConfirmModal').classList.add('active');
+    }catch(err){
+      showToast("Fichier de sauvegarde invalide ou corrompu.");
+    }
+  };
+  reader.onerror = ()=> showToast("Impossible de lire ce fichier.");
+  reader.readAsText(file);
+}
+
+document.getElementById('importConfirmCancel').addEventListener('click', ()=>{
+  document.getElementById('importConfirmModal').classList.remove('active');
+  pendingImportData = null;
+});
+document.getElementById('importConfirmOk').addEventListener('click', async ()=>{
+  document.getElementById('importConfirmModal').classList.remove('active');
+  if(!pendingImportData) return;
+  showToast("Import en cours...");
+  try{
+    const summary = {};
+    for(const store of STORES){
+      let added = 0, skipped = 0;
+      const records = pendingImportData.data[store] || [];
+      for(const rec of records){
+        if(!rec.id){ continue; }
+        const exists = await dbHas(store, rec.id);
+        if(exists){ skipped++; continue; }
+        const copy = Object.assign({}, rec);
+        if(copy.blobBase64){
+          copy.blob = base64ToBlob(copy.blobBase64);
+          delete copy.blobBase64;
+        }
+        await dbAdd(store, copy);
+        added++;
+      }
+      summary[store] = {added, skipped};
+    }
+    pendingImportData = null;
+    document.getElementById('importSummaryContent').innerHTML =
+      '<ul>' + STORES.map(s=>'<li>'+CATEGORY_META[s].icon+' '+summary[s].added+' '+CATEGORY_META[s].label.toLowerCase()+' ajouté(s)'+(summary[s].skipped?' · '+summary[s].skipped+' déjà présent(s)':'')+'</li>').join('') + '</ul>';
+    document.getElementById('importSummaryModal').classList.add('active');
+    renderAdminDashboard();
+  }catch(e){
+    showToast("Erreur pendant l'import. Réessaie.");
+  }
+});
+document.getElementById('importSummaryClose').addEventListener('click', ()=>{
+  document.getElementById('importSummaryModal').classList.remove('active');
+});
+
+document.getElementById('clearAllCancel').addEventListener('click', ()=> document.getElementById('clearAllModal').classList.remove('active'));
+document.getElementById('clearAllStep2').addEventListener('click', ()=>{
+  document.getElementById('clearAllModal').classList.remove('active');
+  document.getElementById('clearAllModal2').classList.add('active');
+});
+document.getElementById('clearAllCancel2').addEventListener('click', ()=> document.getElementById('clearAllModal2').classList.remove('active'));
+document.getElementById('clearAllConfirm').addEventListener('click', async ()=>{
+  document.getElementById('clearAllModal2').classList.remove('active');
+  try{
+    for(const s of STORES){ await dbClear(s); }
+    showToast("Toutes les données ont été supprimées.");
+    renderAdminDashboard();
+  }catch(e){
+    showToast("Erreur pendant la suppression.");
+  }
+});
+
+/* ============================================================
+   DÉMARRAGE
+   ============================================================ */
+openDB().then(()=>{
+  goTo('home');
+}).catch((e)=>{
+  document.body.innerHTML = '<div style="padding:40px;text-align:center;font-family:sans-serif;"><h2>⚠️ Erreur</h2><p>'+escapeHtml(e.message)+'</p><p>Essaie de recharger la page, ou utilise un autre navigateur compatible (Safari récent recommandé).</p></div>';
+});
+
+})();
+</script>
+</body>
+</html>
