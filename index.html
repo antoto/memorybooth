@@ -1,14 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <link rel="manifest" href="manifest.json">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('./sw.js');
-    }
-  </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Memorybooth — Les souvenirs des 18 ans d'Antonin</title>
@@ -51,17 +43,23 @@ html,body{
   touch-action: manipulation;
 }
 
+/* Correctif clavier iOS : un ancêtre en "user-select:none" empêche Safari/WKWebView
+   d'ouvrir le clavier virtuel sur un champ de saisie (le curseur clignote mais rien ne
+   s'affiche). On réautorise donc explicitement la sélection sur les champs éditables. */
+input, textarea{
+  -webkit-user-select: text;
+  user-select: text;
+  -webkit-user-modify: read-write-plaintext-only;
+  -webkit-touch-callout: default;
+}
+
 /* Zone déroulante interne pour listes admin */
 .scrollable{ -webkit-overflow-scrolling: touch; overflow-y:auto; }
 
 h1,h2,h3{ font-family: Georgia, "Times New Roman", serif; margin:0; }
 
 button{ font-family:inherit; cursor:pointer; border:none; }
-input, textarea, select{ 
-  font-family:inherit; 
-  -webkit-user-select: text; 
-  user-select: text; 
-}
+input, textarea, select{ font-family:inherit; }
 
 .app{ position:relative; width:100%; min-height:100%; }
 
@@ -566,9 +564,9 @@ canvas#drawCanvas{ width:100%; max-width:640px; aspect-ratio: 4/3; background:#f
 /* ============================================================
    CONFIGURATION — À MODIFIER FACILEMENT
    ============================================================ */
-const ADMIN_PASSWORD = "Antonio76"; // <-- change ce mot de passe ici
-const PORTRAIT_URL = "IMG_1881 copie.JPG"; // <-- colle ici le lien/chemin vers ta photo, ex: "portrait.jpg". Laisse vide pour ne rien afficher.
-const LOGO_URL = "LOGO_18.ai.png"; // <-- colle ici le lien/chemin vers ton logo PNG (rond), ex: "logo.png". Si vide, le badge dessiné en CSS est utilisé à la place.
+const ADMIN_PASSWORD = "1808"; // <-- change ce mot de passe ici
+const PORTRAIT_URL = ""; // <-- colle ici le lien/chemin vers ta photo, ex: "portrait.jpg". Laisse vide pour ne rien afficher.
+const LOGO_URL = ""; // <-- colle ici le lien/chemin vers ton logo PNG (rond), ex: "logo.png". Si vide, le badge dessiné en CSS est utilisé à la place.
 const ADMIN_INACTIVITY_TIMEOUT_MS = 3 * 60 * 1000; // retour auto à l'accueil après 3 min d'inactivité en admin
 const AUTO_RETURN_SECONDS = 5;
 
