@@ -1,21 +1,17 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Memorybooth — Les souvenirs des 18 ans d'Antonin</title>
-   <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="manifest.json">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Memorybooth">
-  
   <script>
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('./sw.js');
     }
   </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Memorybooth — Les souvenirs des 18 ans d'Antonin</title>
 <style>
 
 /* ============================================================
@@ -55,23 +51,17 @@ html,body{
   touch-action: manipulation;
 }
 
-/* Correctif clavier iOS : un ancêtre en "user-select:none" empêche Safari/WKWebView
-   d'ouvrir le clavier virtuel sur un champ de saisie (le curseur clignote mais rien ne
-   s'affiche). On réautorise donc explicitement la sélection sur les champs éditables. */
-input, textarea{
-  -webkit-user-select: text;
-  user-select: text;
-  -webkit-user-modify: read-write-plaintext-only;
-  -webkit-touch-callout: default;
-}
-
 /* Zone déroulante interne pour listes admin */
 .scrollable{ -webkit-overflow-scrolling: touch; overflow-y:auto; }
 
 h1,h2,h3{ font-family: Georgia, "Times New Roman", serif; margin:0; }
 
 button{ font-family:inherit; cursor:pointer; border:none; }
-input, textarea, select{ font-family:inherit; }
+input, textarea, select{ 
+  font-family:inherit; 
+  -webkit-user-select: text; 
+  user-select: text; 
+}
 
 .app{ position:relative; width:100%; min-height:100%; }
 
@@ -518,9 +508,6 @@ canvas#drawCanvas{ width:100%; max-width:640px; aspect-ratio: 4/3; background:#f
       <li>⏳ <strong>Capsule temporelle</strong> — écris un message pour le futur</li>
     </ul>
     <p><strong>Tes souvenirs restent privés</strong> et ne seront pas visibles par les autres invités.</p>
-     <p style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid #ef4444; padding: 10px 14px; border-radius: 8px; margin-top: 15px; font-size: 0.9em;">
-      ⚠️ <strong>Prends soin de l'iPad :</strong> L'écran est déjà un peu fissuré/fragile, merci de le manipuler avec douceur ! 🙏
-    </p>
     <div class="actions-row" style="justify-content:center;">
       <button class="pill-btn" id="howItWorksClose">J'ai compris</button>
     </div>
@@ -573,28 +560,6 @@ canvas#drawCanvas{ width:100%; max-width:640px; aspect-ratio: 4/3; background:#f
 </div>
 
 <script>
-<script>
-  /* ============================================================
-     FIX CLAVIER VIRTUEL iOS / PWA
-     ============================================================ */
-  document.addEventListener('touchend', function (e) {
-    const el = e.target;
-    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
-      // Petite astuce complémentaire pour garantir le déclenchement iOS
-      el.focus();
-      if (typeof el.selectionStart === 'number') {
-        el.selectionStart = el.selectionEnd = el.value.length;
-      }
-    }
-  }, false);
-
-  /* ============================================================
-     CONFIGURATION
-     ============================================================ */
-  const ADMIN_PASSWORD = "Antonio76";
-  // ... reste de votre code JavaScript ...
-</script>
-   
 (function(){
 "use strict";
 
@@ -602,7 +567,7 @@ canvas#drawCanvas{ width:100%; max-width:640px; aspect-ratio: 4/3; background:#f
    CONFIGURATION — À MODIFIER FACILEMENT
    ============================================================ */
 const ADMIN_PASSWORD = "Antonio76"; // <-- change ce mot de passe ici
-const PORTRAIT_URL = ""; // <-- colle ici le lien/chemin vers ta photo, ex: "portrait.jpg". Laisse vide pour ne rien afficher.
+const PORTRAIT_URL = "IMG_1881 copie.JPG"; // <-- colle ici le lien/chemin vers ta photo, ex: "portrait.jpg". Laisse vide pour ne rien afficher.
 const LOGO_URL = "LOGO_18.ai.png"; // <-- colle ici le lien/chemin vers ton logo PNG (rond), ex: "logo.png". Si vide, le badge dessiné en CSS est utilisé à la place.
 const ADMIN_INACTIVITY_TIMEOUT_MS = 3 * 60 * 1000; // retour auto à l'accueil après 3 min d'inactivité en admin
 const AUTO_RETURN_SECONDS = 5;
