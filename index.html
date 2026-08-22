@@ -573,6 +573,28 @@ canvas#drawCanvas{ width:100%; max-width:640px; aspect-ratio: 4/3; background:#f
 </div>
 
 <script>
+<script>
+  /* ============================================================
+     FIX CLAVIER VIRTUEL iOS / PWA
+     ============================================================ */
+  document.addEventListener('touchend', function (e) {
+    const el = e.target;
+    if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+      // Petite astuce complémentaire pour garantir le déclenchement iOS
+      el.focus();
+      if (typeof el.selectionStart === 'number') {
+        el.selectionStart = el.selectionEnd = el.value.length;
+      }
+    }
+  }, false);
+
+  /* ============================================================
+     CONFIGURATION
+     ============================================================ */
+  const ADMIN_PASSWORD = "Antonio76";
+  // ... reste de votre code JavaScript ...
+</script>
+   
 (function(){
 "use strict";
 
