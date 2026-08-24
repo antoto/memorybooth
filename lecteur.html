@@ -178,13 +178,36 @@ a{ color:inherit; }
       <div class="sub">Le coffre-fort des souvenirs des 18 ans d'Antonin</div>
     </div>
 
+    <div id="autoModeBanner" class="hidden" style="max-width:560px; margin:0 auto 16px;"></div>
+
     <div class="dropzone" id="dropzone">
       <div class="icon">📂</div>
       <p style="font-weight:700; margin:10px 0 4px;">Importer mes sauvegardes JSON</p>
-      <p style="font-size:13px; color:#8a8478; margin-bottom:16px;">Glisse-dépose un ou plusieurs fichiers ici, ou clique pour choisir</p>
-      <button class="pill-btn" id="chooseFilesBtn">📂 Choisir des fichiers JSON</button>
+      <p style="font-size:13px; color:#8a8478; margin-bottom:16px;">Glisse-dépose des fichiers ici, choisis-les un par un, ou sélectionne directement tout le dossier</p>
+      <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+        <button class="pill-btn" id="chooseFilesBtn">📄 Choisir des fichiers JSON</button>
+        <button class="pill-btn ghost" id="chooseFolderBtn">📁 Choisir un dossier entier</button>
+      </div>
       <input type="file" id="fileInput" accept="application/json,.json" multiple>
+      <input type="file" id="folderInput" webkitdirectory directory multiple style="display:none;">
+      <div id="rememberedFolderArea" class="hidden" style="margin-top:16px;">
+        <button class="pill-btn small dark" id="refreshFolderBtn">🔄 Actualiser depuis le dernier dossier</button>
+      </div>
     </div>
+
+    <details style="max-width:560px; margin:16px auto 0; background:var(--blanc); border-radius:var(--radius-m); padding:14px 18px; box-shadow:0 3px 10px rgba(0,0,0,0.06);">
+      <summary style="cursor:pointer; font-weight:700; font-size:14px;">💡 Import 100% automatique, sans aucun clic — comment faire ?</summary>
+      <div style="font-size:13px; margin-top:12px; line-height:1.6; color:#4a4436;">
+        <p>Un fichier ouvert en double-cliquant dessus ne peut pas lire seul le contenu d'un dossier — c'est une règle de sécurité de <strong>tous</strong> les navigateurs, impossible à contourner. La solution : lancer un mini-serveur local dans le dossier, puis ouvrir la page via une adresse <code>http://</code> au lieu d'un double-clic. Dès que c'est fait, cette page importe alors <strong>toute seule, sans aucun clic</strong>, tous les fichiers .json présents à côté d'elle.</p>
+        <p><strong>1.</strong> Place <code>lecteur.html</code> dans le même dossier que tes fichiers de sauvegarde .json.</p>
+        <p><strong>2.</strong> Ouvre un terminal dans ce dossier :<br>
+          — Windows : dans l'explorateur de fichiers, tape <code>cmd</code> dans la barre d'adresse puis Entrée.<br>
+          — Mac : ouvre l'app Terminal, tape <code>cd </code> (avec l'espace) puis glisse le dossier dedans, valide.</p>
+        <p><strong>3.</strong> Tape cette commande (Python est déjà installé sur Mac ; sur Windows, installe-le depuis python.org si besoin) :<br><code>python3 -m http.server 8000</code> (Windows : <code>python -m http.server 8000</code>)</p>
+        <p><strong>4.</strong> Ouvre ton navigateur à l'adresse : <code>http://localhost:8000/lecteur.html</code></p>
+        <p>Tant que le terminal reste ouvert, tu peux ajouter de nouveaux .json dans le dossier puis cliquer sur « 🔄 Réactualiser » pour les récupérer automatiquement, sans jamais rien sélectionner.</p>
+      </div>
+    </details>
 
     <div class="status-log" id="statusLog"></div>
 
@@ -1173,17 +1196,175 @@ const fileInput = document.getElementById('fileInput');
 document.getElementById('chooseFilesBtn').addEventListener('click', ()=> fileInput.click());
 fileInput.addEventListener('change', (e)=> handleFiles(e.target.files));
 
+const folderInput = document.getElementById('folderInput');
+folderInput.addEventListener('change', (e)=> handleFiles(e.target.files));
+
+const SUPPORTS_FS_ACCESS = 'showDirectoryPicker' in window;
+
+document.getElementById('chooseFolderBtn').addEventListener('click', async ()=>{
+  if(SUPPORTS_FS_ACCESS){
+    let handle;
+    try{
+      handle = await window.showDirectoryPicker();
+    }catch(e){
+      return; // annulé par l'utilisateur
+    }
+    await scanDirectoryHandle(handle);
+    await rememberFolderHandle(handle);
+  } else {
+    folderInput.click();
+  }
+});
+
+async function scanDirectoryHandle(handle){
+  statusLine("📁 Lecture du dossier « "+handle.name+" »...");
+  const jsonFiles = [];
+  try{
+    for await (const entry of handle.values()){
+      if(entry.kind === 'file' && entry.name.toLowerCase().endsWith('.json')){
+        try{ jsonFiles.push(await entry.getFile()); }catch(e){}
+      }
+    }
+  }catch(e){
+    statusLine("❌ Impossible de lire le contenu du dossier « "+handle.name+" ».", "err");
+    return;
+  }
+  if(jsonFiles.length === 0){
+    statusLine("⚠️ Aucun fichier .json trouvé dans « "+handle.name+" ».", "err");
+    return;
+  }
+  for(const file of jsonFiles){ await importOneFile(file); }
+  refreshEverything();
+}
+
+/* ---- Mémorisation du dossier (File System Access API uniquement) ---- */
+let readerHandleDb = null;
+function openReaderHandleDb(){
+  return new Promise((resolve,reject)=>{
+    if(!('indexedDB' in window)){ reject(new Error("IndexedDB indisponible")); return; }
+    const req = indexedDB.open("memorybooth_reader_db", 1);
+    req.onupgradeneeded = (e)=>{
+      const db = e.target.result;
+      if(!db.objectStoreNames.contains("handles")) db.createObjectStore("handles");
+    };
+    req.onsuccess = (e)=>{ readerHandleDb = e.target.result; resolve(readerHandleDb); };
+    req.onerror = ()=> reject(new Error("Ouverture du stockage impossible"));
+  });
+}
+function storeHandle(key, value){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx = readerHandleDb.transaction("handles","readwrite");
+      tx.objectStore("handles").put(value, key);
+      tx.oncomplete = ()=>resolve();
+      tx.onerror = ()=>reject(new Error("Écriture impossible"));
+    }catch(e){ reject(e); }
+  });
+}
+function getHandle(key){
+  return new Promise((resolve,reject)=>{
+    try{
+      const tx = readerHandleDb.transaction("handles","readonly");
+      const req = tx.objectStore("handles").get(key);
+      req.onsuccess = ()=> resolve(req.result || null);
+      req.onerror = ()=> reject(new Error("Lecture impossible"));
+    }catch(e){ reject(e); }
+  });
+}
+async function rememberFolderHandle(handle){
+  if(!SUPPORTS_FS_ACCESS) return;
+  try{
+    await openReaderHandleDb();
+    await storeHandle("lastFolder", handle);
+  }catch(e){ /* pas grave si le navigateur ne supporte pas la persistance des handles */ }
+}
+async function verifyHandlePermission(handle){
+  const opts = {mode:'read'};
+  try{
+    if((await handle.queryPermission(opts)) === 'granted') return 'granted';
+    return 'prompt';
+  }catch(e){ return 'unsupported'; }
+}
+async function tryRestoreLastFolder(){
+  if(!SUPPORTS_FS_ACCESS) return;
+  try{
+    await openReaderHandleDb();
+    const handle = await getHandle("lastFolder");
+    if(!handle) return;
+    const perm = await verifyHandlePermission(handle);
+    const area = document.getElementById('rememberedFolderArea');
+    const btn = document.getElementById('refreshFolderBtn');
+    if(perm === 'granted'){
+      // Autorisation encore valide : on relit le dossier automatiquement, sans aucun clic.
+      area.classList.remove('hidden');
+      btn.textContent = "🔄 Actualiser depuis « "+handle.name+" »";
+      btn.onclick = ()=> scanDirectoryHandle(handle);
+      await scanDirectoryHandle(handle);
+    } else if(perm === 'prompt'){
+      area.classList.remove('hidden');
+      btn.textContent = "🔓 Autoriser l'accès à « "+handle.name+" »";
+      btn.onclick = async ()=>{
+        try{
+          const granted = await handle.requestPermission({mode:'read'});
+          if(granted === 'granted'){ await scanDirectoryHandle(handle); btn.textContent = "🔄 Actualiser depuis « "+handle.name+" »"; btn.onclick = ()=> scanDirectoryHandle(handle); }
+          else { showToast("Accès refusé à ce dossier."); }
+        }catch(e){ showToast("Impossible de redemander l'accès à ce dossier."); }
+      };
+    }
+  }catch(e){ /* pas de dossier mémorisé, ou navigateur non compatible : rien à faire */ }
+}
+tryRestoreLastFolder();
+
 ['dragenter','dragover'].forEach(evt=>{
   dropzone.addEventListener(evt, (e)=>{ e.preventDefault(); dropzone.classList.add('dragover'); });
 });
 ['dragleave','drop'].forEach(evt=>{
   dropzone.addEventListener(evt, (e)=>{ e.preventDefault(); dropzone.classList.remove('dragover'); });
 });
-dropzone.addEventListener('drop', (e)=>{
+dropzone.addEventListener('drop', async (e)=>{
+  const items = e.dataTransfer && e.dataTransfer.items;
+  if(items && items.length && items[0].webkitGetAsEntry){
+    // Glisser-déposer d'un dossier (ou de fichiers) : lecture récursive via l'API FileSystemEntry
+    try{
+      const entries = [];
+      for(let i=0;i<items.length;i++){
+        const entry = items[i].webkitGetAsEntry && items[i].webkitGetAsEntry();
+        if(entry) entries.push(entry);
+      }
+      const files = await collectFilesFromEntries(entries);
+      if(files.length){ handleFiles(files); return; }
+    }catch(err){ /* on retombe sur dataTransfer.files ci-dessous */ }
+  }
   if(e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length){
     handleFiles(e.dataTransfer.files);
   }
 });
+
+function readDirEntries(dirReader){
+  return new Promise((resolve,reject)=> dirReader.readEntries(resolve, reject));
+}
+async function collectFilesFromEntries(entries){
+  const files = [];
+  const queue = entries.slice();
+  while(queue.length){
+    const entry = queue.shift();
+    if(!entry) continue;
+    if(entry.isFile){
+      try{
+        const file = await new Promise((resolve,reject)=> entry.file(resolve, reject));
+        files.push(file);
+      }catch(e){}
+    } else if(entry.isDirectory){
+      const reader = entry.createReader();
+      let batch;
+      do{
+        batch = await readDirEntries(reader);
+        queue.push(...batch);
+      } while(batch.length > 0);
+    }
+  }
+  return files;
+}
 
 async function handleFiles(fileList){
   const files = Array.from(fileList).filter(f => f.name.toLowerCase().endsWith('.json'));
@@ -1196,6 +1377,83 @@ async function handleFiles(fileList){
   }
   refreshEverything();
 }
+
+/* ============================================================
+   MODE AUTOMATIQUE — quand la page est servie via http(s):// (mini-serveur local)
+   au lieu d'un simple double-clic (file://), on peut lire le dossier tout seul :
+   1) on cherche d'abord un fichier manifest.json listant les fichiers (le plus fiable,
+      fonctionne avec n'importe quel serveur statique) ;
+   2) sinon on tente de lire le listing HTML automatique du dossier (ex: python -m
+      http.server le génère nativement) et on en extrait les liens .json.
+   Ne regarde que les fichiers directement à côté de lecteur.html (pas les sous-dossiers).
+   ============================================================ */
+const IS_SERVER_MODE = (location.protocol === 'http:' || location.protocol === 'https:');
+
+function baseFolderUrl(){
+  return location.href.replace(/[^/]*$/, '');
+}
+
+async function discoverJsonFilenames(){
+  const base = baseFolderUrl();
+  // 1) manifest.json explicite
+  try{
+    const res = await fetch(base + "manifest.json", {cache:"no-store"});
+    if(res.ok){
+      const arr = await res.json();
+      if(Array.isArray(arr) && arr.length){
+        return arr.map(String).filter(n => n.toLowerCase().endsWith('.json'));
+      }
+    }
+  }catch(e){}
+  // 2) listing HTML automatique du dossier
+  try{
+    const res = await fetch(base, {cache:"no-store"});
+    if(res.ok){
+      const html = await res.text();
+      const doc = new DOMParser().parseFromString(html, "text/html");
+      const hrefs = Array.from(doc.querySelectorAll('a[href]')).map(a => a.getAttribute('href') || "");
+      return hrefs
+        .filter(h => h && !h.startsWith('?') && !h.startsWith('#') && !h.includes('://') )
+        .map(h => decodeURIComponent(h.split('?')[0]))
+        .filter(h => h.toLowerCase().endsWith('.json') && !h.includes('/'));
+    }
+  }catch(e){}
+  return [];
+}
+
+async function autoScanServerFolder(){
+  if(!IS_SERVER_MODE) return;
+  const banner = document.getElementById('autoModeBanner');
+  banner.classList.remove('hidden');
+  banner.innerHTML = '<div class="info-banner">🔄 Mode automatique actif — recherche des sauvegardes dans le dossier du serveur...</div>';
+
+  const filenames = await discoverJsonFilenames();
+  if(filenames.length === 0){
+    banner.innerHTML = `<div class="info-banner">ℹ️ Mode serveur local actif, mais aucun fichier .json trouvé automatiquement à côté de <code>lecteur.html</code>. Vérifie qu'ils sont bien dans ce même dossier, ou utilise l'import manuel ci-dessous.</div>`;
+    return;
+  }
+  banner.innerHTML = '<div class="info-banner">🔄 '+filenames.length+' fichier(s) détecté(s), import en cours...</div>';
+
+  const base = baseFolderUrl();
+  let okCount = 0;
+  for(const name of filenames){
+    try{
+      const res = await fetch(base + encodeURIComponent(name), {cache:"no-store"});
+      if(!res.ok) throw new Error("HTTP "+res.status);
+      const text = await res.text();
+      const file = new File([text], name, {type:"application/json"});
+      await importOneFile(file);
+      okCount++;
+    }catch(e){
+      statusLine("❌ "+name+" — impossible de le récupérer depuis le serveur local.", "err");
+    }
+  }
+  banner.innerHTML = '<div class="info-banner">✅ Import automatique terminé : '+okCount+' / '+filenames.length+' fichier(s) récupéré(s) depuis le serveur local. '+
+    '<button class="pill-btn small ghost" id="autoRescanBtn" style="margin-left:8px;">🔄 Réactualiser</button></div>';
+  document.getElementById('autoRescanBtn').addEventListener('click', autoScanServerFolder);
+  refreshEverything();
+}
+if(IS_SERVER_MODE){ autoScanServerFolder(); }
 
 function readFileAsText(file){
   return new Promise((resolve,reject)=>{
